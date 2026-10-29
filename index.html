@@ -1939,7 +1939,7 @@ dash.calc('resumen_general', {
         (items.some(e => e.cantidad > 1) ? ' Cuando una OC trae varias unidades, la barra muestra el total.' : '') +
         (sinPrecio ? ` ${sinPrecio} equipos de GMW sin OC no tienen precio y no aparecen en las barras.` : '');
       if (!items.length) return;
-      const nombre = (e) => `${e.tipo}${e.cantidad > 1 ? ` ×${e.cantidad}` : ''} · ${ctl ? (e.a_cargo || 'fuera del control') : `OC ${e.oc}`}`;
+      const nombre = (e) => `${e.tipo}${e.cantidad > 1 ? ` ×${e.cantidad}` : ''} · ${ctl ? (e.a_cargo || 'No asignado') : `OC ${e.oc}`}`;
       const etiqueta = (e) => orden === 'fecha' ? `${clp.format(e[k])} · ${fecha(e.fecha)}` : clp.format(e[k]);
       const W = Math.max(280, box.clientWidth), fila = 28, m = { top: 4, right: 8, bottom: 4 };
       const H = m.top + m.bottom + items.length * fila;
@@ -2026,7 +2026,7 @@ dash.calc('resumen_general', {
         q('tb').replaceChildren(...[...vis].sort((a, b) => a.n - b.n).map(e => {
           const tr = document.createElement('tr'); tr.setAttribute('data-key', e.n);
           td(tr, ctl && e.en_control !== 'Sí' ? '—' : e.n, 'num'); td(tr, e.tipo); td(tr, e.equipo); td(tr, String(e.cantidad), 'num');
-          if (ctl) { td(tr, e.a_cargo || '—'); td(tr, e.estado); }
+          if (ctl) { td(tr, e.a_cargo || 'No asignado'); td(tr, e.estado); }
           td(tr, String(e.oc)); td(tr, e.proveedor || '—'); td(tr, e.documento || '—', 'mut'); td(tr, fecha(e.fecha));
           td(tr, clp.format(e[ku]), 'num'); td(tr, clp.format(e[k]), 'num'); td(tr, e.verificacion); td(tr, e.observacion || '—', 'mut');
           return tr;
