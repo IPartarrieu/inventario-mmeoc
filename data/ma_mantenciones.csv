@@ -1,0 +1,28 @@
+id,familia,tipo,oc,fecha,recurso,detalle,cantidad,unidad,precio_neto,total_neto,proveedor
+1,Hormigón y compactación,Betonera,1924,2026-04-17,BETONERA,Monto total a pagar = 94.000 + IVA,1,UNIDAD,94000,94000,FH INDUSTRIAL LIMITADA
+2,Agua y bombeo,Bomba,1052,2025-11-30,REPARACION Y MANTENCION DE BOMBA SUMERGIBLE,30.000 Neto,1,Global ,30000,30000,Proveedor persona natural 5
+3,Agua y bombeo,Bomba,2086,2026-05-27,REPARACION Y MANTENCION DE BOMBA SUMERGIBLE,Monto a pagar; 38.000 + IVA,1,Global ,38000,38000,FH INDUSTRIAL LIMITADA
+4,Agua y bombeo,Bomba,2492,2026-07-29,REPARACION Y MANTENCION DE BOMBA SUMERGIBLE,5 BOMBAS X 65.000 = 325.000 + IVA,1,Global ,325000,325000,Proveedor persona natural 5
+5,Agua y bombeo,Bomba,3031,2026-08-31,REPARACION Y MANTENCION DE BOMBA SUMERGIBLE,3 bombas. Monto total; 133.500 + IVA,1,Global ,133500,133500,Proveedor persona natural 5
+6,Energía y calefacción,Compresor,2263,2026-06-06,REPARACION COMPRESOR,68.000 + IVA,1,Unidad,68000,68000,Proveedor persona natural 5
+7,Corte y desbaste,Cortadora de pavimento,1982,2026-04-15,MANTENCION CORTADORA DE PAVIMENTO,Monto total a pagar; 57.500 + IVA,1,Global ,57500,57500,Comercializadora Estacion Soaa
+8,Corte y desbaste,Cortadora de pavimento,2754,2026-08-10,REPARACION DE EQUIPO,Reparación Cortadora de Pavimento. Monto total a pagar; 498.580 + IVA,1,UNIDAD,498580,498580,Lizamaq SpA
+9,,Equipos menores (mantención general),97,2025-04-30,MANTENCION 1,MANTENCION A EQUIPOS MENORES DE OBRA,1,UNIDAD,159064,159064,Proveedor persona natural 4
+10,,Equipos menores (mantención general),209,2025-06-06,MANTENCION,MANTECIÓN EQUIPOS MENORES OBRA,1,Global,251462,251462,Proveedor persona natural 4
+11,,Equipos menores (mantención general),545,2025-08-31,MANTENCION,MANENCIÓN EQUIPOS MENORES OBRA (JULIO),1,Global,290000,290000,Proveedor persona natural 4
+12,Corte y desbaste,Esmeril angular,1052,2025-11-30,REPARACION Y MANTENCION DE ESMERIL ANGULAR,16.000 Neto,1,Global ,16000,16000,Proveedor persona natural 5
+13,Energía y calefacción,Generador,2264,2026-06-06,REPARACION GENERADOR,Monto total a pagar; 133.000 + IVA,1,Unidad,133000,133000,Proveedor persona natural 5
+14,Agua y bombeo,Motobomba,1052,2025-11-30,REPARACION Y MANTENCION DE MOTOBOMBA,35.000 Neto,1,Global ,35000,35000,Proveedor persona natural 5
+15,Agua y bombeo,Motobomba,1052,2025-11-30,REPARACION Y MANTENCION DE MOTOBOMBA,35.000 Neto,1,Global ,35000,35000,Proveedor persona natural 5
+16,Agua y bombeo,Motobomba,1052,2025-11-30,REPARACION Y MANTENCION DE MOTOBOMBA RETRACTIL,65.000 Neto,1,Global ,65000,65000,Proveedor persona natural 5
+17,Hormigón y compactación,Placa compactadora,1384,2026-01-30,REPARACION DE EQUIPO,Reparación placa compactadora 1; 64.300 + IVA,1,UNIDAD,64300,64300,Proveedor persona natural 5
+18,Hormigón y compactación,Placa compactadora,1384,2026-01-30,REPARACION DE EQUIPO,Reparación placa compactadora 2; 76.800 + IVA,1,UNIDAD,76800,76800,Proveedor persona natural 5
+19,Hormigón y compactación,Placa compactadora,1877,2026-03-30,MANTENCION,MANTENCION EQUIPOS MENORES FEBRERO (RODILLO Y PLACA COMPACTADORA),1,Global,70797,70797,Proveedor persona natural 4
+20,Hormigón y compactación,Placa compactadora,2392,2026-06-18,REPARACION DE EQUIPO,Reparación placa compactadora 130.000 + IVA,1,UNIDAD,130000,130000,Proveedor persona natural 5
+21,Hormigón y compactación,Regla vibradora,1881,2026-04-01,MANTENCION,Mantención cercha vibradora Monto total; 94.000 + IVA,1,Global,94000,94000,FH INDUSTRIAL LIMITADA
+22,Hormigón y compactación,Rodillo doble tambor,1530,2026-02-28,REPARACION DE EQUIPO,Reparación Rodillo doble tambor; 177.937 + IVA,1,UNIDAD,177937,177937,EGV Equipos y Materiales EIRL
+23,Hormigón y compactación,Rodillo doble tambor,2087,2026-04-04,REPARACION DE EQUIPO,Reparación Rodillo Monto a pagar = 328.879 + IVA,1,UNIDAD,328879,328879,Emaresa Ingenieros y Representaciones SA
+24,Hormigón y compactación,Rodillo doble tambor,2294,2026-06-05,REPARACION DE EQUIPO,Reparación Rodillo doble Tambor,1,UNIDAD,328879,328879,Emaresa Ingenieros y Representaciones SA
+25,Hormigón y compactación,Unidad motriz / vibrador,2098,2026-05-07,MANTENCION,Reparación y mantención Unidad motriz. Monto total; 39.000 + IIVA,1,Global,39000,39000,Proveedor persona natural 5
+26,Hormigón y compactación,Unidad motriz / vibrador,2120,2026-05-26,REPARACION DE EQUIPO,Unidad Motriz Ecosym. Monto total a pagar; 93.800 + IVA,1,UNIDAD,93800,93800,Proveedor persona natural 5
+27,Hormigón y compactación,Unidad motriz / vibrador,2263,2026-06-06,REPARACION UNIDAD MOTRIZ,77.000 + IVA,1,Unidad,77000,77000,Proveedor persona natural 5

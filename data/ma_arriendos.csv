@@ -1,0 +1,80 @@
+id,familia,tipo,oc,fecha,recurso,detalle,cantidad,unidad,precio_neto,total_neto,proveedor
+1,Agua y bombeo,Atomizador / pulverizador,50,2025-04-09,PULVERIZADOR ESPALDA,"14 LTS, MARCA TOYAMA, MODELO; TMD57BU",1,Unidad,19690,19690,Servamp Arriendo de Maquinarias Albert Morales Parada EIRL
+2,Hormigón y compactación,Betonera,1804,2026-03-24,BETONERA,Arriendo 20 días de betonera 400 LTS,1,UNIDAD,8000,8000,DISTRIBUIDORA Y COMERCIAL TITAN SPA
+3,Hormigón y compactación,Betonera,1876,2026-03-30,BETONERA,ARRIENDO POR 6 DÍAS X 8.000 = 48.000 + IVA,1,UNIDAD,48000,48000,DISTRIBUIDORA Y COMERCIAL TITAN SPA
+4,Hormigón y compactación,Betonera,2199,2026-05-26,BETONERA,,1,UNIDAD,112000,112000,DISTRIBUIDORA Y COMERCIAL TITAN SPA
+5,Agua y bombeo,Bomba,478,2025-05-07,ARRIENDO BOMBA SUMERGIBLE 3,21X 4.500= 94.500,21,DIA,4500,94500,Proveedor persona natural 5
+6,Agua y bombeo,Bomba,479,2025-06-02,ARRIENDO BOMBA SUMERGIBLE 3,23X 4.500= 103.500,23,DIA,4500,103500,Proveedor persona natural 5
+7,Agua y bombeo,Bomba,479,2025-06-02,ARRIENDO BOMBA SUMERGIBLE 3,23X 4.500= 81.000,18,DIA,4500,81000,Proveedor persona natural 5
+8,Agua y bombeo,Bomba,480,2025-06-30,ARRIENDO BOMBA SUMERGIBLE 3,21X 4.500= 94.500,21,DIA,4500,94500,Proveedor persona natural 5
+9,Agua y bombeo,Bomba,480,2025-06-30,ARRIENDO BOMBA SUMERGIBLE 3,21X 4.500= 94.500,21,DIA,4500,94500,Proveedor persona natural 5
+10,Agua y bombeo,Bomba,481,2025-07-31,ARRIENDO BOMBA SUMERGIBLE 3,23X 4.500= 103.500,23,DIA,4500,103500,Proveedor persona natural 5
+11,Agua y bombeo,Bomba,481,2025-07-31,ARRIENDO BOMBA SUMERGIBLE 3,23X 4.500= 103.500,23,DIA,4500,103500,Proveedor persona natural 5
+12,Agua y bombeo,Bomba,616,2025-09-15,ARRIENDO BOMBA SUMERGIBLE 3,VALOR DÍA 4.500+IVA,21,DIA,4500,94500,Proveedor persona natural 5
+13,Agua y bombeo,Bomba,616,2025-09-15,ARRIENDO BOMBA SUMERGIBLE 3,VALOR DÍA 4.500+IVA,21,DIA,4500,94500,Proveedor persona natural 5
+14,Agua y bombeo,Bomba,678,2025-09-30,ARRIENDO BOMBA SUMERGIBLE 3,20 DIAS X 4.500= 90.000+IVA,20,DIA,4500,90000,Proveedor persona natural 5
+15,Corte y desbaste,Cortadora de pavimento,1383,2026-01-30,CORTADORA DE PAVIMENTO,19 días x 25.000 = 475.000 + IVA,24,DIA,25000,600000,Proveedor persona natural 5
+16,Corte y desbaste,Cortadora de pavimento,1673,2026-02-28,CORTADORA DE PAVIMENTO,20 días X 25.000 = 500.000 + IVA,20,DIA,25000,500000,Proveedor persona natural 5
+17,Corte y desbaste,Cortadora de pavimento,1743,2026-03-31,CORTADORA DE PAVIMENTO,SIN DISCO,10,DIA,7500,75000,Proveedor persona natural 1
+18,Demolición y perforación,Demoledor,478,2025-05-07,ARRIENDO DEMOLEDOR,6X 7.000= 42.000,6,DIA,7000,42000,Proveedor persona natural 5
+19,Demolición y perforación,Demoledor,478,2025-05-07,ARRIENDO DEMOLEDOR,8x 4.500= 36.000,8,DIA,4500,36000,Proveedor persona natural 5
+20,Demolición y perforación,Demoledor,139,2025-06-30,ARRIENDO DEMOLEDOR,1 DEMOLEDOR 5KG,24,DIA,5000,120000,Proveedor persona natural 1
+21,Demolición y perforación,Demoledor,139,2025-06-30,ARRIENDO DEMOLEDOR,1 DEMOLEDOR 5 KG,24,DIA,5000,120000,Proveedor persona natural 1
+22,Demolición y perforación,Demoledor,544,2025-08-29,ARRIENDO DEMOLEDOR,26 DÍASX 5.000= 130.000+IVA,26,DIA,5000,130000,Proveedor persona natural 1
+23,Demolición y perforación,Demoledor,544,2025-08-29,ARRIENDO DEMOLEDOR,26 DÍASX 5.000= 130.000+IVA,26,DIA,5000,130000,Proveedor persona natural 1
+24,Demolición y perforación,Demoledor,554,2025-08-31,ARRIENDO DEMOLEDOR,17 DIAS X 5.000= 85.000+IVA,17,DIA,5000,85000,Proveedor persona natural 1
+25,Demolición y perforación,Demoledor,554,2025-08-31,ARRIENDO DEMOLEDOR,17 DIAS X 5.000= 85.000+IVA,17,DIA,5000,85000,Proveedor persona natural 1
+26,Fijación y soldadura,Equipo oxicorte,903,2025-10-30,ARRIENDO EQUIPO OXICORTE,35.000/DIA,3,DIA,35000,105000,Proveedor persona natural 5
+27,Fijación y soldadura,Equipo oxicorte,1053,2025-11-30,ARRIENDO EQUIPO OXICORTE,,10,DIA,35000,350000,Proveedor persona natural 5
+28,Energía y calefacción,Generador,478,2025-05-07,ARRIENDO GENERADOR 6.5 KVA,21X 8.000= 168.000,21,DIA,8000,168000,Proveedor persona natural 5
+29,Energía y calefacción,Generador,479,2025-06-02,ARRIENDO GENERADOR 6.5 KVA,21X 8.000= 168.000,21,DIA,8000,168000,Proveedor persona natural 5
+30,Energía y calefacción,Generador,176,2025-06-30,ARRIENDO GENERADOR 6.5 KVA,,24,DIA,5750,138000,Proveedor persona natural 1
+31,Energía y calefacción,Generador,480,2025-06-30,ARRIENDO GENERADOR 6.5 KVA,21X 8.000= 168.000,21,DIA,8000,168000,Proveedor persona natural 5
+32,Energía y calefacción,Generador,481,2025-07-31,ARRIENDO GENERADOR 6.5 KVA,23x 5.500=126.500,23,DIA,5500,126500,Proveedor persona natural 5
+33,Energía y calefacción,Generador,544,2025-08-29,ARRIENDO GENERADOR 6.5 KVA,26 DÍAS X 5.750= 149.500+IVA,26,DIA,5750,149500,Proveedor persona natural 1
+34,Energía y calefacción,Generador,554,2025-08-31,ARRIENDO GENERADOR 6.5 KVA,5 DIAS X 5.750 = 28.750+IVA,5,DIA,5750,28750,Proveedor persona natural 1
+35,Energía y calefacción,Generador,616,2025-09-15,ARRIENDO GENERADOR 6.5 KVA,VALOR DÍA 5.500+IVA,5,DIA,5500,27500,Proveedor persona natural 5
+36,Energía y calefacción,Generador,1324,2026-02-28,ARRIENDO GENERADOR 60 KVA,Monto total a pagar; 1.553.721 + IVA,21.179,DIA,51791,1096875,SERVICIOS LEAL Y GONZÁLEZ LIMITADA
+37,Topografía,Nivel topográfico y accesorios,400,2025-06-30,Nivel Topografico,Arriendo por 2 meses,1,Unidad,42000,42000,Aguatop SpA
+38,Topografía,Nivel topográfico y accesorios,484,2025-08-31,Nivel Topografico,ARRIENDO NIVEL BOSCH GOLD 26D,1,Unidad,42000,42000,Aguatop SpA
+39,Topografía,Nivel topográfico y accesorios,589,2025-09-09,Nivel Topografico,Arriendo por un día de Septiembre = 10.000 + IVA,1,Unidad,10000,10000,Aguatop SpA
+40,Topografía,Nivel topográfico y accesorios,33,2025-05-30,Nivel Topografico,,1,Unidad,84000,84000,Aguatop SpA
+41,Hormigón y compactación,Placa compactadora,70,2025-05-13,PLACA COMPACTADORA,3000 KG ARRIENDO 1 MES,0.4,UNIDAD,270000,108000,ARRIENDOS Y SERVICIOS SUR RENTAL LTDA
+42,Hormigón y compactación,Placa compactadora,614,2025-05-31,ARRIENDO PLACA COMPACTADORA,20 DÍASX 9.000= 180.000+IVA (FACTURA N°1.275),20,DIA,9000,180000,ARRIENDOS Y SERVICIOS SUR RENTAL LTDA
+43,Hormigón y compactación,Placa compactadora,615,2025-05-31,ARRIENDO PLACA COMPACTADORA,11 DÍAS X 13.000= 143.000+IVA (FACTURA N°1.274),11,DIA,13000,143000,ARRIENDOS Y SERVICIOS SUR RENTAL LTDA
+44,Hormigón y compactación,Placa compactadora,481,2025-07-31,ARRIENDO PLACA COMPACTADORA,13X 8.000= 104.000,13,DIA,8000,104000,Proveedor persona natural 5
+45,Hormigón y compactación,Placa compactadora,614,2025-08-14,ARRIENDO PLACA COMPACTADORA,25 DÍAS X 9.000= 225.00+IVA(FACTURA N°1.318),25,DIA,9000,225000,ARRIENDOS Y SERVICIOS SUR RENTAL LTDA
+46,Hormigón y compactación,Placa compactadora,615,2025-08-14,ARRIENDO PLACA COMPACTADORA,20 DÍAS X 13.000= 260.000+IVA(FACTURA N°1.319),20,DIA,13000,260000,ARRIENDOS Y SERVICIOS SUR RENTAL LTDA
+47,Hormigón y compactación,Placa compactadora,615,2025-08-14,ARRIENDO PLACA COMPACTADORA,16 DÍAS X 13.000= 208.000+IVA(FACTURA N°1.320),16,DIA,13000,208000,ARRIENDOS Y SERVICIOS SUR RENTAL LTDA
+48,Hormigón y compactación,Placa compactadora,616,2025-09-15,ARRIENDO PLACA COMPACTADORA,VALOR DÍA 8.000+IVA,8,DIA,8000,64000,Proveedor persona natural 5
+49,Hormigón y compactación,Placa compactadora,1236,2026-02-28,ARRIENDO PLACA COMPACTADORA,De 3.500 Kg,18,DIA,12000,216000,Proveedor persona natural 6
+50,Hormigón y compactación,Placa compactadora,1727,2026-04-01,ARRIENDO PLACA COMPACTADORA,,26,DIA,12000,312000,Proveedor persona natural 6
+51,Hormigón y compactación,Placa compactadora,2109,2026-05-06,ARRIENDO PLACA COMPACTADORA 3000 KG BENCINERA,VALOR DIARIO 12.000 TOTAL 312.000 + IVA,26,DIA,12000,312000,Proveedor persona natural 6
+52,Hormigón y compactación,Placa compactadora,2361,2026-06-17,ARRIENDO PLACA COMPACTADORA,23 días x 12.000 = 276.000 + IVA,23,DIA,12000,276000,Proveedor persona natural 6
+53,Hormigón y compactación,Placa compactadora,2545,2026-07-20,ARRIENDO PLACA COMPACTADORA,25 días x 12.000 = 300.000 + IVA,25,DIA,12000,300000,Proveedor persona natural 6
+54,Hormigón y compactación,Placa compactadora,2751,2026-08-05,ARRIENDO PLACA COMPACTADORA,19 días X 12.000 = 228.000 + IVA,19,DIA,12000,228000,Proveedor persona natural 6
+55,Hormigón y compactación,Placa compactadora,3172,2026-08-12,ARRIENDO PLACA COMPACTADORA,FAC 786 25 días X 12.000 = 300.000 + IVA,25,DIA,12000,300000,Proveedor persona natural 6
+56,Hormigón y compactación,Regla vibradora,481,2025-07-31,REGLA VIBRADORA,8 X 12.000= 96.000,8,DIA,12000,96000,Proveedor persona natural 5
+57,Hormigón y compactación,Regla vibradora,616,2025-09-15,REGLA VIBRADORA,VALOR DÍA 12.000+IVA,12,DIA,12000,144000,Proveedor persona natural 5
+58,Hormigón y compactación,Rodillo doble tambor,481,2025-07-31,RODILLO DOBLE TAMBOR,8x16.333=130.664,8,DIA,16333,130664,Proveedor persona natural 5
+59,Hormigón y compactación,Rodillo doble tambor,616,2025-09-15,RODILLO DOBLE TAMBOR,VALOR DÍA 16.333+IVA,31,DIA,16333,506323,Proveedor persona natural 5
+60,Hormigón y compactación,Rodillo doble tambor,678,2025-09-30,RODILLO DOBLE TAMBOR,30 DIAS X 16.000= 489.000+IVA,30,DIA,16333,489990,Proveedor persona natural 5
+61,Hormigón y compactación,Rodillo doble tambor,903,2025-10-30,RODILLO DOBLE TAMBOR,16.333/DIA,30,DIA,16333,489990,Proveedor persona natural 5
+62,Hormigón y compactación,Rodillo doble tambor,1053,2025-11-30,RODILLO DOBLE TAMBOR,,30,DIA,16667,500010,Proveedor persona natural 5
+63,Hormigón y compactación,Rodillo doble tambor,1074,2026-01-28,RODILLO DOBLE TAMBOR,Rodillo de 5.000 a 7.500 Kg,15,DIA,26000,390000,EGV Equipos y Materiales EIRL
+64,Hormigón y compactación,Rodillo doble tambor,1383,2026-01-30,RODILLO DOBLE TAMBOR,20 días x 16.333 = 326.660 + IVA,20,DIA,16333,326660,Proveedor persona natural 5
+65,Hormigón y compactación,Rodillo doble tambor,1672,2026-02-28,RODILLO DOBLE TAMBOR,11 días X 16.333 = 179.663,11,DIA,16333,179663,Proveedor persona natural 5
+66,Hormigón y compactación,Rodillo doble tambor,1402,2026-03-31,RODILLO DOBLE TAMBOR,,4,DIA,28000,112000,Emaresa Ingenieros y Representaciones SA
+67,Hormigón y compactación,Rodillo doble tambor,2281,2026-03-31,RODILLO DOBLE TAMBOR,28.000 el día,27,DIA,28000,756000,Emaresa Ingenieros y Representaciones SA
+68,Hormigón y compactación,Rodillo doble tambor,2280,2026-05-04,RODILLO DOBLE TAMBOR,28.000 el día,30,DIA,28000,840000,Emaresa Ingenieros y Representaciones SA
+69,Hormigón y compactación,Rodillo doble tambor,2281,2026-05-27,RODILLO DOBLE TAMBOR,28.000 el día,23,DIA,28000,644000,Emaresa Ingenieros y Representaciones SA
+70,Hormigón y compactación,Rodillo doble tambor,2406,2026-07-10,RODILLO DOBLE TAMBOR,28.000 el día. Considerado hasta el día 10 de Julio,28,DIA,28000,784000,Emaresa Ingenieros y Representaciones SA
+71,Hormigón y compactación,Rodillo doble tambor,1402,2026-08-04,RODILLO DOBLE TAMBOR,,13,DIA,28000,364000,Emaresa Ingenieros y Representaciones SA
+72,Hormigón y compactación,Rodillo doble tambor,2895,2026-08-31,RODILLO DOBLE TAMBOR,Arriendo desde 18-08-26 hasta 28-08-26,12,DIA,30036,360434,Emaresa Ingenieros y Representaciones SA
+73,Demolición y perforación,Taladro / rotomartillo,478,2025-05-07,ARRIENDO ROTOMARTILLO,3X4.500= 13.500,3,DIA,4500,13500,Proveedor persona natural 5
+74,Demolición y perforación,Taladro / rotomartillo,1053,2025-11-30,ARRIENDO ROTOMARTILLO,,4,DIA,3000,12000,Proveedor persona natural 5
+75,Topografía,Taquímetro,401,2025-07-10,TAQUIMETRO,Arriendo por 2 meses,2,UNIDAD,75000,150000,Aguatop SpA
+76,Topografía,Taquímetro,483,2025-08-31,TAQUIMETRO,ARRIENDO TAQUIMETRO PHENIX DT-21,1,UNIDAD,75000,75000,Aguatop SpA
+77,Topografía,Taquímetro,631,2025-09-10,TAQUIMETRO,ARRIENDO TAQUIMETRO PHENIX DT-21,1,UNIDAD,75000,75000,Aguatop SpA
+78,Topografía,Taquímetro,48,2025-05-30,TAQUIMETRO,11.04 AL 10.05,1,UNIDAD,75000,75000,Aguatop SpA
+79,Topografía,Taquímetro,699,2025-09-26,TAQUIMETRO,,1,UNIDAD,60000,60000,Aguatop SpA

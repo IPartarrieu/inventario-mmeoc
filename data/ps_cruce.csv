@@ -1,0 +1,109 @@
+ambito,n_control,equipo,cant_control,oc_control,oc_informe,cant_informe,fecha_informe,recurso_informe,precio_informe,situacion,oc_coincide,observacion
+Maquinaria menor,29,Nivel Geolaser AGT 32 + trípode + mira 4 m,1,799,799,1,2025-11-04,NIVEL TOPOGRAFICO CON MIRA Y TRIPODE,220000,"En ambos, coinciden",Sí,
+Maquinaria menor,,Radio Baofeng BF-888S (4 kits de 2 radios a $21.135),0,,864,8,2025-11-18,RADIO TRANSMISOR,10568,Solo en el InformeEntrada,—,Las radios no figuran en el control de bodega
+Maquinaria menor,,Motobomba de agua Redbo WP30A,0,,934,2,2025-11-18,MOTOBOMBA BENCINERA 3X3,128174,Solo en el InformeEntrada,—,No figura en el control de bodega
+Maquinaria menor,,"Bomba centrífuga eléctrica 1,5 HP",0,,839,1,2025-11-21,BOMBA CENTRIFUGA ELECTRICA 1.5HP,179133,Solo en el InformeEntrada,—,No figura en el control de bodega
+Maquinaria menor,58,"Betonera Emaresa HV 150, 220 V, 1,5 HP",1,990,990,1,2025-12-05,BETONERA,1096500,"En ambos, coinciden",Sí,
+Maquinaria menor,,Radio transmisor Baofeng BF-888S,0,,1011,8,2025-12-05,RADIO TRANSMISOR,9800,Solo en el InformeEntrada,—,Las radios no figuran en el control de bodega
+Maquinaria menor,30,Nivel Geolaser GL 32 + trípode + mira 4 m,1,1137,1137,1,2025-12-19,NIVEL TOPOGRAFICO CON MIRA Y TRIPODE,240000,"En ambos, coinciden",Sí,
+Maquinaria menor,27,Hidrolavadora bencinera 13 HP,1,1208,1208,1,2026-01-15,HIDROLAVADORA BENCINERA 13HP,780663,"En ambos, coinciden",Sí,
+Maquinaria menor,"7, 8",Demoledor Kothman HK17 1500 W,2,1263,1263,2,2026-01-21,DEMOLEDOR 5 KG,196500,"En ambos, coinciden",Sí,
+Maquinaria menor,22,"Esmeril angular 7"" 2300 W Kothman GK-7",1,1263,1263,1,2026-01-21,ESMERIL ANGULAR 7,102050,"En ambos, coinciden",Sí,
+Maquinaria menor,23,"Esmeril 4½"" 850 W Kothman GK-115",1,1263,1263,1,2026-01-21,ESMERIL ANGULAR 4.1/2 220V,33890,"En ambos, coinciden",Sí,
+Maquinaria menor,18,"Aspiradora polvo/agua Luster 70 L, 2 motores",1,1304,1304,1,2026-01-26,ASPIRADORA INDUSTRIAL,230000,"En ambos, coinciden",Sí,
+Maquinaria menor,,"Esmeril inalámbrico 4½"" Kothman GIK-115 21 V",0,,1305,1,2026-01-30,ESMERIL ANGULAR 4 INALAMBRICO,189943,Solo en el InformeEntrada,—,No figura en el control de bodega
+Maquinaria menor,53,Soplador aspirador 25 cc Wulkan WK-BL-25V,1,1302,1302,1,2026-02-06,SOPLADOR BENCINERO,152606,"En ambos, coinciden",Sí,
+Maquinaria menor,,Rotomartillo inalámbrico 20 mm Makita DHR202,0,,1303,1,2026-02-06,ROTOMARTILLO INALAMBRICO,392413,Solo en el InformeEntrada,—,No figura en el control de bodega
+Maquinaria menor,,Pistola de disparo cal. 27 Walte PT370,0,,1447,1,2026-02-12,PISTOLA DISPARO,147045,Solo en el InformeEntrada,—,Segunda pistola de disparo Walte PT370; el control registra solo la de la OC 1762
+Maquinaria menor,51,Cargador de batería 12 V,1,1461,1461,1,2026-02-12,CARGADOR DE BATERIA 12V,47050,"En ambos, coinciden",Sí,
+Maquinaria menor,42,Taquímetro GeoAllen MTD 2 con mira y trípode,1,1469,1469,1,2026-02-18,TAQUIMETRO CON MIRA Y TRIPODE,670000,"En ambos, coinciden",Sí,
+Maquinaria menor,48,Vibrador de inmersión Dynapac 6 m 45 mm GVP45,1,1580,1580,1,2026-03-06,SONDA ALTA FRECUENCIA  45MM,134978,"En ambos, coinciden",Sí,
+Maquinaria menor,48,Vibrador de inmersión Dynapac 6 m 28 mm GVP28,1,1580,1580,1,2026-03-06,SONDA P-28,100000,"En ambos, coinciden",Sí,
+Maquinaria menor,48,"Unidad motriz 5,5 HP gasolina VR SGY-20",1,1580,1580,1,2026-03-06,UNIDAD MOTRIZ BENCINERA,222720,"En ambos, coinciden",Sí,
+Maquinaria menor,,"Esmeril inalámbrico 4½"" Kothman GIK-115",0,,1620,1,2026-03-06,ESMERIL ANGULAR 4 INALAMBRICO,137880,Solo en el InformeEntrada,—,"Esmeril inalámbrico de la OC 1620 (junto con el taladro AIK65, que sí está en el control)"
+Maquinaria menor,39,Taladro inalámbrico 13 mm Kothman AIK65 21 V,1,1620,1620,1,2026-03-06,TALADRO PERCUTOR 18V INALAMBRICO,113880,"En ambos, coinciden",Sí,
+Maquinaria menor,14,Rotomartillo SDS Max Kothman 1500 W,1,1646,1646,1,2026-03-06,ROTOMARTILLO SDS MAX,228400,"En ambos, coinciden",Sí,
+Maquinaria menor,37,Rotomartillo SDS Plus 800 W Kothman RK26,1,1582,1582,1,2026-03-10,TALADRO ROTOMARTILLO SDS 220V,128000,"En ambos, coinciden",Sí,
+Maquinaria menor,33,Pistola de disparo cal. 27 Walte PT-370,1,1762,1762,1,2026-03-20,PISTOLA DISPARO,158000,"En ambos, coinciden",Sí,
+Maquinaria menor,"9, 10, 11",Demoledor hex 17 mm Kothman HK17 1500 W,3,1771,1771,3,2026-03-26,DEMOLEDOR 5 KG,167697,"En ambos, coinciden",Sí,
+Maquinaria menor,24,Esmeril angular 115 mm Makita GA4530 720 W,1,1771,1771,2,2026-03-26,ESMERIL ANGULAR 4.1/2 220V,42000,"En ambos, cantidad distinta",Sí,La OC trae 2 esmeriles Makita; el control registra 1
+Maquinaria menor,28,Máquina soldar 200 A Alpha Pro,1,1835,1835,1,2026-04-01,MAQUINA DE SOLDAR,81369,"En ambos, coinciden",Sí,
+Maquinaria menor,"35, 36",Pulidora hormigón 125 mm Kothman PK125 (kit de pulido),2,1903,1903,2,2026-04-06,KIT DE PULIDO,106124,"En ambos, coinciden",Sí,
+Maquinaria menor,"16, 17",Aspiradora 3 motores Kothman AK70 (kit de pulido),2,1903,1903,2,2026-04-06,KIT DE PULIDO,271700,"En ambos, coinciden",Sí,
+Maquinaria menor,,Soplador aspirador combustión Powerpro XP260BV,0,,1879,1,2026-04-08,SOPLADOR BENCINERO,210076,Solo en el InformeEntrada,—,El control tiene un soplador bencinero sin OC (N° 54) que podría ser este
+Maquinaria menor,12,Demoledor Kothman HK17 1500 W,1,1961,1961,1,2026-04-13,DEMOLEDOR 5 KG,192500,"En ambos, coinciden",Sí,
+Maquinaria menor,31,Nivel láser Geolaser GL 03,1,2041,2041,1,2026-04-27,NIVEL LASER,150000,"En ambos, coinciden",Sí,
+Maquinaria menor,49,Motor testiguera Kothman TK8 4280 W,1,2116,2116,1,2026-05-11,MOTOR P/ TESTIGUERA,495900,"En ambos, coinciden",Sí,
+Maquinaria menor,,Pedestal testiguera Kothman PK-10,0,,2116,1,2026-05-11,PEDESTAL TESTIGUERA,660000,Solo en el InformeEntrada,—,Pedestal PK-10 de la OC 2116: el control registra solo el pedestal de la OC 2820
+Maquinaria menor,,Bomba de pileta SICCE IDRA 25 W 220 V (no es una bomba 1 HP),0,,2160,1,2026-05-15,BOMBA DE AGUA 1 HP CON CONTROLADOR PRESION,40601,Solo en el InformeEntrada,—,No figura en el control de bodega
+Maquinaria menor,"21, 26","Esmeril 4½"" 850 W Kothman GK-115",2,2214,2214,2,2026-05-28,ESMERIL ANGULAR 4.1/2 220V,33890,"En ambos, coinciden",Sí,
+Maquinaria menor,,Demoledor Kothman HK17 1500 W (el informe dice 6 kg),0,,2254,2,2026-06-04,DEMOLEDOR 6 KG,192500,Solo en el InformeEntrada,—,El control tiene 1 demoledor Kothman sin OC (N° 13) que podría ser uno de estos
+Maquinaria menor,15,Aspiradora Kärcher WD1,1,2397,2397,1,2026-07-04,ASPIRADORA INDUSTRIAL,84025,"En ambos, coinciden",Sí,
+Maquinaria menor,41,"Sierra circular 7¼"" 1300 W Bosch GKS130",1,2550,2550,1,2026-07-21,SIERRA CIRCULAR 7.1/4 220V,48746,"En ambos, coinciden",Sí,
+Maquinaria menor,40,Taladro percutor inalámbrico Bosch GSB 185-LI 18 V,1,2550,2550,1,2026-07-21,TALADRO PERCUTOR 18V INALAMBRICO,114766,"En ambos, coinciden",Sí,
+Maquinaria menor,44,Calentador diésel 51 kW GRB13,1,2680,2680,1,2026-08-03,TURBO CALEFACTOR (COMPRA),293751,"En ambos, coinciden",Sí,
+Maquinaria menor,,Radio Motorola Talkabout T210 (5 pares a $57.315),0,,2803,10,2026-08-11,RADIO PORTATIL,28658,Solo en el InformeEntrada,—,Las radios no figuran en el control de bodega
+Maquinaria menor,50,Pedestal testiguera Kothman DK-400,1,2820,2820,1,2026-08-13,PEDESTAL TESTIGUERA,659104,"En ambos, coinciden",Sí,
+Maquinaria menor,,"Generador portátil gasolina GH Power GHG7500E (6,5 kW, 220 V)",0,,2745,1,2026-08-18,GENERADOR 7KVA (compra),699000,Solo en el InformeEntrada,—,No figura en el control de bodega
+Maquinaria menor,,Radio Motorola Talkabout (2 pares a $57.466),0,,2894,4,2026-08-18,RADIO PORTATIL,28733,Solo en el InformeEntrada,—,Las radios no figuran en el control de bodega
+Maquinaria menor,"45, 46",Turbocalefactor diésel Power Pro DHT50R,2,3166,3166,2,2026-09-14,TURBO CALEFACTOR (COMPRA),365000,"En ambos, coinciden",Sí,
+Maquinaria menor,1,"Arriendo generador 100 kVA ($969.000 al mes, agosto - diciembre)",1,,2721,1,2026-10-02,ARRIENDO GENERADOR 100KVA,969000,"En ambos, coinciden",—,
+Maquinaria menor,3,Arriendo placa compactadora (24 días a $11.900),1,,3476,1,2026-10-14,ARRIENDO PLACA COMPACTADORA,11900,"En ambos, coinciden",—,
+Maquinaria menor,5,"Arriendo demoledor (24 días a $7.900, ""equivale a 2 equipos"")",1,,3476,2,2026-10-14,ARRIENDO DEMOLEDOR,7900,"En ambos, cantidad distinta",—,
+Maquinaria menor,,"Arriendo turbo calefactor (24 días a $8.900, ""equivale a 2 equipos"")",0,,3476,2,2026-10-14,ARRIENDO TURBO CALEFACTOR,8900,Solo en el InformeEntrada,—,Arriendo de octubre que no figura en el control: revisar si se devolvió
+Maquinaria menor,,Arriendo unidad motriz con sonda (24 días a $6.900),0,,3476,1,2026-10-14,ARRIENDO UNIDAD MOTRIZ CON SONDA,6900,Solo en el InformeEntrada,—,Arriendo de octubre que no figura en el control: revisar si se devolvió
+Maquinaria menor,,Radio Motorola Talkabout T210 (1 par a $58.978),0,,3541,2,2026-10-15,RADIO PORTATIL,29489,Solo en el InformeEntrada,—,Las radios no figuran en el control de bodega
+Maquinaria menor,,Arriendo generador 7 kVA (2 días a $8.000),0,,3516,1,2026-10-16,ARRIENDO GENERADOR 7 KVA,8000,Solo en el InformeEntrada,—,Arriendo corto: es normal que no esté en el control
+Maquinaria menor,,Demoledor Kothman HK17 1500 W (el informe dice 6 kg),0,,3537,1,2026-10-20,DEMOLEDOR 6 KG,198900,Solo en el InformeEntrada,—,Compra del 19-10-2026; el control tiene un demoledor (N° 13) y un rotomartillo RK26 (N° 38) sin OC que podrían ser estos
+Maquinaria menor,,Rotomartillo SDS Plus 800 W Kothman RK26 (el informe dice taladro percutor),0,,3537,1,2026-10-20,TALADRO PERCUTOR 22MM,99000,Solo en el InformeEntrada,—,Compra del 19-10-2026; el control tiene un demoledor (N° 13) y un rotomartillo RK26 (N° 38) sin OC que podrían ser estos
+Maquinaria menor,2,"Esmeril 9"" (Hilti AG-230)",1,,,0,,,0,Solo en el control,—,Valor diario del arriendo según el control: $6.900; Arriendo Provem desde el 05-10-2026: sin OC en el InformeEntrada (al 21-10-2026); Se proyecta hasta fines de octubre
+Maquinaria menor,4,Compresor,1,,,0,,,0,Solo en el control,—,Valor diario del arriendo según el control: $10.000; Arriendo Provem desde el 15-10-2026: sin OC en el InformeEntrada (al 21-10-2026); Se proyecta 1 mes más de arriendo
+Maquinaria menor,13,Demoledor 5 kg (kothman hex 17 mm 1500w),1,,,0,,,0,Solo en el control,—,Sin OC en el control. Podría ser uno de los 3 demoledores Kothman que compró la obra y no figuran en el control (OC 2254 ×2 y OC 3537)
+Maquinaria menor,19,Aspiradora (15 lts makita),1,,,0,,,0,Solo en el control,—,Sin OC: equipo de GMW o traído de otra obra; Usado…trasladado de edificio ohiggins chiguayante
+Maquinaria menor,20,Aspiradora (15 lts makita),1,,,0,,,0,Solo en el control,—,Sin OC: equipo de GMW o traído de otra obra; Usado…trasladado de edificio ohiggins chiguayante
+Maquinaria menor,25,"Esmeril 4 1/2"" (850w gk-115 kothman)",1,,,0,,,0,Solo en el control,—,Sin OC: equipo de GMW o traído de otra obra; Usado…trasladado de edificio ohiggins chiguayante
+Maquinaria menor,32,Nivel laser gl (GL25 geolaser),1,,,0,,,0,Solo en el control,—,Sin OC: equipo de GMW o traído de otra obra; Buscando respaldos de origen
+Maquinaria menor,34,Pistola de calor,1,,,0,,,0,Solo en el control,—,Sin OC: equipo de GMW o traído de otra obra; Usado…trasladado de edificio ohiggins chiguayante
+Maquinaria menor,38,Taladro rotomartillo (sds plus 800 w mod rk26 kothman),1,,,0,,,0,Solo en el control,—,Sin OC en el control. Podría ser el rotomartillo Kothman RK26 de la OC 3537 (que no figura en el control)
+Maquinaria menor,47,Turbo calefactor,1,,,0,,,0,Solo en el control,—,Sin OC: equipo de GMW o traído de otra obra; Traido de otra obra
+Maquinaria menor,52,Soplador,1,,,0,,,0,Solo en el control,—,Sin OC: equipo de GMW o traído de otra obra; Usado…trasladado de edificio ohiggins chiguayante
+Maquinaria menor,54,Soplador (bencinero),1,,,0,,,0,Solo en el control,—,Sin OC en el control. Podría ser el soplador Power Pro XP260BV de la OC 1879 (que no figura en el control); Buscando respaldos de origen
+Maquinaria menor,55,Fusora digital 20-63 mm,1,,,0,,,0,Solo en el control,—,Sin OC: equipo de GMW o traído de otra obra; Usado…trasladado de edificio ohiggins chiguayante
+Maquinaria menor,56,Mezclador electrico (1800 watt),1,,,0,,,0,Solo en el control,—,Sin OC: equipo de GMW o traído de otra obra; Usado…trasladado de edificio ohiggins chiguayante
+Maquinaria menor,57,Mezclador electrico (1800 watt),1,,,0,,,0,Solo en el control,—,Sin OC: equipo de GMW o traído de otra obra; Usado…trasladado de edificio ohiggins chiguayante
+Equipos de oficina,1,"Notebook (Lenovo Gamer i5 15,6"")",1,884,884,1,2025-12-01,NOTEBOOK,588238,"En ambos, coinciden",Sí,
+Equipos de oficina,2,"Monitor (Samsung 27""Essential S3,)",1,884,884,1,2025-12-01,MONITOR,105952,"En ambos, coinciden",Sí,
+Equipos de oficina,3,"Tablet (Lenovo Tablet Tab Plus 11,5 256 GB)",1,1133,1133,1,2025-12-30,TABLET,203773,"En ambos, coinciden",Sí,Sin uso
+Equipos de oficina,4,"Notebook (Asus Vivobook Go 14"")",1,,,0,,,0,Solo en el control,—,"RRHH, equipo traido de otra obra."
+Equipos de oficina,5,"Notebook (Asus Vivobook Go 14"")",1,,,0,,,0,Solo en el control,—,"Prevencionista , equipo traido de otra obra"
+Equipos de oficina,6,"Monitor (AOC, E20705wHn)",1,,,0,,,0,Solo en el control,—,Traido de otra obra
+Equipos de oficina,7,Impresora (Brother Multifuncional LaserDCP L2540DW),1,884,884,1,2025-12-01,IMPRESORA,176457,"En ambos, coinciden",Sí,
+Equipos de oficina,8,Impresora (Brother Multifuncional LaserDCP L2540DW),1,2541,2541,1,2026-07-30,IMPRESORA,180664,"En ambos, coinciden",Sí,
+Equipos de oficina,9,Impresora (Brother multifuncional tinta continua),1,1511,1511,1,2026-02-23,IMPRESORA,151588,"En ambos, coinciden",Sí,
+Equipos de oficina,10,Impresora (Brother Multifuncional LaserDCP L2540DW),1,854,854,1,2025-11-11,IMPRESORA MULTIFUNCIONAL,168059,"En ambos, coinciden",Sí,El control anota la factura 5485757; la factura es PC Factory N° 5.486.757
+Equipos de oficina,11,Notebook (Asus Gmer i5),1,,,0,,,0,Solo en el control,—,"El control indica que pertenecería a la OC 383, que no es de Plaza Sur; No se encontro registro de la oc se indico pertenecer a la oc383"
+Equipos de oficina,12,Monitor (Asus),1,,,0,,,0,Solo en el control,—,No se encontro registro de origen
+Equipos de oficina,13,Monitor (Gear),1,,,0,,,0,Solo en el control,—,No se encontro registro de origen
+Equipos de oficina,14,Impresora (Epson Eco Tank L3250),1,1019,1019,1,2025-12-03,IMPRESORA,163017,"En ambos, coinciden",Sí,
+Equipos de oficina,15,Televisor,1,,,0,,,0,Solo en el control,—,Origen obra Tucapel
+Equipos de oficina,16,Notebook (Acer Lite Aspire 14),1,2642,2642,1,2026-07-29,NOTEBOOK,294109,"En ambos, coinciden",Sí,Bodega
+Equipos de oficina,17,Impresora (HP Smart Tank 720),1,1547,1547,1,2026-02-23,IMPRESORA MULTIFUNCIONAL,129908,"En ambos, coinciden",Sí,"El control anota el documento 2280689, que es la guía de la OC 1511"
+Equipos de oficina,19,"Notebook (Lenovo Gamer i5 15,6"")",1,1116,1116,1,2025-12-30,NOTEBOOK,571420,"En ambos, coinciden",Sí,Fuera de obra según el control; Obra Chiguayante
+Equipos de oficina,20,"Notebook (Asus Vivobook i3 14"")",1,1116,1116,1,2025-12-30,NOTEBOOK,285286,"En ambos, coinciden",Sí,Fuera de obra según el control
+Contenedores,1,Contenedor baño (baño /ducha hombre) (6 metros),1,,,0,,,0,Solo en el control,—,Contenedor de GMW con guía N° 241: sin compra ni arriendo en el InformeEntrada
+Contenedores,2,Contenedor baño (solo baño hombre) (6 metros),1,,,0,,,0,Solo en el control,—,Contenedor de GMW con guía N° 129: sin compra ni arriendo en el InformeEntrada
+Contenedores,3,Contenedor baño (baño /ducha mujer) (6 metros),1,,,0,,,0,Solo en el control,—,Contenedor de GMW con guía N° 93: sin compra ni arriendo en el InformeEntrada
+Contenedores,4,Contenedor oficina con baño (calidad) (6 metros),1,,,0,,,0,Solo en el control,—,Contenedor de GMW con guía N° 245: sin compra ni arriendo en el InformeEntrada
+Contenedores,5,Contenedor oficina con baño (administrador) (6 metros),1,,,0,,,0,Solo en el control,—,Contenedor de GMW con guía N° 243: sin compra ni arriendo en el InformeEntrada
+Contenedores,6,Contenedor oficina (oficina tecnica) (6 metros),1,,,0,,,0,Solo en el control,—,Contenedor de GMW con guía N° 259: sin compra ni arriendo en el InformeEntrada
+Contenedores,7,Contenedor oficina (rrhh) (6 metros),1,,,0,,,0,Solo en el control,—,Contenedor de GMW con guía N° 239: sin compra ni arriendo en el InformeEntrada
+Contenedores,8,Contenedor oficina (supervisores) (6 metros),1,,,0,,,0,Solo en el control,—,Contenedor de GMW con guía N° 256: sin compra ni arriendo en el InformeEntrada
+Contenedores,9,Contenedor oficina (supervisores) (6 metros),1,,,0,,,0,Solo en el control,—,Contenedor de GMW con guía N° 257: sin compra ni arriendo en el InformeEntrada
+Contenedores,10,Contenedor oficina (sala reunion) (6 metros),1,,,0,,,0,Solo en el control,—,Contenedor de GMW con guía N° 265: sin compra ni arriendo en el InformeEntrada
+Contenedores,11,Contenedor oficina (oficina bodega) (6 metros),1,,,0,,,0,Solo en el control,—,Contenedor de GMW con guía N° 246: sin compra ni arriendo en el InformeEntrada
+Contenedores,12,Contenedor vestidores (vestidor hombres) (6 metros),1,,,0,,,0,Solo en el control,—,Contenedor de GMW con guía N° 238: sin compra ni arriendo en el InformeEntrada
+Contenedores,13,Contenedor bodega (acopio de materiales) (6 metros),1,,,0,,,0,Solo en el control,—,Contenedor de GMW con guía N° 92: sin compra ni arriendo en el InformeEntrada
+Contenedores,14,Contenedor bodega (acopio de materiales) (6 metros),1,,,0,,,0,Solo en el control,—,Contenedor de GMW con guía N° 262: sin compra ni arriendo en el InformeEntrada
+Contenedores,15,Contenedor bodega (acopio de materiales) (6 metros),1,,,0,,,0,Solo en el control,—,Contenedor de GMW con guía N° 263: sin compra ni arriendo en el InformeEntrada
+Contenedores,16,Contenedor bodega (pañol) (6 metros),1,,,0,,,0,Solo en el control,—,Contenedor de GMW con guía N° 415: sin compra ni arriendo en el InformeEntrada
+Contenedores,,Traslado de contenedores (camión pluma),0,,1785,2,2026-04-06,TRASLADO CONTENEDORES,110000,Traslado sin contenedor identificado,—,Factura Juan Amir Fritz N° 860: traslado desde Jaime Repullo; no dice qué contenedores

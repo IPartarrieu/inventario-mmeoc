@@ -1,0 +1,12 @@
+n,tipo,modelo,estado,registro,observacion
+1,"Contenedor baños, ducha",6 metros,Operativo,"Arriendo OC 3559, factura Ruicon N° 4835","Contenedor N° 193 de Ruicon, $230.000 al mes del 21-10 al 20-11-2026, más $500.000 de traslado de entrega y retiro"
+2,Contenedor oficina,6 metros,Operativo,Sin registro en ConstruIT,"Oficina Administrador Obra; Contenedor de GMW: sin OC, guía ni factura en el control ni compra o arriendo en el InformeEntrada"
+3,Contenedor oficina,6 metros,Operativo,Sin registro en ConstruIT,"Oficina Jefe Terreno; Contenedor de GMW: sin OC, guía ni factura en el control ni compra o arriendo en el InformeEntrada"
+4,Contenedor oficina,6 metros,Operativo,Sin registro en ConstruIT,"Oficina Bodega; Contenedor de GMW: sin OC, guía ni factura en el control ni compra o arriendo en el InformeEntrada"
+5,Contenedor oficina,6 metros,Operativo,Sin registro en ConstruIT,"Oficina Prevencion y Administrativa RR.HH; Contenedor de GMW: sin OC, guía ni factura en el control ni compra o arriendo en el InformeEntrada"
+6,Contenedor oficina,6 metros,Operativo,Sin registro en ConstruIT,"Oficina Tecnica / Autocontrol; Contenedor de GMW: sin OC, guía ni factura en el control ni compra o arriendo en el InformeEntrada"
+7,Contenedor oficina,6 metros,Operativo,Sin registro en ConstruIT,"Disponible para Serviu; Contenedor de GMW: sin OC, guía ni factura en el control ni compra o arriendo en el InformeEntrada"
+8,Contenedor oficina,12 metros,Operativo,Sin costo en ConstruIT (guía GMW N° 551),Contenedor de 12 dividido en 2 oficinas; Contenedor de GMW
+9,Contenedor  baño,12 metros,No operativo,Sin costo en ConstruIT (guía GMW N° 534),Contenedor Frigorifico que se iba a utilizar ara baño; Contenedor de GMW
+10,Fosa séptica,6.500 L,No figura en el control,"Compra OC 3355 (guía Ebema N° 5408935, factura no descargada)","$1.026.540 neto según el InformeEntrada, más kit de instalación ($231.925)"
+11,Fosa séptica,2.000 L,No figura en el control,"Compra OC 3355 (guía Ebema N° 5410297, factura no descargada)","$258.065 neto según el InformeEntrada, más kit de instalación ($231.925)"

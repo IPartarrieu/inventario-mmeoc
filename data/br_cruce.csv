@@ -1,0 +1,36 @@
+ambito,n_control,equipo,cant_control,oc_control,oc_informe,cant_informe,fecha_informe,recurso_informe,precio_informe,situacion,oc_coincide,observacion
+Maquinaria menor,1,Bomba de trasvasije,1,,,0,,,0,Solo en el control,—,"Sin compra en el InformeEntrada de Brisas. Valor de referencia: P.P.P. del kardex (valorizado en $0). El InformeEntrada tiene una bomba centrífuga Hidrocentro (OC 3082, $75.015) que no figura en el kardex: si es la misma bomba, está con otro código y otro precio"
+Maquinaria menor,2,Demoledor 6 kg,1,,3203,1,2026-09-15,DEMOLEDOR 6 KG,198900,"En ambos, coinciden",—,
+Maquinaria menor,3,Hidrolavadora electrica,1,,3250,1,2026-09-30,HIDROLAVADORA ELECTRICA,171323,"En ambos, coinciden",—,P.P.P. del kardex $171.323
+Maquinaria menor,4,Maquina de soldar,1,,3556,1,2026-10-20,MAQUINA DE SOLDAR,90851,"En ambos, coinciden",—,P.P.P. del kardex $90.851
+Maquinaria menor,5,Nivel topografico con mira y tripode,1,,2947,1,2026-08-27,NIVEL TOPOGRAFICO CON MIRA Y TRIPODE,225000,"En ambos, coinciden",—,
+Maquinaria menor,6,Sonda alta frecuencia 45mm,1,,,0,,,0,Solo en el control,—,Sin compra en el InformeEntrada de Brisas (viene de otra obra o de GMW). Valor de referencia: P.P.P. del kardex. Con la unidad motriz (N° 8) forman un vibrador de inmersión
+Maquinaria menor,7,Soplador bencinero,1,,2973,1,2026-09-04,SOPLADOR BENCINERO,178000,"En ambos, coinciden",—,
+Maquinaria menor,8,Unidad motriz bencinera,1,,,0,,,0,Solo en el control,—,Sin compra en el InformeEntrada de Brisas (viene de otra obra o de GMW). Valor de referencia: P.P.P. del kardex
+Maquinaria menor,9,Generador (Ghg 10 ke 456cc),1,,,0,,,0,Solo en el control,—,Sin valor en el kardex. El InformeEntrada tiene dos reparaciones de generador de Proveedor persona natural 5 (OC 3141 $81.300 y OC 3554 $130.000): probablemente este equipo
+Maquinaria menor,10,Percutor (Kothman),1,,,0,,,0,Solo en el control,—,Se devuelve al proveedor el 27-10-2026. Sin OC de arriendo en el InformeEntrada
+Maquinaria menor,11,Generador trifasico 160 kva (Rental),1,,,0,,,0,Solo en el control,—,Proyección de arriendo: 4 meses. Sin OC de arriendo en el InformeEntrada (al 22-10-2026)
+Maquinaria menor,12,Generador trifasico 60 kva (Inmesol),1,,,0,,,0,Solo en el control,—,Proyección de arriendo: 4 meses. Sin OC de arriendo en el InformeEntrada (al 22-10-2026)
+Maquinaria menor,,Bomba centrifuga electrica 1.5hp,0,,3082,1,2026-09-06,BOMBA CENTRIFUGA ELECTRICA 1.5HP,75015,Solo en el InformeEntrada,—,No figura en el kardex. Factura Hidrocentro N° 684712 ($75.015); el kardex trae una bomba de trasvasije con otro código
+Maquinaria menor,,Equipos de radio,0,,3527,10,2026-09-25,EQUIPOS DE RADIO,32326,Solo en el InformeEntrada,—,"10 radios Motorola Talkabout (5 pares, factura Mercado Libre N° 15398310): no figuran en el kardex"
+Maquinaria menor,,Arriendo placa compactadora,0,,2663,1,2026-08-05,ARRIENDO PLACA COMPACTADORA,14000,Solo en el InformeEntrada,—,"Arriendo terminado (1 día, $14.000)"
+Maquinaria menor,,Arriendo generador 7 kva,0,,3136,1,2026-09-15,ARRIENDO GENERADOR 7 KVA,74750,Solo en el InformeEntrada,—,Arriendo terminado (13 días a $5.750)
+Maquinaria menor,,Arriendo estacion total con accesorios,0,,3340,1,2026-09-29,ARRIENDO ESTACION TOTAL CON ACCESORIOS,200000,Solo en el InformeEntrada,—,Arriendo terminado (mes completo)
+Maquinaria menor,,Arriendo rodillo compactador,0,,3060,1,2026-10-06,ARRIENDO RODILLO COMPACTADOR,700000,Solo en el InformeEntrada,—,Arriendo terminado (28 horas a $25.000)
+Equipos de oficina,2,Impresora multifuncional (Bodega),1,,2959,1,2026-08-26,IMPRESORA MULTIFUNCIONAL,184866,"En ambos, coinciden",—,
+Equipos de oficina,1,Impresora (ADO),1,,"3337, 3341",2,2026-10-05,IMPRESORA,177555,"En ambos, cantidad distinta",—,La obra compró dos Brother DCP-T730DW; el kardex registra una
+Equipos de oficina,5-9,"Notebook (ADO, Jefe de Terreno, Prevención, Digitador, Jefe de Bodega)",5,,3242,3,2026-10-05,NOTEBOOK,319319,"En ambos, cantidad distinta",—,El kardex tiene 2 notebooks más que lo comprado por la obra: GMW u otra obra
+Equipos de oficina,,Televisor,0,,3153,1,2026-09-10,TELEVISOR,344529,Solo en el InformeEntrada,—,"Smart TV Samsung 55"": no figura en el kardex"
+Contenedores,1,Sala de reuniones (20 pies),1,,,0,,,0,Solo en el control,—,Contenedor de GMW: sin compra ni arriendo en el InformeEntrada
+Contenedores,2,Baño ducha hombres (20 pies),1,,,0,,,0,Solo en el control,—,Contenedor de GMW: sin compra ni arriendo en el InformeEntrada
+Contenedores,3,Oficina ADO (20 pies),1,,,0,,,0,Solo en el control,—,De GMW o arrendado: el kardex no lo distingue. Podría ser uno de los 3 contenedores oficina arrendados a Ruicon (OC 2932)
+Contenedores,4,Oficina bodega (20 pies),1,,,0,,,0,Solo en el control,—,De GMW o arrendado: el kardex no lo distingue. Podría ser uno de los 3 contenedores oficina arrendados a Ruicon (OC 2932)
+Contenedores,5,Oficina FTO (20 pies),1,,,0,,,0,Solo en el control,—,De GMW o arrendado: el kardex no lo distingue. Podría ser uno de los 3 contenedores oficina arrendados a Ruicon (OC 2932)
+Contenedores,6,Vestidores hombres (20 pies),1,,3591,1,2026-10-20,CONTENEDOR 20 PIES (COMPRA),3400000,"En ambos, coinciden",—,"Observación de la OC: ""planta libre para vestidores"". Solo guía Ruicon N° 1412, sin factura de compra"
+Contenedores,7,Casilleros mujeres/hombres (40 pies),1,,,0,,,0,Solo en el control,—,Contenedor de GMW: sin compra ni arriendo en el InformeEntrada
+Contenedores,8,Oficina administrativo-prevención-supervisores (40 pies),1,,,0,,,0,Solo en el control,—,Contenedor de GMW: sin compra ni arriendo en el InformeEntrada
+Contenedores,9,Oficina jefe de terreno-oficina técnica-calidad (40 pies),1,,,0,,,0,Solo en el control,—,Contenedor de GMW: sin compra ni arriendo en el InformeEntrada
+Contenedores,10,Pañol bodega (40 pies),1,,,0,,,0,Solo en el control,—,Contenedor de GMW: sin compra ni arriendo en el InformeEntrada
+Contenedores,,Arriendo contenedor oficina,0,,2932,3,2026-09-15,ARRIENDO CONTENEDOR OFICINA,190000,Solo en el InformeEntrada,—,"Contenedores oficina Ruicon N° 79, 175 y 265 (facturas 4722 y 4730), solo el primer mes (24-08 al 25-09-2026). El kardex no separa contenedores arrendados: si siguen en obra, serían 3 de las oficinas de 20 pies"
+Contenedores,,Traslado contenedor,0,,3452,1,2026-10-08,TRASLADO CONTENEDOR,200000,Traslado sin contenedor identificado,—,Traslado del contenedor verde desde Plaza Sur (factura La Fé N° 1472)
+Contenedores,11,Fosa séptica (3250 L),1,,3152,1,2026-09-15,FOSA SEPTICA 3250LTS,474000,"En ambos, coinciden",—,Factura VGV N° 94060 (verificada): fosa séptica horizontal 3.250 L $474.000 + kit de drenaje $272.000. Agregada al inventario: no venía en el kardex

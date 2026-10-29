@@ -1,0 +1,5 @@
+id,familia,tipo,oc,fecha,recurso,detalle,cantidad,unidad,precio_neto,total_neto,proveedor
+1,Demolición y perforación,Llave de impacto,2931,2026-09-14,REPARACION DE EQUIPO,REPARACION DE MARTILLO DE IMPACTO CAMBIO DE PIVOTE 29.500 + IVA,1,UNIDAD,29500,29500,Proveedor persona natural 5
+2,Topografía,Nivel topográfico / láser,2474,2026-07-15,"SERVICIO DE LIMPIEZA, CALIBRACION Y CERTIFICACION NIVEL TOPOGRAFICO",,1,UNIDAD,35000,35000,Aguatop SpA
+3,Topografía,Nivel topográfico / láser,3098,2026-09-08,"SERVICIO DE LIMPIEZA, CALIBRACION Y CERTIFICACION NIVEL TOPOGRAFICO",,2,UNIDAD,35000,70000,Aguatop SpA
+4,Fijación y soldadura,Pistola de fijación (Hilti),2706,2026-08-26,REPARACION DE EQUIPO,PISTOLA HILTI,1,UNIDAD,20000,20000,Proveedor persona natural 5

@@ -1,0 +1,41 @@
+n,familia,tipo,equipo,oc,proveedor,documento,fecha,base_fecha,precio_neto,en_control
+1,Limpieza,Aspiradora,Aspiradora 30 L polvo-agua Glanz,1875,Servamp Arriendo de Maquinarias Albert Morales Parada EIRL,Factura Servamp N° 32952,2026-04-02,Fecha de factura,114950,N°1 OPERATIVO (probable)
+2,Agua y bombeo,Atomizador / pulverizador,Atomizador combustión 2T AT140 Power Pro,312,Servamp Arriendo de Maquinarias Albert Morales Parada EIRL,Factura Servamp N° 31191,2025-08-07,Fecha de factura,184500,N°3 OPERATIVO (probable)
+3,Agua y bombeo,Bomba,"Bomba sumergible 3"" DRE0753 Bercatti",620,Servamp Arriendo de Maquinarias Albert Morales Parada EIRL,Factura Servamp N° 31535,2025-09-24,Fecha de factura,226500,N°8 OPERATIVO (probable)
+4,Agua y bombeo,Bomba,"Bomba sumergible 3"" DRE0753 Bercatti",620,Servamp Arriendo de Maquinarias Albert Morales Parada EIRL,Factura Servamp N° 31563,2025-09-26,Fecha de factura,226500,N°8 OPERATIVO (probable)
+5,Agua y bombeo,Bomba,"Bomba sumergible 3"" DRE0753 Bercatti",1026,Servamp Arriendo de Maquinarias Albert Morales Parada EIRL,Factura Servamp N° 32067,2025-12-04,Fecha de factura,226500,N°9 OPERATIVO
+6,Agua y bombeo,Bomba,"Bomba sumergible 3"" DRE0753 Bercatti",1026,Servamp Arriendo de Maquinarias Albert Morales Parada EIRL,Factura Servamp N° 32067,2025-12-04,Fecha de factura,226500,N°9 OPERATIVO
+7,Agua y bombeo,Bomba,"Bomba sumergible 3"" DRE0753 Bercatti",1135,Servamp Arriendo de Maquinarias Albert Morales Parada EIRL,Factura Servamp N° 32198,2025-12-23,Fecha de factura,226500,"N°10 OPERATIVO, N°53 NO OPERATIVO"
+8,Agua y bombeo,Bomba,"Bomba sumergible 3"" DRE0753 Bercatti",1135,Servamp Arriendo de Maquinarias Albert Morales Parada EIRL,Factura Servamp N° 32198,2025-12-23,Fecha de factura,226500,"N°10 OPERATIVO, N°53 NO OPERATIVO"
+9,Agua y bombeo,Bomba,Bomba de agua 1 HP con controlador de presión,1438,Maquepchile Ltda,Factura Maquep N° 91698 (DTE SII),2026-02-06,Fecha de factura,106748,N°6 OPERATIVO
+10,Corte y desbaste,Cepillo eléctrico,Cepillo eléctrico 710 W Kothman CK-82,533,Comercializadora ferreteria y equipos,Factura Ferrequip N° 4856,2025-08-29,Fecha de factura,74991,N°11 OPERATIVO
+11,Demolición y perforación,Demoledor,Demoledor Kothman HK25 1500 W (10 kg),68,Servamp Arriendo de Maquinarias Albert Morales Parada EIRL,Factura Servamp N° 30332,2025-04-22,Fecha de factura,310630,N°55 NO OPERATIVO
+12,Demolición y perforación,Demoledor,Demoledor Kothman HK17 1500 W (5 kg),488,Servamp Arriendo de Maquinarias Albert Morales Parada EIRL,Factura Servamp N° 31283,2025-08-21,Fecha de factura,196500,"N°14 OPERATIVO, N°17 OPERATIVO"
+13,Demolición y perforación,Demoledor,Demoledor Kothman HK25 1500 W (10 kg),488,Servamp Arriendo de Maquinarias Albert Morales Parada EIRL,Factura Servamp N° 31283,2025-08-21,Fecha de factura,310630,"N°14 OPERATIVO, N°17 OPERATIVO"
+14,Corte y desbaste,Esmeril angular,"Esmeril 4½"" Kothman 850 W",149,Servamp Arriendo de Maquinarias Albert Morales Parada EIRL,Factura Servamp N° 30548,2025-05-23,Fecha de factura,36990,N°18 OPERATIVO
+15,Corte y desbaste,Esmeril angular,"Esmeril 4½"" Kothman 850 W",149,Servamp Arriendo de Maquinarias Albert Morales Parada EIRL,Factura Servamp N° 30548,2025-05-23,Fecha de factura,36990,N°18 OPERATIVO
+16,Corte y desbaste,Esmeril angular,"Esmeril angular 9"" (230 mm) Makita GA9050",357,Maquepchile Ltda,Factura Maquep N° 86297,2025-07-28,Fecha de factura,124915,No figura en CONTROL EQUIPOS
+17,Corte y desbaste,Esmeril angular,"Esmeril 4½"" 1000 W Kothman GK-115H",509,Comercializadora ferreteria y equipos,Factura Ferrequip N° 4825,2025-08-25,Fecha de factura,55000,No figura en CONTROL EQUIPOS
+18,Corte y desbaste,Esmeril angular,"Esmeril 4½"" 1000 W Kothman GK-115H",509,Comercializadora ferreteria y equipos,Factura Ferrequip N° 4825,2025-08-25,Fecha de factura,55000,No figura en CONTROL EQUIPOS
+19,Corte y desbaste,Esmeril angular,"Esmeril angular 7""",664,Maquepchile Ltda,Factura Maquep N° 88178 (DTE SII),2025-10-03,Fecha de factura,78615,No figura en CONTROL EQUIPOS
+20,Corte y desbaste,Esmeril angular,"Esmeril angular 7"" (180 mm) Makita GA7050",980,Maquepchile Ltda,Factura Maquep N° 89801,2025-11-26,Fecha de factura,107949,No figura en CONTROL EQUIPOS
+21,Agua y bombeo,Hidrolavadora,Hidrolavadora 220 V Makita HW101,123,Maquepchile Ltda,Factura Maquep N° 84003,2025-05-09,Fecha de factura,83751,Registrada como arriendo en ConstruIT; no figura en CONTROL EQUIPOS
+22,Corte y desbaste,Lijadora,Lijadora orbital 220v,1165,Maquepchile Ltda,Sin factura descargada (precio del InformeEntrada),2026-01-07,Fecha de entrada a bodega,50463,No figura en CONTROL EQUIPOS
+23,Corte y desbaste,Lijadora,Lijadora orbital 220v,1633,Comercializadora ferreteria y equipos,Sin factura descargada (precio del InformeEntrada),2026-03-09,Fecha de entrada a bodega,43600,No figura en CONTROL EQUIPOS
+24,Fijación y soldadura,Máquina de soldar,Soldadora Indura Arctig 200 LCD,121,Maquepchile Ltda,Factura Maquep N° 84005,2025-05-09,Fecha de factura,213490,N°63 NO OPERATIVO (probable)
+25,Topografía,Nivel topográfico y accesorios,Nivel GeoMax ZAL124 + trípode + mira 4 m,64,BMP Renta Ltda.,Factura BMP Renta N° 287063,2025-04-23,Fecha de factura,215000,N°31 OPERATIVO
+26,Topografía,Nivel topográfico y accesorios,Nivel laser,415,Maquepchile Ltda,Sin factura descargada (precio del InformeEntrada),2025-07-31,Fecha de entrada a bodega,92885,No figura en CONTROL EQUIPOS
+27,Topografía,Nivel topográfico y accesorios,Nivel topografico,601,Aguatop SpA,Sin factura descargada (precio del InformeEntrada),2025-08-31,Fecha de entrada a bodega,42000,No figura en CONTROL EQUIPOS
+28,Topografía,Nivel topográfico y accesorios,Mira topografica de aluminio,589,Aguatop SpA,Sin factura descargada (precio del InformeEntrada),2025-09-09,Fecha de entrada a bodega,43000,No figura en CONTROL EQUIPOS
+29,Topografía,Nivel topográfico y accesorios,Mira topografica de aluminio,1459,BMP Renta Ltda.,Sin factura descargada (precio del InformeEntrada),2026-02-13,Fecha de entrada a bodega,35000,No figura en CONTROL EQUIPOS
+30,Topografía,Nivel topográfico y accesorios,Mira topografica de aluminio,1459,BMP Renta Ltda.,Sin factura descargada (precio del InformeEntrada),2026-02-13,Fecha de entrada a bodega,45000,No figura en CONTROL EQUIPOS
+31,Fijación y soldadura,Pistola de calor,Pistola de calor Einhell TH-HA 2000/1,126,Maquepchile Ltda,Factura Maquep N° 84004,2025-05-09,Fecha de factura,26000,N°33 OPERATIVO
+32,Hormigón y compactación,Placa compactadora,"Placa compactadora Emaresa CP-2150K Kohler 5,5 HP",429,Emaresa Ingenieros y Representaciones SA,Factura Emaresa N° 2971977,2025-08-04,Fecha de factura,999000,N°34 OPERATIVO
+33,Hormigón y compactación,Regla vibradora,"Regla alisadora 12 pies (3,6 m) + motor Van Beek",765,VAN BEEK SPA,Factura Van Beek N° 13654,2025-10-29,Fecha de factura,703345,N°37 OPERATIVO
+34,Hormigón y compactación,Sonda vibradora,Sonda vibradora 45 mm x 6 m Dynamic ZNW45,106,Comercializadora ferreteria y equipos,Factura Ferrequip N° 4362,2025-05-09,Fecha de factura,128000,No figura en CONTROL EQUIPOS
+35,Hormigón y compactación,Sonda vibradora,Sonda vibradora 38 mm x 6 m Dynamic ZNW38,106,Comercializadora ferreteria y equipos,Factura Ferrequip N° 4362,2025-05-09,Fecha de factura,113321,No figura en CONTROL EQUIPOS
+36,Demolición y perforación,Taladro / rotomartillo,Taladro percutor Dewalt 13 mm 700 W,215,Comercial urbasan ltda,Factura Urbasan N° 37052,2025-06-10,Fecha de factura,64279,No figura en CONTROL EQUIPOS
+37,Demolición y perforación,Taladro / rotomartillo,Rotomartillo SDS Plus 24 mm Makita HR2470,215,Comercial urbasan ltda,Factura Urbasan N° 37052,2025-06-10,Fecha de factura,182120,No figura en CONTROL EQUIPOS
+38,Demolición y perforación,Taladro / rotomartillo,"Rotomartillo SDS 2,3 kg 20 mm Wesco",1292,Comercial urbasan ltda,Factura Urbasan N° 40972,2026-01-23,Fecha de factura,36014,N°69 NO OPERATIVO (probable)
+39,Hormigón y compactación,Unidad motriz / vibrador,"Unidad motriz 5,5 HP gasolina VR SGY-20",105,Comercial urbasan ltda,Factura Urbasan N° 36384,2025-05-09,Fecha de factura,222720,N°47 OPERATIVO
+40,Hormigón y compactación,Unidad motriz / vibrador,Unidad motriz bencinera KRV50 Krafter,937,Servamp Arriendo de Maquinarias Albert Morales Parada EIRL,Factura Servamp N° 32020,2025-11-26,Fecha de factura,174900,N°76 NO OPERATIVO

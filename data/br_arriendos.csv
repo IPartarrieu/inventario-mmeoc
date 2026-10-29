@@ -1,0 +1,5 @@
+id,familia,tipo,oc,fecha,recurso,detalle,cantidad,unidad,precio_neto,total_neto,proveedor
+1,Topografía,Estación total,3340,2026-09-29,ARRIENDO ESTACION TOTAL CON ACCESORIOS,se considera mes completo valor 200.000,20,DIA,10000,200000,Proveedor persona natural 2
+2,Energía y calefacción,Generador,3136,2026-09-15,ARRIENDO GENERADOR 7 KVA,,13,DIA,5750,74750,Proveedor persona natural 1
+3,Hormigón y compactación,Placa compactadora,2663,2026-08-05,ARRIENDO PLACA COMPACTADORA,revisar minico de dias,1,DIA,14000,14000,ARRIENDOS Y SERVICIOS SUR RENTAL LTDA
+4,Hormigón y compactación,Rodillo compactador,3060,2026-10-06,ARRIENDO RODILLO COMPACTADOR,Según cotización adjunta,28,HORA,25000,700000,RQ INGENIERIA SPA

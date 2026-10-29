@@ -1,0 +1,11 @@
+id,oc,fecha,movimiento,detalle,cantidad,unidad,precio_unitario,precio_neto,proveedor,cuenta,documento
+1,2369,2026-06-17,Costo asociado,"Materiales para habilitar contenedores (ventanas, tableros MDF, piso vinílico y otros)",1,GL,763395,763395,Easy Retail SA,MATERIALES,Observación de la OC: MATERIALES CONTENEDORES; factura Easy N° 38393510 (no revisada)
+2,2897,2026-08-21,Costo asociado,Traslado de contenedor desde Bretti a la obra,1,UN,680000,680000,Contenedores Ruicon SpA,FLETES Y TRANSPORTES,Documento N° 4713 (no revisado)
+3,2920,2026-08-26,Costo asociado,Camión pluma: movimiento interno en obra,1,UN,180000,180000,Gruas y Transportes Ayan SpA,ARRIENDO MAQUINARIA,Documento N° 86 (no revisado); mismo día que los traslados de la OC 2942
+4,2942,2026-08-26,Costo asociado,Traslado de contenedor,2,UN,350000,700000,Transportes La Fé EIRL,FLETES Y TRANSPORTES,Documento N° 1434 (no revisado)
+5,3120,2026-09-08,Costo asociado,Traslado de contenedor de 40 pies desde Bretti,1,UN,680000,680000,Contenedores Ruicon SpA,FLETES Y TRANSPORTES,Documento N° 4733 (no revisado)
+6,3559,2026-10-21,Arriendo,Arriendo contenedor baños,1,MES,230000,230000,Contenedores Ruicon SpA,ARRIENDO EQUIPOS Y HERRAMIENTAS,"Factura Ruicon N° 4835 (verificada): contenedor baños-duchas N° 193, del 21-10 al 20-11-2026"
+7,3559,2026-10-21,Costo asociado,Flete,2,Viaje,250000,500000,Contenedores Ruicon SpA,FLETES Y TRANSPORTES,Factura Ruicon N° 4835 (verificada): traslado de entrega y retiro
+8,3355,2026-10-09,Compra,Fosa séptica 6.500 L,1,UN,1026540,1026540,Ebema SA,HERRAMIENTAS MENORES,Guía Ebema N° 5408935; factura no descargada
+9,3355,2026-10-09,Costo asociado,Kit de instalación de fosa séptica,2,UN,231925,463850,Ebema SA,HERRAMIENTAS MENORES,Guías Ebema N° 5408936 y 5408935; factura no descargada
+10,3355,2026-10-14,Compra,Fosa séptica 2.000 L,1,UN,258065,258065,Ebema SA,HERRAMIENTAS MENORES,Guía Ebema N° 5410297; factura no descargada

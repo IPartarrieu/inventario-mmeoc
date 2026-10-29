@@ -1,0 +1,13 @@
+n,tipo,equipo,cantidad,a_cargo,estado,en_control,oc,proveedor,documento,fecha,precio_unitario,precio_neto,verificacion,observacion
+1,Notebook,"Notebook Acer Aspire AL AMD Ryzen 3 15,6"" 12 GB / 256 GB",1,Trabajador 7,Operativo,Sí,2794,PC FACTORY,Factura PC Factory N° 5.621.567,2026-08-10,386556,386556,Verificada,"Lista $398.479 con 2,992% de descuento. El mismo modelo costó $319.319 en septiembre (OC 3364 de La Toma y OC 3242 de Brisas): $67.238 más (21%)"
+2,Notebook,Notebook Lenovo IdeaPad 82X0,1,Trabajador 8,Operativo,Sí,3163,FALABELLA RETAIL S.A.,Factura Falabella N° 5843508,2026-09-14,352933,352933,"Verificada, precio distinto",$439.990 con un descuento de $20.000: $419.990 con IVA. La OC y el InformeEntrada esperaban $369.740 neto; la factura salió $16.807 más barata
+3,Notebook,"Notebook Acer Aspire Lite AMD Ryzen 3 15,6"" 12 GB / 256 GB",1,Trabajador 9,Operativo,Sí,3364,PC FACTORY,Factura PC Factory N° 5.660.310,2026-09-28,319319,319319,Verificada,
+4,Notebook,Notebook Asus Vivobook Go 15 AMD Ryzen 5 8 GB / 512 GB,1,Trabajador 10,Operativo,Sí,3509,PC FACTORY,Factura PC Factory N° 5.664.405,2026-10-08,369739,369739,"Verificada, con diferencias",El control y el InformeEntrada anotan la factura 5664406; la factura adjunta es la N° 5.664.405
+5,Notebook,ASUS  FX506HF,1,Trabajador 11,Operativo,Sí,,GMW,,,0,0,Sin OC (equipo de GMW),Usado facilitado en oficina central
+6,Impresora multifuncional,Multifuncional Epson EcoTank L4360,1,Trabajador 7,Operativo,Sí,2794,PC FACTORY,Factura PC Factory N° 5.621.567,2026-08-10,210066,210066,Verificada,"Lista $216.546 con 2,992% de descuento"
+7,Impresora multifuncional,Multifuncional láser Brother DCP-L2540DW,1,Trabajador 9,Operativo,Sí,3004,PC FACTORY,Factura PC Factory N° 5.635.445,2026-08-28,184866,184866,Verificada,Mismo precio que en Brisas y Mar Azul; Plaza Sur pagó entre $168.059 y $180.664
+8,Impresora,HP  LASER JET PRO MFP M428,1,,En mantencion,Sí,,GMW,,,0,0,Sin OC (equipo de GMW),
+9,Impresora,HP 615 SMART TANK,1,,En mantencion,Sí,,GMW,,,0,0,Sin OC (equipo de GMW),
+10,Impresora,BROTHER BTD100,1,,Operativo,Sí,,GMW,,,0,0,Sin OC (equipo de GMW),Proviene de obra tucapel
+11,Pantalla,ASUS TEK MODEL VA24E,1,,Operativo,Sí,,GMW,,,0,0,Sin OC (equipo de GMW),
+12,Televisor,SAMSUNG 50,1,Trabajador 12,Operativo,Sí,,GMW,,,0,0,Sin OC (equipo de GMW),

@@ -1,0 +1,12 @@
+n,tipo,modelo,estado,registro,observacion
+1,Sala de reuniones,20 pies,Operativo,Sin registro en ConstruIT,Contenedor de GMW: sin compra ni arriendo en el InformeEntrada
+2,Baño ducha hombres,20 pies,Operativo,Sin registro en ConstruIT,Contenedor de GMW: sin compra ni arriendo en el InformeEntrada
+3,Oficina ADO,20 pies,Operativo,Sin registro en ConstruIT,De GMW o arrendado: el kardex no lo distingue. Podría ser uno de los 3 contenedores oficina arrendados a Ruicon (OC 2932)
+4,Oficina bodega,20 pies,Operativo,Sin registro en ConstruIT,De GMW o arrendado: el kardex no lo distingue. Podría ser uno de los 3 contenedores oficina arrendados a Ruicon (OC 2932)
+5,Oficina FTO,20 pies,Operativo,Sin registro en ConstruIT,De GMW o arrendado: el kardex no lo distingue. Podría ser uno de los 3 contenedores oficina arrendados a Ruicon (OC 2932)
+6,Vestidores hombres,20 pies,Operativo,"Compra OC 3591 (guía Ruicon N° 1412, sin factura)","$3.400.000 neto según el InformeEntrada, más $150.000 de traslado; la OC dice ""planta libre para vestidores"""
+7,Casilleros mujeres/hombres,40 pies,Operativo,Sin registro en ConstruIT,Contenedor de GMW: sin compra ni arriendo en el InformeEntrada
+8,Oficina administrativo-prevención-supervisores,40 pies,Operativo,Sin registro en ConstruIT,Contenedor de GMW: sin compra ni arriendo en el InformeEntrada
+9,Oficina jefe de terreno-oficina técnica-calidad,40 pies,Operativo,Sin registro en ConstruIT,Contenedor de GMW: sin compra ni arriendo en el InformeEntrada
+10,Pañol bodega,40 pies,Operativo,Sin registro en ConstruIT,Contenedor de GMW: sin compra ni arriendo en el InformeEntrada
+11,Fosa séptica,3250 L,Operativo,Compra OC 3152 (Factura N.º 94060),"Fosa séptica de GMW: Se compró para la obra, pero se rechazó por Seremi. Puede servir para otra obra a futuro"

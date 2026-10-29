@@ -1,0 +1,2337 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inventario MMEOC - Octubre</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Constructora GMW: maquinaria menor, equipos de oficina y contenedores por obra, verificados con sus facturas.">
+<style>
+/* Variables de diseño del tablero */
+:root {
+  color-scheme: light;
+  --font-base-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-base-serif: Georgia, "Times New Roman", serif;
+  --color-bg: #fcfcfb; --color-panel: #f3f2ee; --color-fg: #1f1e1c; --color-fg-muted: #6b6a64;
+  --color-border-line: #e1e0d9; --color-bad: #d03b3b;
+  --cds-text-secondary: #6b6a64; --cds-border: #e1e0d9;
+  --cds-surface-popover: #ffffff; --cds-shadow-popover: 0 4px 16px rgba(0, 0, 0, .12);
+  --cds-chart-muted: #898781; --cds-chart-grid: #e1e0d9; --cds-chart-axis: #c3c2b7;
+  --cds-chart-status-good: #0ca30c; --cds-chart-status-critical: #d03b3b;
+  --cds-font-size-caption: 12px; --cds-font-size-body: 14px; --cds-font-size-heading: 20px; --cds-font-size-title: 30px;
+  --cds-font-weight-medium: 600;
+  --cds-gap-xs: 4px; --cds-gap-sm: 8px; --cds-gap-md: 16px; --cds-gap-lg: 28px;
+  --cds-pad-xs: 4px; --cds-pad-sm: 8px; --cds-pad-md: 12px; --cds-pad-lg: 20px;
+  --cds-radius: 8px; --cds-dur-slow: 400ms;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --color-bg: #1a1a19; --color-panel: #262624; --color-fg: #f0efec; --color-fg-muted: #a8a79f;
+    --color-border-line: #3a3a37; --cds-text-secondary: #a8a79f; --cds-border: #3a3a37;
+    --cds-surface-popover: #2c2c2a; --cds-shadow-popover: 0 4px 16px rgba(0, 0, 0, .5);
+    --cds-chart-grid: #2c2c2a; --cds-chart-axis: #4a4a46;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-bg: #1a1a19; --color-panel: #262624; --color-fg: #f0efec; --color-fg-muted: #a8a79f;
+  --color-border-line: #3a3a37; --cds-text-secondary: #a8a79f; --cds-border: #3a3a37;
+  --cds-surface-popover: #2c2c2a; --cds-shadow-popover: 0 4px 16px rgba(0, 0, 0, .5);
+  --cds-chart-grid: #2c2c2a; --cds-chart-axis: #4a4a46;
+}
+html { background: var(--color-bg); }
+body { margin: 0; padding: 24px 16px 48px; background: var(--color-bg); color: var(--color-fg); font-family: var(--font-base-sans); }
+.ps { max-width: 1200px; margin: 0 auto; }
+.dash-skeleton { opacity: .45; }
+.ps-card, .ps-tile { background: var(--color-panel); border-radius: var(--cds-radius); }
+.ps-card { padding: var(--cds-pad-lg); }
+.ps-tile { padding: var(--cds-pad-md); }
+.sitio-pie { max-width: 1200px; margin: 32px auto 0; color: var(--color-fg-muted); font-size: 12px; }
+[hidden] { display: none !important; }
+
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script>window.DASH_DATASETS = {"equipos": "data/equipos_plaza_sur.csv", "arriendos": "data/arriendos_plaza_sur.csv", "mantenciones": "data/mantenciones_plaza_sur.csv", "mar_azul": "data/mar_azul_inventario.csv", "br_arriendos": "data/br_arriendos.csv", "br_contenedores": "data/br_contenedores.csv", "br_contenedores_mov": "data/br_contenedores_mov.csv", "br_control": "data/br_control.csv", "br_cruce": "data/br_cruce.csv", "br_equipos": "data/br_equipos.csv", "br_mantenciones": "data/br_mantenciones.csv", "br_oficina": "data/br_oficina.csv", "lt_arriendos": "data/lt_arriendos.csv", "lt_contenedores": "data/lt_contenedores.csv", "lt_contenedores_mov": "data/lt_contenedores_mov.csv", "lt_control": "data/lt_control.csv", "lt_cruce": "data/lt_cruce.csv", "lt_equipos": "data/lt_equipos.csv", "lt_mantenciones": "data/lt_mantenciones.csv", "lt_oficina": "data/lt_oficina.csv", "ma_arriendos": "data/ma_arriendos.csv", "ma_contenedores": "data/ma_contenedores.csv", "ma_contenedores_costos": "data/ma_contenedores_costos.csv", "ma_equipos": "data/ma_equipos.csv", "ma_mantenciones": "data/ma_mantenciones.csv", "ma_oficina": "data/ma_oficina.csv", "ps_contenedores": "data/ps_contenedores.csv", "ps_contenedores_mov": "data/ps_contenedores_mov.csv", "ps_control": "data/ps_control.csv", "ps_cruce": "data/ps_cruce.csv", "ps_oficina": "data/ps_oficina.csv"};</script>
+<script>
+// Runtime mínimo del tablero: carga los CSV y calcula los resúmenes.
+// API usada por la página: dash.calc, dash.data, dash.onData, dash.colors, dash.setLink.
+(() => {
+  const DATASETS = window.DASH_DATASETS || {};   // id → ruta del CSV
+  const calcs = {}, estado = {}, cache = {}, oyentes = [];
+  const oscuro = () => document.documentElement.dataset.theme === 'dark' ||
+    (document.documentElement.dataset.theme !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
+  const CLARO = ['#2a78d6', '#eb6834', '#1baf7a', '#eda100', '#e87ba4', '#008300', '#6250d6', '#e34948'];
+  const OSCURO = ['#3987e5', '#d95926', '#199e70', '#c98500', '#d55181', '#008300', '#9085e9', '#e66767'];
+
+  const avisar = () => { for (const f of oyentes) { try { f(); } catch (e) { console.error(e); } } };
+
+  window.dash = {
+    colors: [...(oscuro() ? OSCURO : CLARO)],
+    calc(id, def) { calcs[id] = def; },
+    onData(f) { oyentes.push(f); },
+    setLink(id) { history.replaceState(null, '', `#${id}`); },
+    data(id) {
+      if (id in DATASETS) return estado[id] || { status: 'loading', data: [] };
+      const def = calcs[id];
+      if (!def) return { status: 'error', data: [] };
+      if (cache[id]) return cache[id];
+      const ins = def.inputs.map(i => window.dash.data(i));
+      if (ins.some(x => x.status === 'error')) return { status: 'error', data: [] };
+      if (ins.some(x => x.status !== 'ok')) return { status: 'loading', data: [] };
+      try { cache[id] = { status: 'ok', data: def.fn(...ins.map(x => x.data)) }; }
+      catch (e) { console.error(id, e); cache[id] = { status: 'error', data: [] }; }
+      return cache[id];
+    },
+  };
+
+  // carga todos los CSV y avisa a la página cuando están listos (los calcs se calculan al pedirlos)
+  window.addEventListener('DOMContentLoaded', () => {
+    Promise.all(Object.entries(DATASETS).map(([id, url]) =>
+      d3.csv(url).then(rows => { estado[id] = { status: 'ok', data: rows }; },
+        () => { estado[id] = { status: 'error', data: [] }; })))
+      .then(avisar);
+  });
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+    window.dash.colors.splice(0, 8, ...(oscuro() ? OSCURO : CLARO)); avisar();
+  });
+})();
+
+</script>
+</head>
+<body>
+<style>
+  .ps { display: grid; gap: var(--cds-gap-lg); font-family: var(--font-base-sans); }
+  .ps-head { display: grid; gap: var(--cds-gap-xs); }
+  .ps-head h1 { margin: 0; font-family: var(--font-base-serif); font-weight: 400; font-size: var(--cds-font-size-title); text-wrap: balance; }
+  .ps-takeaway { margin: 0; color: var(--color-fg-muted); font-size: var(--cds-font-size-body); max-width: 70ch; }
+  .ps-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--cds-gap-md); }
+  .ps-toggle { display: inline-flex; border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); overflow: hidden; }
+  .ps-toggle button { font: inherit; font-size: var(--cds-font-size-caption); padding: var(--cds-pad-xs) var(--cds-pad-md); border: 0; background: transparent; color: var(--color-fg-muted); cursor: pointer; }
+  .ps-toggle button + button { border-left: 1px solid var(--color-border-line); }
+  .ps-toggle button[aria-pressed="true"] { background: var(--color-panel); color: var(--color-fg); font-weight: var(--cds-font-weight-medium); }
+  .ps-toggle button:focus-visible, .ps-hit:focus-visible { outline: 2px solid var(--color-fg); outline-offset: -2px; }
+  .ps-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); gap: var(--cds-gap-md); }
+  .ps-tile, .ps-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); min-width: 0; }
+  .ps-tile { display: grid; gap: var(--cds-gap-xs); align-content: start; }
+  .ps-label { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .ps-big { font-family: var(--font-base-serif); font-weight: 400; font-size: var(--cds-font-size-title); font-variant-numeric: tabular-nums; }
+  .ps-card h2 { margin: 0; font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); }
+  .ps-card h3 { margin: var(--cds-gap-lg) 0 0; font-size: var(--cds-font-size-body); font-weight: var(--cds-font-weight-medium); }
+  .ps-note { margin: var(--cds-gap-xs) 0 var(--cds-gap-md); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .ps-legend { display: flex; flex-wrap: wrap; gap: var(--cds-gap-xs) var(--cds-gap-md); margin: 0 0 var(--cds-gap-md); padding: 0; list-style: none; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .ps-legend li { display: inline-flex; align-items: center; gap: var(--cds-gap-xs); }
+  .ps-sw { width: .75rem; height: .75rem; border-radius: 3px; flex: none; }
+  .ps-chart { position: relative; min-height: 320px; }
+  .ps-chart svg { display: block; }
+  .ps-hbar { position: relative; min-height: 120px; }
+  .ps-hit { cursor: pointer; }
+  .ps-tip { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); border-radius: var(--cds-radius); box-shadow: var(--cds-shadow-popover); padding: var(--cds-pad-xs) var(--cds-pad-sm); font-size: var(--cds-font-size-caption); max-width: 18rem; z-index: 2; }
+  .ps-tip .t-sub { color: var(--cds-text-secondary); }
+  .ps-tip .t-val { font-weight: var(--cds-font-weight-medium); font-variant-numeric: tabular-nums; }
+  .ps-tip .t-row { display: flex; align-items: center; gap: var(--cds-gap-xs); font-variant-numeric: tabular-nums; }
+  .ps-tip .t-row span:last-child { margin-left: auto; padding-left: var(--cds-gap-md); }
+  .ps-sum { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr)); gap: var(--cds-gap-md); margin-top: var(--cds-gap-md); }
+  .ps-sum > div { display: grid; gap: 2px; padding: var(--cds-pad-sm) var(--cds-pad-md); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); }
+  .ps-sum .v { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); font-variant-numeric: tabular-nums; }
+  .ps-pill { display: inline-flex; align-items: center; gap: var(--cds-gap-xs); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .ps-table-wrap { overflow-x: auto; margin-top: var(--cds-gap-sm); }
+  .ps-table-wrap.tall { max-height: 22rem; overflow: auto; }
+  .ps-table { width: 100%; border-collapse: collapse; font-size: var(--cds-font-size-caption); font-variant-numeric: tabular-nums; }
+  .ps-table th, .ps-table td { text-align: left; padding: var(--cds-pad-xs) var(--cds-pad-sm); border-bottom: 1px solid var(--color-border-line); vertical-align: top; }
+  .ps-table th { color: var(--color-fg-muted); font-weight: var(--cds-font-weight-medium); position: sticky; top: 0; background: var(--color-panel); }
+  .ps-table .num { text-align: right; white-space: nowrap; }
+  .ps-table td.mut { color: var(--color-fg-muted); }
+  [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
+  [data-dash-source-state=empty] { color: transparent; }
+  .ps-fail { display: flex; align-items: center; justify-content: center; gap: var(--cds-gap-xs); min-height: 200px; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .ps-fail::before { content: ""; width: .375rem; height: .375rem; border-radius: 50%; background: var(--color-bad); }
+  .ps-tabs { display: flex; gap: var(--cds-gap-md); border-bottom: 1px solid var(--color-border-line); }
+  .ps-tabs button { font: inherit; font-size: var(--cds-font-size-body); background: transparent; border: 0; border-bottom: 2px solid transparent; padding: var(--cds-pad-sm) var(--cds-pad-xs); margin-bottom: -1px; color: var(--color-fg-muted); cursor: pointer; }
+  .ps-tabs button[aria-selected="true"] { color: var(--color-fg); border-bottom-color: var(--color-fg); font-weight: var(--cds-font-weight-medium); }
+  .ps-tabs button:focus-visible, .ps-chip:focus-visible { outline: 2px solid var(--color-fg); outline-offset: 2px; }
+  .ps-panel { display: grid; gap: var(--cds-gap-lg); }
+  .ps-chips { display: flex; flex-wrap: wrap; gap: var(--cds-gap-xs); margin-top: var(--cds-gap-sm); }
+  .ps-chip { font: inherit; font-size: var(--cds-font-size-caption); border: 1px solid var(--color-border-line); border-radius: 999px; padding: 2px var(--cds-pad-sm); background: transparent; color: var(--color-fg-muted); cursor: pointer; display: inline-flex; align-items: center; gap: var(--cds-gap-xs); }
+  .ps-chip[aria-pressed="true"] { color: var(--color-fg); border-color: var(--color-fg); }
+  .ps-sub { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); font-variant-numeric: tabular-nums; }
+  .ma-pies { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--cds-gap-md); margin-top: var(--cds-gap-md); }
+  .ma-pie h3 { margin: 0 0 var(--cds-gap-xs, 4px); font-size: var(--cds-font-size-body); font-weight: var(--cds-font-weight-medium); }
+  .ma-pie-box { position: relative; max-width: 220px; margin: 0 auto; }
+  .ma-pie-leg { list-style: none; margin: var(--cds-gap-sm, 8px) 0 0; padding: 0; font-size: var(--cds-font-size-caption); }
+  .ma-pie-leg li { display: flex; align-items: center; gap: 6px; padding: 2px 0; }
+  .ma-pie-leg li .v { margin-left: auto; color: var(--color-fg-muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .ma-pie-leg li[role="button"] { cursor: pointer; text-decoration: underline dotted; }
+  .ma-pie-wide { display: grid; grid-template-columns: minmax(180px, 260px) 1fr; gap: var(--cds-gap-md); align-items: center; }
+  @media (max-width: 560px) { .ma-pie-wide { grid-template-columns: 1fr; } }
+  .ps-subtabs { margin: var(--cds-gap-sm, 8px) 0 var(--cds-gap-md); }
+  .ps-subtabs button { font-size: var(--cds-font-size-caption); }
+  .ps-section-title { margin: var(--cds-gap-md) 0 0; font-family: var(--font-base-serif); font-weight: 400; font-size: var(--cds-font-size-heading); }
+  .ps > *, .ps-panel > *, .ps-panel > [role=tabpanel] > * { min-width: 0; }
+  .rg-grid { display: grid; grid-template-columns: minmax(220px, 300px) 1fr; gap: var(--cds-gap-lg); align-items: start; }
+  @media (max-width: 720px) { .rg-grid { grid-template-columns: 1fr; } }
+  #rg-bar svg g.rg-obra { cursor: pointer; }
+</style>
+
+<div class="ps">
+  <header class="ps-head">
+    <h1 id="titulo">Inventario MMEOC - Octubre</h1>
+    <p class="ps-takeaway">Maquinaria menor, equipos de oficina y contenedores de cada obra de Constructora GMW: compras, arriendos y estado según el control de bodega.</p>
+  </header>
+
+  <h2 class="ps-section-title">Resumen general</h2>
+  <p class="ps-takeaway dash-skeleton" id="rg-resumen" data-source="resumen_general">—</p>
+  <section class="ps-tiles" aria-label="Resumen general" data-source="resumen_general">
+      <div class="ps-tile"><span class="ps-label">Dispositivos en obra</span><span class="ps-big dash-skeleton" id="rg-v-total">—</span><span class="ps-sub dash-skeleton" id="rg-v-total-sub">Maquinaria menor y equipos de oficina</span></div>
+      <div class="ps-tile"><span class="ps-label">Operativos</span><span class="ps-big dash-skeleton" id="rg-v-op">—</span><span class="ps-sub dash-skeleton" id="rg-v-op-sub">—</span></div>
+      <div class="ps-tile"><span class="ps-label">No operativos</span><span class="ps-big dash-skeleton" id="rg-v-noop">—</span><span class="ps-sub dash-skeleton" id="rg-v-noop-sub">—</span></div>
+      <div class="ps-tile"><span class="ps-label" id="rg-lbl-valor">Valor de los dispositivos, sin IVA</span><span class="ps-big dash-skeleton" id="rg-v-valor">—</span><span class="ps-sub dash-skeleton" id="rg-v-valor-sub">Según factura; sin arriendos</span></div>
+  </section>
+  <section class="ps-card">
+    <div class="rg-grid">
+      <div class="ma-pie"><h3>Operativos y no operativos (unidades)</h3><div class="ma-pie-box dash-skeleton" id="rg-pie" data-source="resumen_general"></div><ul class="ma-pie-leg" id="rg-pie-leg"></ul></div>
+      <div><h3 id="rg-bar-tit">Valor por obra, sin IVA</h3><p class="ps-note" id="rg-bar-nota"></p><div id="rg-bar" class="dash-skeleton" data-source="resumen_general"></div></div>
+    </div>
+  </section>
+
+  <h2 class="ps-section-title">Detalle por obra</h2>
+  <div class="ps-tabs" role="tablist" aria-label="Obra">
+    <button type="button" role="tab" id="tab-plaza-sur" aria-controls="plaza-sur" aria-selected="true">Plaza Sur</button>
+    <button type="button" role="tab" id="tab-mar-azul" aria-controls="mar-azul" aria-selected="false" tabindex="-1">Mar Azul</button>
+    <button type="button" role="tab" id="tab-brisas" aria-controls="brisas" aria-selected="false" tabindex="-1">Brisas</button>
+    <button type="button" role="tab" id="tab-la-toma" aria-controls="la-toma" aria-selected="false" tabindex="-1">La Toma</button>
+  </div>
+
+  <div class="ps-bar">
+    <span class="ps-label" id="lbl-montos">Montos según la factura o guía de despacho de cada equipo</span>
+    <div class="ps-toggle" role="group" aria-label="Mostrar montos">
+      <button type="button" id="btn-neto" aria-pressed="true">Sin IVA</button>
+      <button type="button" id="btn-iva" aria-pressed="false">Con IVA (19%)</button>
+    </div>
+  </div>
+
+  <div class="ps-panel" id="plaza-sur" role="tabpanel" aria-labelledby="tab-plaza-sur">
+    <div class="ps-tabs ps-subtabs" role="tablist" aria-label="Registro de Plaza Sur">
+      <button type="button" role="tab" id="ps-subtab-maquinaria" aria-controls="ps-sub-maquinaria" aria-selected="true" tabindex="0">Maquinaria menor</button>
+      <button type="button" role="tab" id="ps-subtab-oficina" aria-controls="ps-oficina" aria-selected="false" tabindex="-1">Equipos de oficina</button>
+      <button type="button" role="tab" id="ps-subtab-contenedores" aria-controls="ps-contenedores" aria-selected="false" tabindex="-1">Contenedores</button>
+    </div>
+    <div id="ps-sub-maquinaria" role="tabpanel" aria-labelledby="ps-subtab-maquinaria">
+    <p class="ps-takeaway dash-skeleton" id="ps-ctl-resumen" data-source="ps_ctl">—</p>
+    <section class="ps-tiles" aria-label="Estado de los equipos" data-source="ps_ctl">
+      <div class="ps-tile"><span class="ps-label">Equipos en obra</span><span class="ps-big dash-skeleton" id="ps-ctl-v-total">—</span><span class="ps-sub dash-skeleton" id="ps-ctl-v-total-sub">Según el control de bodega al 27-10-2026</span></div>
+      <div class="ps-tile"><span class="ps-label">Operativos</span><span class="ps-big dash-skeleton" id="ps-ctl-v-op">—</span><span class="ps-sub dash-skeleton" id="ps-ctl-v-op-sub">—</span></div>
+      <div class="ps-tile"><span class="ps-label">No operativos</span><span class="ps-big dash-skeleton" id="ps-ctl-v-noop">—</span><span class="ps-sub dash-skeleton" id="ps-ctl-v-noop-sub">—</span></div>
+      <div class="ps-tile"><span class="ps-label" id="ps-ctl-lbl-valor">Valor de los equipos en obra, sin IVA</span><span class="ps-big dash-skeleton" id="ps-ctl-v-valor">—</span><span class="ps-sub dash-skeleton" id="ps-ctl-v-valor-sub">Valor según factura; los equipos de GMW sin OC no tienen precio; sin arriendos</span></div>
+    </section>
+    <section class="ps-card" id="ps-ctl-tortas">
+      <h2>Resumen de los equipos en obra</h2>
+      <p class="ps-note">Valor según factura; los equipos de GMW sin OC no tienen precio; sin arriendos.</p>
+      <div class="ma-pies">
+        <div class="ma-pie"><h3 id="ps-ctl-pie-valor-tit">Valor de los equipos, sin IVA</h3><div class="ma-pie-box dash-skeleton" id="ps-ctl-pie-valor" data-source="ps_ctl"></div><ul class="ma-pie-leg" id="ps-ctl-pie-valor-leg"></ul></div>
+        <div class="ma-pie"><h3 id="ps-ctl-pie-proc-tit">Procedencia (unidades)</h3><div class="ma-pie-box dash-skeleton" id="ps-ctl-pie-proc" data-source="ps_ctl"></div><ul class="ma-pie-leg" id="ps-ctl-pie-proc-leg"></ul></div>
+        <div class="ma-pie"><h3 id="ps-ctl-pie-ver-tit">Verificación con factura (líneas)</h3><div class="ma-pie-box dash-skeleton" id="ps-ctl-pie-ver" data-source="ps_ctl"></div><ul class="ma-pie-leg" id="ps-ctl-pie-ver-leg"></ul></div>
+      </div>
+      <p class="ps-note">Haz clic en una parte de las tortas para ver solo esos equipos en la tabla del control.</p>
+    </section>
+    <h2 class="ps-section-title">Compras de equipos</h2>
+  <p class="ps-takeaway dash-skeleton" id="ps-resumen" data-source="totales">—</p>
+  <section class="ps-tiles" aria-label="Totales de compras">
+    <div class="ps-tile">
+      <span class="ps-label" id="ps-lbl-total">Gasto total en compras, sin IVA</span>
+      <span class="ps-big dash-skeleton" id="ps-v-total" data-source="totales" data-field="neto">—</span>
+    </div>
+    <div class="ps-tile">
+      <span class="ps-label">Equipos comprados</span>
+      <span class="ps-big dash-skeleton" id="ps-v-equipos" data-source="totales" data-field="equipos">—</span>
+    </div>
+    <div class="ps-tile">
+      <span class="ps-label" id="ps-lbl-prom">Promedio por mes con compras, sin IVA</span>
+      <span class="ps-big dash-skeleton" id="ps-v-prom" data-source="totales" data-field="promedio_neto">—</span>
+    </div>
+  </section>
+
+  <section class="ps-card" id="ps-grafico-mensual">
+    <h2>Gasto en compra de equipos por mes</h2>
+    <p class="ps-note" id="ps-graf-nota">Cada color agrupa equipos de características similares. Haz clic en un mes para ver qué se compró.</p>
+    <ul class="ps-legend" id="ps-leyenda" data-source="mensual_familia"></ul>
+    <div class="ps-chart dash-skeleton" id="ps-chart" data-source="mensual_familia"></div>
+  </section>
+
+  <section class="ps-card" id="ps-mes">
+    <div class="ps-bar">
+      <h2 id="ps-mes-titulo">Equipos comprados en el mes</h2>
+      <div class="ps-toggle" role="group" aria-label="Ordenar equipos">
+        <button type="button" id="ps-ord-precio" aria-pressed="true">Por precio</button>
+        <button type="button" id="ps-ord-fecha" aria-pressed="false">Por fecha de compra</button>
+      </div>
+    </div>
+    <p class="ps-note" id="ps-mes-nota"></p>
+    <div class="ps-hbar dash-skeleton" id="ps-hbar" data-source="compras"></div>
+  </section>
+
+  <section class="ps-card" id="ps-historial">
+    <h2 id="ps-hist-titulo">Historial del equipo</h2>
+    <p class="ps-note" id="ps-hist-nota"></p>
+    <div class="ps-sum">
+      <div><span class="ps-label" id="ps-s-compra-lbl">Compras</span><span class="v" id="ps-s-compra" data-source="por_tipo">—</span></div>
+      <div id="ps-s-arr-box"><span class="ps-label" id="ps-s-arr-lbl">Arriendos</span><span class="v" id="ps-s-arr" data-source="por_tipo">—</span></div>
+      <div id="ps-s-man-box"><span class="ps-label" id="ps-s-man-lbl">Mantención y reparación</span><span class="v" id="ps-s-man" data-source="por_tipo">—</span></div>
+    </div>
+
+    <h3>Compras</h3>
+    <div class="ps-table-wrap">
+      <table class="ps-table" data-source="compras" data-row-key="n">
+        <thead><tr>
+          <th data-field="fecha">Fecha</th>
+          <th data-field="equipo">Equipo</th>
+          <th data-field="proveedor">Proveedor</th>
+          <th data-field="oc">OC</th>
+          <th data-field="documento">Documento</th>
+          <th class="num" id="ps-th-precio" data-field="precio_neto">Precio sin IVA</th>
+        </tr></thead>
+        <tbody id="ps-tb-compras"></tbody>
+      </table>
+    </div>
+
+    <div id="ps-bloque-arr">
+      <h3>Arriendos</h3>
+      <div class="ps-table-wrap tall">
+        <table class="ps-table" data-source="arr" data-row-key="id">
+          <thead><tr>
+            <th data-field="fecha">Fecha entrada</th>
+            <th data-field="proveedor">Proveedor</th>
+            <th data-field="oc">OC</th>
+            <th class="num" data-field="cantidad">Cantidad</th>
+            <th class="num" id="ps-th-arr-precio" data-field="precio_neto">Precio unitario sin IVA</th>
+            <th class="num" id="ps-th-arr-total" data-field="total_neto">Total sin IVA</th>
+            <th data-field="detalle">Detalle</th>
+          </tr></thead>
+          <tbody id="ps-tb-arr"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="ps-bloque-man">
+      <h3>Mantención y reparación</h3>
+      <div class="ps-table-wrap tall">
+        <table class="ps-table" data-source="mant" data-row-key="id">
+          <thead><tr>
+            <th data-field="fecha">Fecha entrada</th>
+            <th data-field="proveedor">Proveedor</th>
+            <th data-field="oc">OC</th>
+            <th class="num" id="ps-th-man-total" data-field="total_neto">Total sin IVA</th>
+            <th data-field="detalle">Detalle</th>
+          </tr></thead>
+          <tbody id="ps-tb-man"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <h2 class="ps-section-title" id="ps-ctl">Control de bodega del 27-10-2026</h2>
+  <section class="ps-card" id="ps-ctl-detalle">
+    <h2>Equipos del control con su factura</h2>
+    <p class="ps-note" id="ps-ctl-filtro"></p>
+    <div class="ps-table-wrap tall"><table class="ps-table" data-source="ps_ctl" data-row-key="n"><thead><tr><th class="num" data-field="n">N°</th><th data-field="categoria">Categoría</th><th data-field="tipo">Equipo (control)</th><th class="num" data-field="cantidad">Cant.</th><th data-field="estado">Estado</th><th data-field="procedencia">Procedencia</th><th data-field="oc">OC</th><th data-field="documento">Documento</th><th data-field="equipo">Equipo según factura</th><th class="num" id="ps-ctl-th-unit" data-field="precio_unitario">Precio unitario sin IVA</th><th class="num" id="ps-ctl-th-total" data-field="precio_neto">Total sin IVA</th><th data-field="verificacion">Verificación</th><th data-field="observacion">Observación</th></tr></thead><tbody id="ps-ctl-tb"></tbody></table></div>
+  </section>
+    <section class="ps-card" id="ps-cr-maq" data-ambito="Maquinaria menor">
+      <h2>Control de bodega vs InformeEntrada</h2>
+      <p class="ps-note dash-skeleton" id="ps-cr-maq-resumen" data-source="ps_cr">—</p>
+      <div class="ps-tiles" data-source="ps_cr">
+      <div class="ps-tile"><span class="ps-label">En ambos (líneas · unidades)</span><span class="ps-big dash-skeleton" id="ps-cr-maq-v-ambos">—</span></div>
+      <div class="ps-tile"><span class="ps-label">Solo en el control</span><span class="ps-big dash-skeleton" id="ps-cr-maq-v-ctl">—</span></div>
+      <div class="ps-tile"><span class="ps-label">Solo en el InformeEntrada</span><span class="ps-big dash-skeleton" id="ps-cr-maq-v-inf">—</span></div>
+      <div class="ps-tile"><span class="ps-label">OC del control que coinciden</span><span class="ps-big dash-skeleton" id="ps-cr-maq-v-oc">—</span></div>
+      </div>
+      <div class="ma-pies">
+        <div class="ma-pie"><h3>Situación (unidades)</h3><div class="ma-pie-box dash-skeleton" id="ps-cr-maq-pie" data-source="ps_cr"></div><ul class="ma-pie-leg" id="ps-cr-maq-pie-leg"></ul></div>
+      </div>
+      <p class="ps-note" id="ps-cr-maq-filtro"></p>
+      <div class="ps-table-wrap tall"><table class="ps-table" data-source="ps_cr" data-row-key="k"><thead><tr><th class="num" data-field="n_control">N° control</th><th data-field="equipo">Equipo</th><th class="num" data-field="cant_control">Cant. control</th><th data-field="oc_control">OC control</th><th data-field="oc_informe">OC informe</th><th class="num" data-field="cant_informe">Cant. informe</th><th data-field="fecha_informe">Entrada a bodega</th><th data-field="situacion">Situación</th><th data-field="observacion">Observación</th></tr></thead><tbody id="ps-cr-maq-tb"></tbody></table></div>
+    </section>
+  </div>
+
+  <div id="ps-oficina" role="tabpanel" aria-labelledby="ps-subtab-oficina" hidden>
+    <p class="ps-takeaway dash-skeleton" id="ps-of-resumen" data-source="ps_of_totales">—</p>
+    <section class="ps-tiles" aria-label="Equipos de oficina" data-source="ps_of_totales">
+      <div class="ps-tile"><span class="ps-label">Equipos en el control</span><span class="ps-big dash-skeleton" id="ps-of-v-equipos">—</span><span class="ps-sub">Pestaña EQUIPOS OF, 27-10-2026</span></div>
+      <div class="ps-tile"><span class="ps-label" id="ps-of-lbl-total">Valor, sin IVA</span><span class="ps-big dash-skeleton" id="ps-of-v-total">—</span><span class="ps-sub">Según factura</span></div>
+      <div class="ps-tile"><span class="ps-label">Factura coincide con el control</span><span class="ps-big dash-skeleton" id="ps-of-v-ver">—</span></div>
+      <div class="ps-tile"><span class="ps-label">Equipos de GMW sin OC</span><span class="ps-big dash-skeleton" id="ps-of-v-cuarto">—</span></div>
+    </section>
+    <section class="ps-card">
+      <h2>Verificación y valor</h2>
+      <div class="ma-pies">
+        <div class="ma-pie"><h3>Verificación con factura</h3><div class="ma-pie-box dash-skeleton" id="ps-of-pie-ver" data-source="ps_of_equipos"></div><ul class="ma-pie-leg" id="ps-of-pie-ver-leg"></ul></div>
+        <div class="ma-pie"><h3 id="ps-of-pie-tipo-tit">Valor por tipo de equipo, sin IVA</h3><div class="ma-pie-box dash-skeleton" id="ps-of-pie-tipo" data-source="ps_of_equipos"></div><ul class="ma-pie-leg" id="ps-of-pie-tipo-leg"></ul></div>
+      </div>
+    </section>
+    <section class="ps-card" id="ps-of-detalle">
+      <p class="ps-note" id="ps-of-filtro"></p>
+      <div class="ps-bar">
+        <h2>Equipos de oficina</h2>
+        <div class="ps-toggle" role="group" aria-label="Ordenar equipos de oficina">
+          <button type="button" id="ps-of-ord-precio" aria-pressed="true">Por precio</button>
+          <button type="button" id="ps-of-ord-fecha" aria-pressed="false">Por fecha de compra</button>
+        </div>
+      </div>
+      <p class="ps-note" id="ps-of-hbar-nota"></p>
+      <div class="ps-hbar dash-skeleton" id="ps-of-hbar" data-source="ps_of_equipos"></div>
+      <h3>Detalle por equipo</h3>
+      <p class="ps-note">Cruce del control de bodega con el InformeEntrada de ConstruIT y las facturas de FACTURAS - PLAZASUR.</p>
+      <div class="ps-table-wrap"><table class="ps-table" data-source="ps_of_equipos" data-row-key="n"><thead><tr><th class="num" data-field="n">N°</th><th data-field="tipo">Tipo</th><th data-field="equipo">Equipo</th><th class="num" data-field="cantidad">Cant.</th><th data-field="a_cargo">A cargo</th><th data-field="estado">Estado</th><th data-field="oc">OC</th><th data-field="proveedor">Proveedor</th><th data-field="documento">Documento</th><th data-field="fecha">Fecha</th><th class="num" id="ps-of-th-unit" data-field="precio_unitario">Precio unitario sin IVA</th><th class="num" id="ps-of-th-total" data-field="precio_neto">Total sin IVA</th><th data-field="verificacion">Verificación</th><th data-field="observacion">Observación</th></tr></thead><tbody id="ps-of-tb"></tbody></table></div>
+    </section>
+    <section class="ps-card" id="ps-cr-of" data-ambito="Equipos de oficina">
+      <h2>Control de bodega vs InformeEntrada</h2>
+      <p class="ps-note dash-skeleton" id="ps-cr-of-resumen" data-source="ps_cr">—</p>
+      <div class="ps-tiles" data-source="ps_cr">
+      <div class="ps-tile"><span class="ps-label">En ambos (líneas · unidades)</span><span class="ps-big dash-skeleton" id="ps-cr-of-v-ambos">—</span></div>
+      <div class="ps-tile"><span class="ps-label">Solo en el control</span><span class="ps-big dash-skeleton" id="ps-cr-of-v-ctl">—</span></div>
+      <div class="ps-tile"><span class="ps-label">Solo en el InformeEntrada</span><span class="ps-big dash-skeleton" id="ps-cr-of-v-inf">—</span></div>
+      <div class="ps-tile"><span class="ps-label">OC del control que coinciden</span><span class="ps-big dash-skeleton" id="ps-cr-of-v-oc">—</span></div>
+      </div>
+      <div class="ma-pies">
+        <div class="ma-pie"><h3>Situación (unidades)</h3><div class="ma-pie-box dash-skeleton" id="ps-cr-of-pie" data-source="ps_cr"></div><ul class="ma-pie-leg" id="ps-cr-of-pie-leg"></ul></div>
+      </div>
+      <p class="ps-note" id="ps-cr-of-filtro"></p>
+      <div class="ps-table-wrap tall"><table class="ps-table" data-source="ps_cr" data-row-key="k"><thead><tr><th class="num" data-field="n_control">N° control</th><th data-field="equipo">Equipo</th><th class="num" data-field="cant_control">Cant. control</th><th data-field="oc_control">OC control</th><th data-field="oc_informe">OC informe</th><th class="num" data-field="cant_informe">Cant. informe</th><th data-field="fecha_informe">Entrada a bodega</th><th data-field="situacion">Situación</th><th data-field="observacion">Observación</th></tr></thead><tbody id="ps-cr-of-tb"></tbody></table></div>
+    </section>
+  </div>
+
+  <div id="ps-contenedores" role="tabpanel" aria-labelledby="ps-subtab-contenedores" hidden>
+    <p class="ps-takeaway dash-skeleton" id="ps-co-resumen" data-source="ps_co_mov">—</p>
+    <section class="ps-tiles" aria-label="Contenedores" data-source="ps_co_mov">
+      <div class="ps-tile"><span class="ps-label">Contenedores en obra</span><span class="ps-big dash-skeleton" id="ps-co-v-1">—</span><span class="ps-sub">Pestaña CONTENEDORES, 27-10-2026</span></div>
+      <div class="ps-tile"><span class="ps-label">Operativos</span><span class="ps-big dash-skeleton" id="ps-co-v-2">—</span></div>
+      <div class="ps-tile"><span class="ps-label">Con OC o factura en ConstruIT</span><span class="ps-big dash-skeleton" id="ps-co-v-3">—</span></div>
+      <div class="ps-tile"><span class="ps-label" id="ps-co-lbl-costos">Costos asociados, sin IVA</span><span class="ps-big dash-skeleton" id="ps-co-v-costos">—</span><span class="ps-sub">InformeEntrada y factura</span></div>
+    </section>
+    <section class="ps-card">
+      <h2>Resumen de los contenedores en obra</h2>
+      <div class="ma-pies">
+        <div class="ma-pie"><h3>Uso</h3><div class="ma-pie-box dash-skeleton" id="ps-co-pie-uso" data-source="ps_contenedores"></div><ul class="ma-pie-leg" id="ps-co-pie-uso-leg"></ul></div>
+        <div class="ma-pie"><h3>Largo</h3><div class="ma-pie-box dash-skeleton" id="ps-co-pie-largo" data-source="ps_contenedores"></div><ul class="ma-pie-leg" id="ps-co-pie-largo-leg"></ul></div>
+        <div class="ma-pie"><h3>Comprados y arrendados</h3><div class="ma-pie-box dash-skeleton" id="ps-co-pie-prop" data-source="ps_contenedores"></div><ul class="ma-pie-leg" id="ps-co-pie-prop-leg"></ul></div>
+      </div>
+      <p class="ps-note">Haz clic en una parte de las tortas para ver solo esos contenedores en la tabla.</p>
+    </section>
+    <section class="ps-card" id="ps-co-detalle">
+      <h2>Contenedores según el control</h2>
+      <p class="ps-note" id="ps-co-filtro"></p>
+      <div class="ps-table-wrap"><table class="ps-table" data-source="ps_contenedores" data-row-key="n"><thead><tr><th class="num" data-field="n">N°</th><th data-field="uso">Uso</th><th data-field="largo">Largo</th><th data-field="propiedad">Compra o arriendo</th><th data-field="tipo">Tipo (control)</th><th data-field="estado">Estado</th><th data-field="registro">Registro en ConstruIT</th><th data-field="observacion">Observación</th></tr></thead><tbody id="ps-co-tb"></tbody></table></div>
+      <h3>Costos asociados en el InformeEntrada</h3>
+      <div class="ps-table-wrap"><table class="ps-table" data-source="ps_co_mov" data-row-key="id"><thead><tr><th data-field="fecha">Fecha entrada</th><th data-field="movimiento">Movimiento</th><th data-field="oc">OC</th><th data-field="detalle">Detalle</th><th data-field="proveedor">Proveedor</th><th class="num" id="ps-co-th-precio" data-field="precio_neto">Monto sin IVA</th><th data-field="documento">Factura</th></tr></thead><tbody id="ps-co-tb-costos"></tbody></table></div>
+    </section>
+    <section class="ps-card" id="ps-cr-co" data-ambito="Contenedores">
+      <h2>Control de bodega vs InformeEntrada</h2>
+      <p class="ps-note dash-skeleton" id="ps-cr-co-resumen" data-source="ps_cr">—</p>
+      <div class="ps-tiles" data-source="ps_cr">
+      <div class="ps-tile"><span class="ps-label">En ambos (líneas · unidades)</span><span class="ps-big dash-skeleton" id="ps-cr-co-v-ambos">—</span></div>
+      <div class="ps-tile"><span class="ps-label">Solo en el control</span><span class="ps-big dash-skeleton" id="ps-cr-co-v-ctl">—</span></div>
+      <div class="ps-tile"><span class="ps-label">Solo en el InformeEntrada</span><span class="ps-big dash-skeleton" id="ps-cr-co-v-inf">—</span></div>
+      <div class="ps-tile"><span class="ps-label">OC del control que coinciden</span><span class="ps-big dash-skeleton" id="ps-cr-co-v-oc">—</span></div>
+      </div>
+      <div class="ma-pies">
+        <div class="ma-pie"><h3>Situación (unidades)</h3><div class="ma-pie-box dash-skeleton" id="ps-cr-co-pie" data-source="ps_cr"></div><ul class="ma-pie-leg" id="ps-cr-co-pie-leg"></ul></div>
+      </div>
+      <p class="ps-note" id="ps-cr-co-filtro"></p>
+      <div class="ps-table-wrap tall"><table class="ps-table" data-source="ps_cr" data-row-key="k"><thead><tr><th class="num" data-field="n_control">N° control</th><th data-field="equipo">Equipo</th><th class="num" data-field="cant_control">Cant. control</th><th data-field="oc_control">OC control</th><th data-field="oc_informe">OC informe</th><th class="num" data-field="cant_informe">Cant. informe</th><th data-field="fecha_informe">Entrada a bodega</th><th data-field="situacion">Situación</th><th data-field="observacion">Observación</th></tr></thead><tbody id="ps-cr-co-tb"></tbody></table></div>
+    </section>
+  </div>
+  </div>
+
+  <div class="ps-panel" id="brisas" role="tabpanel" aria-labelledby="tab-brisas" hidden>
+    <div class="ps-tabs ps-subtabs" role="tablist" aria-label="Registro de Brisas">
+      <button type="button" role="tab" id="br-subtab-maquinaria" aria-controls="br-sub-maquinaria" aria-selected="true" tabindex="0">Maquinaria menor</button>
+      <button type="button" role="tab" id="br-subtab-oficina" aria-controls="br-oficina" aria-selected="false" tabindex="-1">Equipos de oficina</button>
+      <button type="button" role="tab" id="br-subtab-contenedores" aria-controls="br-contenedores" aria-selected="false" tabindex="-1">Contenedores</button>
+    </div>
+    <div id="br-sub-maquinaria" role="tabpanel" aria-labelledby="br-subtab-maquinaria">
+    <p class="ps-takeaway dash-skeleton" id="br-ctl-resumen" data-source="br_ctl">—</p>
+    <section class="ps-tiles" aria-label="Estado de los equipos" data-source="br_ctl">
+      <div class="ps-tile"><span class="ps-label">Equipos en obra</span><span class="ps-big dash-skeleton" id="br-ctl-v-total">—</span><span class="ps-sub dash-skeleton" id="br-ctl-v-total-sub">Según el control de bodega al 27-10-2026</span></div>
+      <div class="ps-tile"><span class="ps-label">Operativos</span><span class="ps-big dash-skeleton" id="br-ctl-v-op">—</span><span class="ps-sub dash-skeleton" id="br-ctl-v-op-sub">—</span></div>
+      <div class="ps-tile"><span class="ps-label">No operativos</span><span class="ps-big dash-skeleton" id="br-ctl-v-noop">—</span><span class="ps-sub dash-skeleton" id="br-ctl-v-noop-sub">—</span></div>
+      <div class="ps-tile"><span class="ps-label" id="br-ctl-lbl-valor">Valor de los equipos en obra, sin IVA</span><span class="ps-big dash-skeleton" id="br-ctl-v-valor">—</span><span class="ps-sub dash-skeleton" id="br-ctl-v-valor-sub">Valor según factura; los equipos de GMW sin OC, según el P.P.P. del kardex de bodega; sin arriendos</span></div>
+    </section>
+    <section class="ps-card" id="br-ctl-tortas">
+      <h2>Resumen de los equipos en obra</h2>
+      <p class="ps-note">Valor según factura; los equipos de GMW sin OC, según el P.P.P. del kardex de bodega; sin arriendos.</p>
+      <div class="ma-pies">
+        <div class="ma-pie"><h3 id="br-ctl-pie-valor-tit">Valor de los equipos, sin IVA</h3><div class="ma-pie-box dash-skeleton" id="br-ctl-pie-valor" data-source="br_ctl"></div><ul class="ma-pie-leg" id="br-ctl-pie-valor-leg"></ul></div>
+        <div class="ma-pie"><h3 id="br-ctl-pie-proc-tit">Procedencia (unidades)</h3><div class="ma-pie-box dash-skeleton" id="br-ctl-pie-proc" data-source="br_ctl"></div><ul class="ma-pie-leg" id="br-ctl-pie-proc-leg"></ul></div>
+        <div class="ma-pie"><h3 id="br-ctl-pie-ver-tit">Verificación con factura (líneas)</h3><div class="ma-pie-box dash-skeleton" id="br-ctl-pie-ver" data-source="br_ctl"></div><ul class="ma-pie-leg" id="br-ctl-pie-ver-leg"></ul></div>
+      </div>
+      <p class="ps-note">Haz clic en una parte de las tortas para ver solo esos equipos en la tabla del control.</p>
+    </section>
+    <h2 class="ps-section-title">Compras de equipos</h2>
+  <p class="ps-takeaway dash-skeleton" id="br-resumen" data-source="br_totales">—</p>
+  <section class="ps-tiles" aria-label="Totales de compras">
+    <div class="ps-tile">
+      <span class="ps-label" id="br-lbl-total">Gasto total en compras, sin IVA</span>
+      <span class="ps-big dash-skeleton" id="br-v-total" data-source="br_totales" data-field="neto">—</span>
+    </div>
+    <div class="ps-tile">
+      <span class="ps-label">Equipos comprados</span>
+      <span class="ps-big dash-skeleton" id="br-v-equipos" data-source="br_totales" data-field="equipos">—</span>
+    </div>
+    <div class="ps-tile">
+      <span class="ps-label" id="br-lbl-prom">Promedio por mes con compras, sin IVA</span>
+      <span class="ps-big dash-skeleton" id="br-v-prom" data-source="br_totales" data-field="promedio_neto">—</span>
+    </div>
+  </section>
+
+  <section class="ps-card" id="br-grafico-mensual">
+    <h2>Gasto en compra de equipos por mes</h2>
+    <p class="ps-note" id="br-graf-nota">Cada color agrupa equipos de características similares. Haz clic en un mes para ver qué se compró.</p>
+    <ul class="ps-legend" id="br-leyenda" data-source="br_mensual_familia"></ul>
+    <div class="ps-chart dash-skeleton" id="br-chart" data-source="br_mensual_familia"></div>
+  </section>
+
+  <section class="ps-card" id="br-mes">
+    <div class="ps-bar">
+      <h2 id="br-mes-titulo">Equipos comprados en el mes</h2>
+      <div class="ps-toggle" role="group" aria-label="Ordenar equipos">
+        <button type="button" id="br-ord-precio" aria-pressed="true">Por precio</button>
+        <button type="button" id="br-ord-fecha" aria-pressed="false">Por fecha de compra</button>
+      </div>
+    </div>
+    <p class="ps-note" id="br-mes-nota"></p>
+    <div class="ps-hbar dash-skeleton" id="br-hbar" data-source="br_compras"></div>
+  </section>
+
+  <section class="ps-card" id="br-historial">
+    <h2 id="br-hist-titulo">Historial del equipo</h2>
+    <p class="ps-note" id="br-hist-nota"></p>
+    <div class="ps-sum">
+      <div><span class="ps-label" id="br-s-compra-lbl">Compras</span><span class="v" id="br-s-compra" data-source="br_por_tipo">—</span></div>
+      <div id="br-s-arr-box"><span class="ps-label" id="br-s-arr-lbl">Arriendos</span><span class="v" id="br-s-arr" data-source="br_por_tipo">—</span></div>
+      <div id="br-s-man-box"><span class="ps-label" id="br-s-man-lbl">Mantención y reparación</span><span class="v" id="br-s-man" data-source="br_por_tipo">—</span></div>
+    </div>
+
+    <h3>Compras</h3>
+    <div class="ps-table-wrap">
+      <table class="ps-table" data-source="br_compras" data-row-key="n">
+        <thead><tr>
+          <th data-field="fecha">Fecha</th>
+          <th data-field="equipo">Equipo</th>
+          <th data-field="proveedor">Proveedor</th>
+          <th data-field="oc">OC</th>
+          <th data-field="documento">Documento</th>
+          <th class="num" id="br-th-precio" data-field="precio_neto">Precio sin IVA</th>
+        </tr></thead>
+        <tbody id="br-tb-compras"></tbody>
+      </table>
+    </div>
+
+    <div id="br-bloque-arr">
+      <h3>Arriendos</h3>
+      <div class="ps-table-wrap tall">
+        <table class="ps-table" data-source="br_arr" data-row-key="id">
+          <thead><tr>
+            <th data-field="fecha">Fecha entrada</th>
+            <th data-field="proveedor">Proveedor</th>
+            <th data-field="oc">OC</th>
+            <th class="num" data-field="cantidad">Cantidad</th>
+            <th class="num" id="br-th-arr-precio" data-field="precio_neto">Precio unitario sin IVA</th>
+            <th class="num" id="br-th-arr-total" data-field="total_neto">Total sin IVA</th>
+            <th data-field="detalle">Detalle</th>
+          </tr></thead>
+          <tbody id="br-tb-arr"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="br-bloque-man">
+      <h3>Mantención y reparación</h3>
+      <div class="ps-table-wrap tall">
+        <table class="ps-table" data-source="br_mant" data-row-key="id">
+          <thead><tr>
+            <th data-field="fecha">Fecha entrada</th>
+            <th data-field="proveedor">Proveedor</th>
+            <th data-field="oc">OC</th>
+            <th class="num" id="br-th-man-total" data-field="total_neto">Total sin IVA</th>
+            <th data-field="detalle">Detalle</th>
+          </tr></thead>
+          <tbody id="br-tb-man"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <h2 class="ps-section-title" id="br-ctl">Control de bodega del 27-10-2026</h2>
+  <section class="ps-card" id="br-ctl-detalle">
+    <h2>Equipos del control con su factura</h2>
+    <p class="ps-note" id="br-ctl-filtro"></p>
+    <div class="ps-table-wrap tall"><table class="ps-table" data-source="br_ctl" data-row-key="n"><thead><tr><th class="num" data-field="n">N°</th><th data-field="categoria">Categoría</th><th data-field="tipo">Equipo (control)</th><th class="num" data-field="cantidad">Cant.</th><th data-field="estado">Estado</th><th data-field="procedencia">Procedencia</th><th data-field="oc">OC</th><th data-field="documento">Documento</th><th data-field="equipo">Equipo según factura</th><th class="num" id="br-ctl-th-unit" data-field="precio_unitario">Precio unitario sin IVA</th><th class="num" id="br-ctl-th-total" data-field="precio_neto">Total sin IVA</th><th data-field="verificacion">Verificación</th><th data-field="observacion">Observación</th></tr></thead><tbody id="br-ctl-tb"></tbody></table></div>
+  </section>
+    <section class="ps-card" id="br-cr-maq" data-ambito="Maquinaria menor">
+      <h2>Control de bodega vs InformeEntrada</h2>
+      <p class="ps-note dash-skeleton" id="br-cr-maq-resumen" data-source="br_cr">—</p>
+      <div class="ps-tiles" data-source="br_cr">
+      <div class="ps-tile"><span class="ps-label">En ambos (líneas · unidades)</span><span class="ps-big dash-skeleton" id="br-cr-maq-v-ambos">—</span></div>
+      <div class="ps-tile"><span class="ps-label">Solo en el control</span><span class="ps-big dash-skeleton" id="br-cr-maq-v-ctl">—</span></div>
+      <div class="ps-tile"><span class="ps-label">Solo en el InformeEntrada</span><span class="ps-big dash-skeleton" id="br-cr-maq-v-inf">—</span></div>
+      <div class="ps-tile"><span class="ps-label">OC del control que coinciden</span><span class="ps-big dash-skeleton" id="br-cr-maq-v-oc">—</span></div>
+      </div>
+      <div class="ma-pies">
+        <div class="ma-pie"><h3>Situación (unidades)</h3><div class="ma-pie-box dash-skeleton" id="br-cr-maq-pie" data-source="br_cr"></div><ul class="ma-pie-leg" id="br-cr-maq-pie-leg"></ul></div>
+      </div>
+      <p class="ps-note" id="br-cr-maq-filtro"></p>
+      <div class="ps-table-wrap tall"><table class="ps-table" data-source="br_cr" data-row-key="k"><thead><tr><th class="num" data-field="n_control">N° control</th><th data-field="equipo">Equipo</th><th class="num" data-field="cant_control">Cant. control</th><th data-field="oc_control">OC control</th><th data-field="oc_informe">OC informe</th><th class="num" data-field="cant_informe">Cant. informe</th><th data-field="fecha_informe">Entrada a bodega</th><th data-field="situacion">Situación</th><th data-field="observacion">Observación</th></tr></thead><tbody id="br-cr-maq-tb"></tbody></table></div>
+    </section>
+  </div>
+
+  <div id="br-oficina" role="tabpanel" aria-labelledby="br-subtab-oficina" hidden>
+    <p class="ps-takeaway dash-skeleton" id="br-of-resumen" data-source="br_of_totales">—</p>
+    <section class="ps-tiles" aria-label="Equipos de oficina" data-source="br_of_totales">
+      <div class="ps-tile"><span class="ps-label">Equipos en el control</span><span class="ps-big dash-skeleton" id="br-of-v-equipos">—</span><span class="ps-sub">Pestaña EQUIPOS OF, 27-10-2026</span></div>
+      <div class="ps-tile"><span class="ps-label" id="br-of-lbl-total">Valor, sin IVA</span><span class="ps-big dash-skeleton" id="br-of-v-total">—</span><span class="ps-sub">Según factura</span></div>
+      <div class="ps-tile"><span class="ps-label">Factura coincide con el control</span><span class="ps-big dash-skeleton" id="br-of-v-ver">—</span></div>
+      <div class="ps-tile"><span class="ps-label">Equipos de GMW sin OC</span><span class="ps-big dash-skeleton" id="br-of-v-cuarto">—</span></div>
+    </section>
+    <section class="ps-card">
+      <h2>Verificación y valor</h2>
+      <div class="ma-pies">
+        <div class="ma-pie"><h3>Verificación con factura</h3><div class="ma-pie-box dash-skeleton" id="br-of-pie-ver" data-source="br_of_equipos"></div><ul class="ma-pie-leg" id="br-of-pie-ver-leg"></ul></div>
+        <div class="ma-pie"><h3 id="br-of-pie-tipo-tit">Valor por tipo de equipo, sin IVA</h3><div class="ma-pie-box dash-skeleton" id="br-of-pie-tipo" data-source="br_of_equipos"></div><ul class="ma-pie-leg" id="br-of-pie-tipo-leg"></ul></div>
+      </div>
+    </section>
+    <section class="ps-card" id="br-of-detalle">
+      <p class="ps-note" id="br-of-filtro"></p>
+      <div class="ps-bar">
+        <h2>Equipos de oficina</h2>
+        <div class="ps-toggle" role="group" aria-label="Ordenar equipos de oficina">
+          <button type="button" id="br-of-ord-precio" aria-pressed="true">Por precio</button>
+          <button type="button" id="br-of-ord-fecha" aria-pressed="false">Por fecha de compra</button>
+        </div>
+      </div>
+      <p class="ps-note" id="br-of-hbar-nota"></p>
+      <div class="ps-hbar dash-skeleton" id="br-of-hbar" data-source="br_of_equipos"></div>
+      <h3>Detalle por equipo</h3>
+      <p class="ps-note">Cruce del control de bodega con el InformeEntrada de ConstruIT y las facturas de FACTURAS - BRISAS.</p>
+      <div class="ps-table-wrap"><table class="ps-table" data-source="br_of_equipos" data-row-key="n"><thead><tr><th class="num" data-field="n">N°</th><th data-field="tipo">Tipo</th><th data-field="equipo">Equipo</th><th class="num" data-field="cantidad">Cant.</th><th data-field="a_cargo">A cargo</th><th data-field="estado">Estado</th><th data-field="oc">OC</th><th data-field="proveedor">Proveedor</th><th data-field="documento">Documento</th><th data-field="fecha">Fecha</th><th class="num" id="br-of-th-unit" data-field="precio_unitario">Precio unitario sin IVA</th><th class="num" id="br-of-th-total" data-field="precio_neto">Total sin IVA</th><th data-field="verificacion">Verificación</th><th data-field="observacion">Observación</th></tr></thead><tbody id="br-of-tb"></tbody></table></div>
+    </section>
+    <section class="ps-card" id="br-cr-of" data-ambito="Equipos de oficina">
+      <h2>Control de bodega vs InformeEntrada</h2>
+      <p class="ps-note dash-skeleton" id="br-cr-of-resumen" data-source="br_cr">—</p>
+      <div class="ps-tiles" data-source="br_cr">
+      <div class="ps-tile"><span class="ps-label">En ambos (líneas · unidades)</span><span class="ps-big dash-skeleton" id="br-cr-of-v-ambos">—</span></div>
+      <div class="ps-tile"><span class="ps-label">Solo en el control</span><span class="ps-big dash-skeleton" id="br-cr-of-v-ctl">—</span></div>
+      <div class="ps-tile"><span class="ps-label">Solo en el InformeEntrada</span><span class="ps-big dash-skeleton" id="br-cr-of-v-inf">—</span></div>
+      <div class="ps-tile"><span class="ps-label">OC del control que coinciden</span><span class="ps-big dash-skeleton" id="br-cr-of-v-oc">—</span></div>
+      </div>
+      <div class="ma-pies">
+        <div class="ma-pie"><h3>Situación (unidades)</h3><div class="ma-pie-box dash-skeleton" id="br-cr-of-pie" data-source="br_cr"></div><ul class="ma-pie-leg" id="br-cr-of-pie-leg"></ul></div>
+      </div>
+      <p class="ps-note" id="br-cr-of-filtro"></p>
+      <div class="ps-table-wrap tall"><table class="ps-table" data-source="br_cr" data-row-key="k"><thead><tr><th class="num" data-field="n_control">N° control</th><th data-field="equipo">Equipo</th><th class="num" data-field="cant_control">Cant. control</th><th data-field="oc_control">OC control</th><th data-field="oc_informe">OC informe</th><th class="num" data-field="cant_informe">Cant. informe</th><th data-field="fecha_informe">Entrada a bodega</th><th data-field="situacion">Situación</th><th data-field="observacion">Observación</th></tr></thead><tbody id="br-cr-of-tb"></tbody></table></div>
+    </section>
+  </div>
+
+  <div id="br-contenedores" role="tabpanel" aria-labelledby="br-subtab-contenedores" hidden>
+    <p class="ps-takeaway dash-skeleton" id="br-co-resumen" data-source="br_co_mov">—</p>
+    <section class="ps-tiles" aria-label="Contenedores" data-source="br_co_mov">
+      <div class="ps-tile"><span class="ps-label">Contenedores en obra</span><span class="ps-big dash-skeleton" id="br-co-v-1">—</span><span class="ps-sub">Pestaña CONTENEDORES, 27-10-2026</span></div>
+      <div class="ps-tile"><span class="ps-label">Operativos</span><span class="ps-big dash-skeleton" id="br-co-v-2">—</span></div>
+      <div class="ps-tile"><span class="ps-label">Con OC o factura en ConstruIT</span><span class="ps-big dash-skeleton" id="br-co-v-3">—</span></div>
+      <div class="ps-tile"><span class="ps-label" id="br-co-lbl-costos">Costos asociados, sin IVA</span><span class="ps-big dash-skeleton" id="br-co-v-costos">—</span><span class="ps-sub">InformeEntrada y factura</span></div>
+    </section>
+    <section class="ps-card">
+      <h2>Resumen de los contenedores en obra</h2>
+      <div class="ma-pies">
+        <div class="ma-pie"><h3>Uso</h3><div class="ma-pie-box dash-skeleton" id="br-co-pie-uso" data-source="br_contenedores"></div><ul class="ma-pie-leg" id="br-co-pie-uso-leg"></ul></div>
+        <div class="ma-pie"><h3>Largo</h3><div class="ma-pie-box dash-skeleton" id="br-co-pie-largo" data-source="br_contenedores"></div><ul class="ma-pie-leg" id="br-co-pie-largo-leg"></ul></div>
+        <div class="ma-pie"><h3>Comprados y arrendados</h3><div class="ma-pie-box dash-skeleton" id="br-co-pie-prop" data-source="br_contenedores"></div><ul class="ma-pie-leg" id="br-co-pie-prop-leg"></ul></div>
+      </div>
+      <p class="ps-note">Haz clic en una parte de las tortas para ver solo esos contenedores en la tabla.</p>
+    </section>
+    <section class="ps-card" id="br-co-detalle">
+      <h2>Contenedores según el control</h2>
+      <p class="ps-note" id="br-co-filtro"></p>
+      <div class="ps-table-wrap"><table class="ps-table" data-source="br_contenedores" data-row-key="n"><thead><tr><th class="num" data-field="n">N°</th><th data-field="uso">Uso</th><th data-field="largo">Largo</th><th data-field="propiedad">Compra o arriendo</th><th data-field="tipo">Tipo (control)</th><th data-field="estado">Estado</th><th data-field="registro">Registro en ConstruIT</th><th data-field="observacion">Observación</th></tr></thead><tbody id="br-co-tb"></tbody></table></div>
+      <h3>Costos asociados en el InformeEntrada</h3>
+      <div class="ps-table-wrap"><table class="ps-table" data-source="br_co_mov" data-row-key="id"><thead><tr><th data-field="fecha">Fecha entrada</th><th data-field="movimiento">Movimiento</th><th data-field="oc">OC</th><th data-field="detalle">Detalle</th><th data-field="proveedor">Proveedor</th><th class="num" id="br-co-th-precio" data-field="precio_neto">Monto sin IVA</th><th data-field="documento">Factura</th></tr></thead><tbody id="br-co-tb-costos"></tbody></table></div>
+    </section>
+    <section class="ps-card" id="br-cr-co" data-ambito="Contenedores">
+      <h2>Control de bodega vs InformeEntrada</h2>
+      <p class="ps-note dash-skeleton" id="br-cr-co-resumen" data-source="br_cr">—</p>
+      <div class="ps-tiles" data-source="br_cr">
+      <div class="ps-tile"><span class="ps-label">En ambos (líneas · unidades)</span><span class="ps-big dash-skeleton" id="br-cr-co-v-ambos">—</span></div>
+      <div class="ps-tile"><span class="ps-label">Solo en el control</span><span class="ps-big dash-skeleton" id="br-cr-co-v-ctl">—</span></div>
+      <div class="ps-tile"><span class="ps-label">Solo en el InformeEntrada</span><span class="ps-big dash-skeleton" id="br-cr-co-v-inf">—</span></div>
+      <div class="ps-tile"><span class="ps-label">OC del control que coinciden</span><span class="ps-big dash-skeleton" id="br-cr-co-v-oc">—</span></div>
+      </div>
+      <div class="ma-pies">
+        <div class="ma-pie"><h3>Situación (unidades)</h3><div class="ma-pie-box dash-skeleton" id="br-cr-co-pie" data-source="br_cr"></div><ul class="ma-pie-leg" id="br-cr-co-pie-leg"></ul></div>
+      </div>
+      <p class="ps-note" id="br-cr-co-filtro"></p>
+      <div class="ps-table-wrap tall"><table class="ps-table" data-source="br_cr" data-row-key="k"><thead><tr><th class="num" data-field="n_control">N° control</th><th data-field="equipo">Equipo</th><th class="num" data-field="cant_control">Cant. control</th><th data-field="oc_control">OC control</th><th data-field="oc_informe">OC informe</th><th class="num" data-field="cant_informe">Cant. informe</th><th data-field="fecha_informe">Entrada a bodega</th><th data-field="situacion">Situación</th><th data-field="observacion">Observación</th></tr></thead><tbody id="br-cr-co-tb"></tbody></table></div>
+    </section>
+  </div>
+  </div>
+
+  <div class="ps-panel" id="la-toma" role="tabpanel" aria-labelledby="tab-la-toma" hidden>
+    <div class="ps-tabs ps-subtabs" role="tablist" aria-label="Registro de La Toma">
+      <button type="button" role="tab" id="lt-subtab-maquinaria" aria-controls="lt-sub-maquinaria" aria-selected="true" tabindex="0">Maquinaria menor</button>
+      <button type="button" role="tab" id="lt-subtab-oficina" aria-controls="lt-oficina" aria-selected="false" tabindex="-1">Equipos de oficina</button>
+      <button type="button" role="tab" id="lt-subtab-contenedores" aria-controls="lt-contenedores" aria-selected="false" tabindex="-1">Contenedores</button>
+    </div>
+    <div id="lt-sub-maquinaria" role="tabpanel" aria-labelledby="lt-subtab-maquinaria">
+    <p class="ps-takeaway dash-skeleton" id="lt-ctl-resumen" data-source="lt_ctl">—</p>
+    <section class="ps-tiles" aria-label="Estado de los equipos" data-source="lt_ctl">
+      <div class="ps-tile"><span class="ps-label">Equipos en obra</span><span class="ps-big dash-skeleton" id="lt-ctl-v-total">—</span><span class="ps-sub dash-skeleton" id="lt-ctl-v-total-sub">Según el control de bodega al 26-10-2026</span></div>
+      <div class="ps-tile"><span class="ps-label">Operativos</span><span class="ps-big dash-skeleton" id="lt-ctl-v-op">—</span><span class="ps-sub dash-skeleton" id="lt-ctl-v-op-sub">—</span></div>
+      <div class="ps-tile"><span class="ps-label">No operativos</span><span class="ps-big dash-skeleton" id="lt-ctl-v-noop">—</span><span class="ps-sub dash-skeleton" id="lt-ctl-v-noop-sub">—</span></div>
+      <div class="ps-tile"><span class="ps-label" id="lt-ctl-lbl-valor">Valor de los equipos en obra, sin IVA</span><span class="ps-big dash-skeleton" id="lt-ctl-v-valor">—</span><span class="ps-sub dash-skeleton" id="lt-ctl-v-valor-sub">Valor según factura; los equipos de GMW sin OC no tienen precio (salvo referencias); sin arriendos</span></div>
+    </section>
+    <section class="ps-card" id="lt-ctl-tortas">
+      <h2>Resumen de los equipos en obra</h2>
+      <p class="ps-note">Valor según factura; los equipos de GMW sin OC no tienen precio (salvo referencias); sin arriendos.</p>
+      <div class="ma-pies">
+        <div class="ma-pie"><h3 id="lt-ctl-pie-valor-tit">Valor de los equipos, sin IVA</h3><div class="ma-pie-box dash-skeleton" id="lt-ctl-pie-valor" data-source="lt_ctl"></div><ul class="ma-pie-leg" id="lt-ctl-pie-valor-leg"></ul></div>
+        <div class="ma-pie"><h3 id="lt-ctl-pie-proc-tit">Procedencia (unidades)</h3><div class="ma-pie-box dash-skeleton" id="lt-ctl-pie-proc" data-source="lt_ctl"></div><ul class="ma-pie-leg" id="lt-ctl-pie-proc-leg"></ul></div>
+        <div class="ma-pie"><h3 id="lt-ctl-pie-ver-tit">Verificación con factura (líneas)</h3><div class="ma-pie-box dash-skeleton" id="lt-ctl-pie-ver" data-source="lt_ctl"></div><ul class="ma-pie-leg" id="lt-ctl-pie-ver-leg"></ul></div>
+      </div>
+      <p class="ps-note">Haz clic en una parte de las tortas para ver solo esos equipos en la tabla del control.</p>
+    </section>
+    <h2 class="ps-section-title">Compras de equipos</h2>
+  <p class="ps-takeaway dash-skeleton" id="lt-resumen" data-source="lt_totales">—</p>
+  <section class="ps-tiles" aria-label="Totales de compras">
+    <div class="ps-tile">
+      <span class="ps-label" id="lt-lbl-total">Gasto total en compras, sin IVA</span>
+      <span class="ps-big dash-skeleton" id="lt-v-total" data-source="lt_totales" data-field="neto">—</span>
+    </div>
+    <div class="ps-tile">
+      <span class="ps-label">Equipos comprados</span>
+      <span class="ps-big dash-skeleton" id="lt-v-equipos" data-source="lt_totales" data-field="equipos">—</span>
+    </div>
+    <div class="ps-tile">
+      <span class="ps-label" id="lt-lbl-prom">Promedio por mes con compras, sin IVA</span>
+      <span class="ps-big dash-skeleton" id="lt-v-prom" data-source="lt_totales" data-field="promedio_neto">—</span>
+    </div>
+  </section>
+
+  <section class="ps-card" id="lt-grafico-mensual">
+    <h2>Gasto en compra de equipos por mes</h2>
+    <p class="ps-note" id="lt-graf-nota">Cada color agrupa equipos de características similares. Haz clic en un mes para ver qué se compró.</p>
+    <ul class="ps-legend" id="lt-leyenda" data-source="lt_mensual_familia"></ul>
+    <div class="ps-chart dash-skeleton" id="lt-chart" data-source="lt_mensual_familia"></div>
+  </section>
+
+  <section class="ps-card" id="lt-mes">
+    <div class="ps-bar">
+      <h2 id="lt-mes-titulo">Equipos comprados en el mes</h2>
+      <div class="ps-toggle" role="group" aria-label="Ordenar equipos">
+        <button type="button" id="lt-ord-precio" aria-pressed="true">Por precio</button>
+        <button type="button" id="lt-ord-fecha" aria-pressed="false">Por fecha de compra</button>
+      </div>
+    </div>
+    <p class="ps-note" id="lt-mes-nota"></p>
+    <div class="ps-hbar dash-skeleton" id="lt-hbar" data-source="lt_compras"></div>
+  </section>
+
+  <section class="ps-card" id="lt-historial">
+    <h2 id="lt-hist-titulo">Historial del equipo</h2>
+    <p class="ps-note" id="lt-hist-nota"></p>
+    <div class="ps-sum">
+      <div><span class="ps-label" id="lt-s-compra-lbl">Compras</span><span class="v" id="lt-s-compra" data-source="lt_por_tipo">—</span></div>
+      <div id="lt-s-arr-box"><span class="ps-label" id="lt-s-arr-lbl">Arriendos</span><span class="v" id="lt-s-arr" data-source="lt_por_tipo">—</span></div>
+      <div id="lt-s-man-box"><span class="ps-label" id="lt-s-man-lbl">Mantención y reparación</span><span class="v" id="lt-s-man" data-source="lt_por_tipo">—</span></div>
+    </div>
+
+    <h3>Compras</h3>
+    <div class="ps-table-wrap">
+      <table class="ps-table" data-source="lt_compras" data-row-key="n">
+        <thead><tr>
+          <th data-field="fecha">Fecha</th>
+          <th data-field="equipo">Equipo</th>
+          <th data-field="proveedor">Proveedor</th>
+          <th data-field="oc">OC</th>
+          <th data-field="documento">Documento</th>
+          <th class="num" id="lt-th-precio" data-field="precio_neto">Precio sin IVA</th>
+        </tr></thead>
+        <tbody id="lt-tb-compras"></tbody>
+      </table>
+    </div>
+
+    <div id="lt-bloque-arr">
+      <h3>Arriendos</h3>
+      <div class="ps-table-wrap tall">
+        <table class="ps-table" data-source="lt_arr" data-row-key="id">
+          <thead><tr>
+            <th data-field="fecha">Fecha entrada</th>
+            <th data-field="proveedor">Proveedor</th>
+            <th data-field="oc">OC</th>
+            <th class="num" data-field="cantidad">Cantidad</th>
+            <th class="num" id="lt-th-arr-precio" data-field="precio_neto">Precio unitario sin IVA</th>
+            <th class="num" id="lt-th-arr-total" data-field="total_neto">Total sin IVA</th>
+            <th data-field="detalle">Detalle</th>
+          </tr></thead>
+          <tbody id="lt-tb-arr"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="lt-bloque-man">
+      <h3>Mantención y reparación</h3>
+      <div class="ps-table-wrap tall">
+        <table class="ps-table" data-source="lt_mant" data-row-key="id">
+          <thead><tr>
+            <th data-field="fecha">Fecha entrada</th>
+            <th data-field="proveedor">Proveedor</th>
+            <th data-field="oc">OC</th>
+            <th class="num" id="lt-th-man-total" data-field="total_neto">Total sin IVA</th>
+            <th data-field="detalle">Detalle</th>
+          </tr></thead>
+          <tbody id="lt-tb-man"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <h2 class="ps-section-title" id="lt-ctl">Control de bodega del 26-10-2026</h2>
+  <section class="ps-card" id="lt-ctl-detalle">
+    <h2>Equipos del control con su factura</h2>
+    <p class="ps-note" id="lt-ctl-filtro"></p>
+    <div class="ps-table-wrap tall"><table class="ps-table" data-source="lt_ctl" data-row-key="n"><thead><tr><th class="num" data-field="n">N°</th><th data-field="categoria">Categoría</th><th data-field="tipo">Equipo (control)</th><th class="num" data-field="cantidad">Cant.</th><th data-field="estado">Estado</th><th data-field="procedencia">Procedencia</th><th data-field="oc">OC</th><th data-field="documento">Documento</th><th data-field="equipo">Equipo según factura</th><th class="num" id="lt-ctl-th-unit" data-field="precio_unitario">Precio unitario sin IVA</th><th class="num" id="lt-ctl-th-total" data-field="precio_neto">Total sin IVA</th><th data-field="verificacion">Verificación</th><th data-field="observacion">Observación</th></tr></thead><tbody id="lt-ctl-tb"></tbody></table></div>
+  </section>
+    <section class="ps-card" id="lt-cr-maq" data-ambito="Maquinaria menor">
+      <h2>Control de bodega vs InformeEntrada</h2>
+      <p class="ps-note dash-skeleton" id="lt-cr-maq-resumen" data-source="lt_cr">—</p>
+      <div class="ps-tiles" data-source="lt_cr">
+      <div class="ps-tile"><span class="ps-label">En ambos (líneas · unidades)</span><span class="ps-big dash-skeleton" id="lt-cr-maq-v-ambos">—</span></div>
+      <div class="ps-tile"><span class="ps-label">Solo en el control</span><span class="ps-big dash-skeleton" id="lt-cr-maq-v-ctl">—</span></div>
+      <div class="ps-tile"><span class="ps-label">Solo en el InformeEntrada</span><span class="ps-big dash-skeleton" id="lt-cr-maq-v-inf">—</span></div>
+      <div class="ps-tile"><span class="ps-label">OC del control que coinciden</span><span class="ps-big dash-skeleton" id="lt-cr-maq-v-oc">—</span></div>
+      </div>
+      <div class="ma-pies">
+        <div class="ma-pie"><h3>Situación (unidades)</h3><div class="ma-pie-box dash-skeleton" id="lt-cr-maq-pie" data-source="lt_cr"></div><ul class="ma-pie-leg" id="lt-cr-maq-pie-leg"></ul></div>
+      </div>
+      <p class="ps-note" id="lt-cr-maq-filtro"></p>
+      <div class="ps-table-wrap tall"><table class="ps-table" data-source="lt_cr" data-row-key="k"><thead><tr><th class="num" data-field="n_control">N° control</th><th data-field="equipo">Equipo</th><th class="num" data-field="cant_control">Cant. control</th><th data-field="oc_control">OC control</th><th data-field="oc_informe">OC informe</th><th class="num" data-field="cant_informe">Cant. informe</th><th data-field="fecha_informe">Entrada a bodega</th><th data-field="situacion">Situación</th><th data-field="observacion">Observación</th></tr></thead><tbody id="lt-cr-maq-tb"></tbody></table></div>
+    </section>
+  </div>
+
+  <div id="lt-oficina" role="tabpanel" aria-labelledby="lt-subtab-oficina" hidden>
+    <p class="ps-takeaway dash-skeleton" id="lt-of-resumen" data-source="lt_of_totales">—</p>
+    <section class="ps-tiles" aria-label="Equipos de oficina" data-source="lt_of_totales">
+      <div class="ps-tile"><span class="ps-label">Equipos en el control</span><span class="ps-big dash-skeleton" id="lt-of-v-equipos">—</span><span class="ps-sub">Pestaña EQUIPOS OF, 26-10-2026</span></div>
+      <div class="ps-tile"><span class="ps-label" id="lt-of-lbl-total">Valor, sin IVA</span><span class="ps-big dash-skeleton" id="lt-of-v-total">—</span><span class="ps-sub">Según factura</span></div>
+      <div class="ps-tile"><span class="ps-label">Factura coincide con el control</span><span class="ps-big dash-skeleton" id="lt-of-v-ver">—</span></div>
+      <div class="ps-tile"><span class="ps-label">Equipos de GMW sin OC</span><span class="ps-big dash-skeleton" id="lt-of-v-cuarto">—</span></div>
+    </section>
+    <section class="ps-card">
+      <h2>Verificación y valor</h2>
+      <div class="ma-pies">
+        <div class="ma-pie"><h3>Verificación con factura</h3><div class="ma-pie-box dash-skeleton" id="lt-of-pie-ver" data-source="lt_of_equipos"></div><ul class="ma-pie-leg" id="lt-of-pie-ver-leg"></ul></div>
+        <div class="ma-pie"><h3 id="lt-of-pie-tipo-tit">Valor por tipo de equipo, sin IVA</h3><div class="ma-pie-box dash-skeleton" id="lt-of-pie-tipo" data-source="lt_of_equipos"></div><ul class="ma-pie-leg" id="lt-of-pie-tipo-leg"></ul></div>
+      </div>
+    </section>
+    <section class="ps-card" id="lt-of-detalle">
+      <p class="ps-note" id="lt-of-filtro"></p>
+      <div class="ps-bar">
+        <h2>Equipos de oficina</h2>
+        <div class="ps-toggle" role="group" aria-label="Ordenar equipos de oficina">
+          <button type="button" id="lt-of-ord-precio" aria-pressed="true">Por precio</button>
+          <button type="button" id="lt-of-ord-fecha" aria-pressed="false">Por fecha de compra</button>
+        </div>
+      </div>
+      <p class="ps-note" id="lt-of-hbar-nota"></p>
+      <div class="ps-hbar dash-skeleton" id="lt-of-hbar" data-source="lt_of_equipos"></div>
+      <h3>Detalle por equipo</h3>
+      <p class="ps-note">Cruce del control de bodega con el InformeEntrada de ConstruIT y las facturas de FACTURAS - LATOMA.</p>
+      <div class="ps-table-wrap"><table class="ps-table" data-source="lt_of_equipos" data-row-key="n"><thead><tr><th class="num" data-field="n">N°</th><th data-field="tipo">Tipo</th><th data-field="equipo">Equipo</th><th class="num" data-field="cantidad">Cant.</th><th data-field="a_cargo">A cargo</th><th data-field="estado">Estado</th><th data-field="oc">OC</th><th data-field="proveedor">Proveedor</th><th data-field="documento">Documento</th><th data-field="fecha">Fecha</th><th class="num" id="lt-of-th-unit" data-field="precio_unitario">Precio unitario sin IVA</th><th class="num" id="lt-of-th-total" data-field="precio_neto">Total sin IVA</th><th data-field="verificacion">Verificación</th><th data-field="observacion">Observación</th></tr></thead><tbody id="lt-of-tb"></tbody></table></div>
+    </section>
+    <section class="ps-card" id="lt-cr-of" data-ambito="Equipos de oficina">
+      <h2>Control de bodega vs InformeEntrada</h2>
+      <p class="ps-note dash-skeleton" id="lt-cr-of-resumen" data-source="lt_cr">—</p>
+      <div class="ps-tiles" data-source="lt_cr">
+      <div class="ps-tile"><span class="ps-label">En ambos (líneas · unidades)</span><span class="ps-big dash-skeleton" id="lt-cr-of-v-ambos">—</span></div>
+      <div class="ps-tile"><span class="ps-label">Solo en el control</span><span class="ps-big dash-skeleton" id="lt-cr-of-v-ctl">—</span></div>
+      <div class="ps-tile"><span class="ps-label">Solo en el InformeEntrada</span><span class="ps-big dash-skeleton" id="lt-cr-of-v-inf">—</span></div>
+      <div class="ps-tile"><span class="ps-label">OC del control que coinciden</span><span class="ps-big dash-skeleton" id="lt-cr-of-v-oc">—</span></div>
+      </div>
+      <div class="ma-pies">
+        <div class="ma-pie"><h3>Situación (unidades)</h3><div class="ma-pie-box dash-skeleton" id="lt-cr-of-pie" data-source="lt_cr"></div><ul class="ma-pie-leg" id="lt-cr-of-pie-leg"></ul></div>
+      </div>
+      <p class="ps-note" id="lt-cr-of-filtro"></p>
+      <div class="ps-table-wrap tall"><table class="ps-table" data-source="lt_cr" data-row-key="k"><thead><tr><th class="num" data-field="n_control">N° control</th><th data-field="equipo">Equipo</th><th class="num" data-field="cant_control">Cant. control</th><th data-field="oc_control">OC control</th><th data-field="oc_informe">OC informe</th><th class="num" data-field="cant_informe">Cant. informe</th><th data-field="fecha_informe">Entrada a bodega</th><th data-field="situacion">Situación</th><th data-field="observacion">Observación</th></tr></thead><tbody id="lt-cr-of-tb"></tbody></table></div>
+    </section>
+  </div>
+
+  <div id="lt-contenedores" role="tabpanel" aria-labelledby="lt-subtab-contenedores" hidden>
+    <p class="ps-takeaway dash-skeleton" id="lt-co-resumen" data-source="lt_co_mov">—</p>
+    <section class="ps-tiles" aria-label="Contenedores" data-source="lt_co_mov">
+      <div class="ps-tile"><span class="ps-label">Contenedores en obra</span><span class="ps-big dash-skeleton" id="lt-co-v-1">—</span><span class="ps-sub">Pestaña CONTENEDORES, 26-10-2026</span></div>
+      <div class="ps-tile"><span class="ps-label">Operativos</span><span class="ps-big dash-skeleton" id="lt-co-v-2">—</span></div>
+      <div class="ps-tile"><span class="ps-label">Con OC o factura en ConstruIT</span><span class="ps-big dash-skeleton" id="lt-co-v-3">—</span></div>
+      <div class="ps-tile"><span class="ps-label" id="lt-co-lbl-costos">Costos asociados, sin IVA</span><span class="ps-big dash-skeleton" id="lt-co-v-costos">—</span><span class="ps-sub">InformeEntrada y factura</span></div>
+    </section>
+    <section class="ps-card">
+      <h2>Resumen de los contenedores en obra</h2>
+      <div class="ma-pies">
+        <div class="ma-pie"><h3>Uso</h3><div class="ma-pie-box dash-skeleton" id="lt-co-pie-uso" data-source="lt_contenedores"></div><ul class="ma-pie-leg" id="lt-co-pie-uso-leg"></ul></div>
+        <div class="ma-pie"><h3>Largo</h3><div class="ma-pie-box dash-skeleton" id="lt-co-pie-largo" data-source="lt_contenedores"></div><ul class="ma-pie-leg" id="lt-co-pie-largo-leg"></ul></div>
+        <div class="ma-pie"><h3>Comprados y arrendados</h3><div class="ma-pie-box dash-skeleton" id="lt-co-pie-prop" data-source="lt_contenedores"></div><ul class="ma-pie-leg" id="lt-co-pie-prop-leg"></ul></div>
+      </div>
+      <p class="ps-note">Haz clic en una parte de las tortas para ver solo esos contenedores en la tabla.</p>
+    </section>
+    <section class="ps-card" id="lt-co-detalle">
+      <h2>Contenedores según el control</h2>
+      <p class="ps-note" id="lt-co-filtro"></p>
+      <div class="ps-table-wrap"><table class="ps-table" data-source="lt_contenedores" data-row-key="n"><thead><tr><th class="num" data-field="n">N°</th><th data-field="uso">Uso</th><th data-field="largo">Largo</th><th data-field="propiedad">Compra o arriendo</th><th data-field="tipo">Tipo (control)</th><th data-field="estado">Estado</th><th data-field="registro">Registro en ConstruIT</th><th data-field="observacion">Observación</th></tr></thead><tbody id="lt-co-tb"></tbody></table></div>
+      <h3>Costos asociados en el InformeEntrada</h3>
+      <div class="ps-table-wrap"><table class="ps-table" data-source="lt_co_mov" data-row-key="id"><thead><tr><th data-field="fecha">Fecha entrada</th><th data-field="movimiento">Movimiento</th><th data-field="oc">OC</th><th data-field="detalle">Detalle</th><th data-field="proveedor">Proveedor</th><th class="num" id="lt-co-th-precio" data-field="precio_neto">Monto sin IVA</th><th data-field="documento">Factura</th></tr></thead><tbody id="lt-co-tb-costos"></tbody></table></div>
+    </section>
+    <section class="ps-card" id="lt-cr-co" data-ambito="Contenedores">
+      <h2>Control de bodega vs InformeEntrada</h2>
+      <p class="ps-note dash-skeleton" id="lt-cr-co-resumen" data-source="lt_cr">—</p>
+      <div class="ps-tiles" data-source="lt_cr">
+      <div class="ps-tile"><span class="ps-label">En ambos (líneas · unidades)</span><span class="ps-big dash-skeleton" id="lt-cr-co-v-ambos">—</span></div>
+      <div class="ps-tile"><span class="ps-label">Solo en el control</span><span class="ps-big dash-skeleton" id="lt-cr-co-v-ctl">—</span></div>
+      <div class="ps-tile"><span class="ps-label">Solo en el InformeEntrada</span><span class="ps-big dash-skeleton" id="lt-cr-co-v-inf">—</span></div>
+      <div class="ps-tile"><span class="ps-label">OC del control que coinciden</span><span class="ps-big dash-skeleton" id="lt-cr-co-v-oc">—</span></div>
+      </div>
+      <div class="ma-pies">
+        <div class="ma-pie"><h3>Situación (unidades)</h3><div class="ma-pie-box dash-skeleton" id="lt-cr-co-pie" data-source="lt_cr"></div><ul class="ma-pie-leg" id="lt-cr-co-pie-leg"></ul></div>
+      </div>
+      <p class="ps-note" id="lt-cr-co-filtro"></p>
+      <div class="ps-table-wrap tall"><table class="ps-table" data-source="lt_cr" data-row-key="k"><thead><tr><th class="num" data-field="n_control">N° control</th><th data-field="equipo">Equipo</th><th class="num" data-field="cant_control">Cant. control</th><th data-field="oc_control">OC control</th><th data-field="oc_informe">OC informe</th><th class="num" data-field="cant_informe">Cant. informe</th><th data-field="fecha_informe">Entrada a bodega</th><th data-field="situacion">Situación</th><th data-field="observacion">Observación</th></tr></thead><tbody id="lt-cr-co-tb"></tbody></table></div>
+    </section>
+  </div>
+  </div>
+
+  <div class="ps-panel" id="mar-azul" role="tabpanel" aria-labelledby="tab-mar-azul" hidden>
+    <div class="ps-tabs ps-subtabs" role="tablist" aria-label="Registro de Mar Azul">
+      <button type="button" role="tab" id="mc-subtab-maquinaria" aria-controls="ma-sub-maquinaria" aria-selected="true" tabindex="0">Maquinaria menor</button>
+      <button type="button" role="tab" id="mc-subtab-oficina" aria-controls="mc-oficina" aria-selected="false" tabindex="-1">Equipos de oficina</button>
+      <button type="button" role="tab" id="mc-subtab-contenedores" aria-controls="mc-contenedores" aria-selected="false" tabindex="-1">Contenedores</button>
+    </div>
+    <div id="ma-sub-maquinaria" role="tabpanel" aria-labelledby="mc-subtab-maquinaria">
+    <p class="ps-takeaway dash-skeleton" id="ma-resumen" data-source="ma_totales">—</p>
+
+    <section class="ps-tiles" aria-label="Estado de los equipos de Mar Azul">
+      <div class="ps-tile">
+        <span class="ps-label">Equipos en obra</span>
+        <span class="ps-big dash-skeleton" id="ma-v-total" data-source="ma_totales" data-field="equipos">—</span>
+        <span class="ps-sub">Según el control de bodega al 19-10-2026</span>
+      </div>
+      <div class="ps-tile">
+        <span class="ps-label">Operativos</span>
+        <span class="ps-big dash-skeleton" id="ma-v-op" data-source="ma_totales" data-field="operativos">—</span>
+        <span class="ps-sub dash-skeleton" id="ma-v-op-pct" data-source="ma_totales" data-field="pct_operativos">—</span>
+      </div>
+      <div class="ps-tile">
+        <span class="ps-label">No operativos</span>
+        <span class="ps-big dash-skeleton" id="ma-v-noop" data-source="ma_totales" data-field="no_operativos">—</span>
+        <span class="ps-sub dash-skeleton" id="ma-v-noop-pct" data-source="ma_totales" data-field="pct_no_operativos">—</span>
+      </div>
+      <div class="ps-tile">
+        <span class="ps-label" id="ma-lbl-valor">Valor estimado detenido, sin IVA</span>
+        <span class="ps-big dash-skeleton" id="ma-v-valor" data-source="ma_totales" data-field="valor_no_op_neto">—</span>
+        <span class="ps-sub dash-skeleton" id="ma-v-valor-pct" data-source="ma_totales" data-field="pct_valor_no_op">—</span>
+      </div>
+    </section>
+
+    <section class="ps-card" id="ma-tortas">
+      <h2>Resumen de los equipos en obra</h2>
+      <p class="ps-note">Valores estimados por equipo: precio de factura cuando existe; si no, referencia de mercado.</p>
+      <div class="ma-pies">
+        <div class="ma-pie"><h3 id="ma-pie-valor-tit">Valor de los equipos, sin IVA</h3><div class="ma-pie-box dash-skeleton" id="ma-pie-valor" data-source="ma_totales"></div><ul class="ma-pie-leg" id="ma-pie-valor-leg"></ul></div>
+        <div class="ma-pie"><h3>Registro de procedencia</h3><div class="ma-pie-box dash-skeleton" id="ma-pie-reg" data-source="ma_totales"></div><ul class="ma-pie-leg" id="ma-pie-reg-leg"></ul></div>
+        <div class="ma-pie"><h3>Equipos de Las Hortensias</h3><div class="ma-pie-box dash-skeleton" id="ma-pie-hort" data-source="ma_totales"></div><ul class="ma-pie-leg" id="ma-pie-hort-leg"></ul></div>
+      </div>
+      <p class="ps-note">Los equipos trasladados desde Las Hortensias deben quedar en revisión para las próximas mantenciones por su antigüedad.</p>
+    </section>
+    <h2 class="ps-section-title" id="mc-compras">Compras de equipos</h2>
+  <p class="ps-takeaway dash-skeleton" id="mc-resumen" data-source="mc_totales">—</p>
+  <section class="ps-tiles" aria-label="Totales de compras">
+    <div class="ps-tile">
+      <span class="ps-label" id="mc-lbl-total">Gasto total en compras, sin IVA</span>
+      <span class="ps-big dash-skeleton" id="mc-v-total" data-source="mc_totales" data-field="neto">—</span>
+    </div>
+    <div class="ps-tile">
+      <span class="ps-label">Equipos comprados</span>
+      <span class="ps-big dash-skeleton" id="mc-v-equipos" data-source="mc_totales" data-field="equipos">—</span>
+    </div>
+    <div class="ps-tile">
+      <span class="ps-label" id="mc-lbl-prom">Promedio por mes con compras, sin IVA</span>
+      <span class="ps-big dash-skeleton" id="mc-v-prom" data-source="mc_totales" data-field="promedio_neto">—</span>
+    </div>
+  </section>
+
+  <section class="ps-card" id="mc-grafico-mensual">
+    <div class="ps-bar">
+      <h2>Gasto en compra de equipos por mes</h2>
+      <div class="ps-toggle" role="group" aria-label="Colorear barras">
+        <button type="button" id="mc-modo-familia" aria-pressed="true">Por características</button>
+        <button type="button" id="mc-modo-estado" aria-pressed="false">Por estado en obra</button>
+      </div>
+    </div>
+    <p class="ps-note" id="mc-graf-nota">Cada color agrupa equipos de características similares. Haz clic en un mes para ver qué se compró.</p>
+    <ul class="ps-legend" id="mc-leyenda" data-source="mc_mensual_familia"></ul>
+    <div class="ps-chart dash-skeleton" id="mc-chart" data-source="mc_mensual_familia"></div>
+  </section>
+
+  <section class="ps-card" id="mc-mes">
+    <div class="ps-bar">
+      <h2 id="mc-mes-titulo">Equipos comprados en el mes</h2>
+      <div class="ps-toggle" role="group" aria-label="Ordenar equipos">
+        <button type="button" id="mc-ord-precio" aria-pressed="true">Por precio</button>
+        <button type="button" id="mc-ord-fecha" aria-pressed="false">Por fecha de compra</button>
+      </div>
+    </div>
+    <p class="ps-note" id="mc-mes-nota"></p>
+    <div class="ps-hbar dash-skeleton" id="mc-hbar" data-source="mc_compras"></div>
+  </section>
+
+  <section class="ps-card" id="mc-historial">
+    <h2 id="mc-hist-titulo">Historial del equipo</h2>
+    <p class="ps-note" id="mc-hist-nota"></p>
+    <div class="ps-sum">
+      <div><span class="ps-label" id="mc-s-compra-lbl">Compras</span><span class="v" id="mc-s-compra" data-source="mc_por_tipo">—</span></div>
+      <div id="mc-s-obra-box"><span class="ps-label">En obra según control (19-10-2026)</span><span class="v" id="mc-s-obra" data-source="mar_azul">—</span><span class="ps-sub" id="mc-s-obra-det" data-source="mar_azul"></span></div>
+      <div id="mc-s-arr-box"><span class="ps-label" id="mc-s-arr-lbl">Arriendos</span><span class="v" id="mc-s-arr" data-source="mc_por_tipo">—</span></div>
+      <div id="mc-s-man-box"><span class="ps-label" id="mc-s-man-lbl">Mantención y reparación</span><span class="v" id="mc-s-man" data-source="mc_por_tipo">—</span></div>
+    </div>
+
+    <h3>Compras</h3>
+    <div class="ps-table-wrap">
+      <table class="ps-table" data-source="mc_compras" data-row-key="n">
+        <thead><tr>
+          <th data-field="fecha">Fecha</th>
+          <th data-field="equipo">Equipo</th>
+          <th data-field="proveedor">Proveedor</th>
+          <th data-field="oc">OC</th>
+          <th data-field="documento">Documento</th>
+          <th class="num" id="mc-th-precio" data-field="precio_neto">Precio sin IVA</th>
+          <th data-field="en_control">En el control de bodega</th>
+        </tr></thead>
+        <tbody id="mc-tb-compras"></tbody>
+      </table>
+    </div>
+
+    <div id="mc-bloque-arr">
+      <h3>Arriendos</h3>
+      <div class="ps-table-wrap tall">
+        <table class="ps-table" data-source="mc_arr" data-row-key="id">
+          <thead><tr>
+            <th data-field="fecha">Fecha entrada</th>
+            <th data-field="proveedor">Proveedor</th>
+            <th data-field="oc">OC</th>
+            <th class="num" data-field="cantidad">Cantidad</th>
+            <th class="num" id="mc-th-arr-precio" data-field="precio_neto">Precio unitario sin IVA</th>
+            <th class="num" id="mc-th-arr-total" data-field="total_neto">Total sin IVA</th>
+            <th data-field="detalle">Detalle</th>
+          </tr></thead>
+          <tbody id="mc-tb-arr"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="mc-bloque-man">
+      <h3>Mantención y reparación</h3>
+      <div class="ps-table-wrap tall">
+        <table class="ps-table" data-source="mc_mant" data-row-key="id">
+          <thead><tr>
+            <th data-field="fecha">Fecha entrada</th>
+            <th data-field="proveedor">Proveedor</th>
+            <th data-field="oc">OC</th>
+            <th class="num" id="mc-th-man-total" data-field="total_neto">Total sin IVA</th>
+            <th data-field="detalle">Detalle</th>
+          </tr></thead>
+          <tbody id="mc-tb-man"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+    <h2 class="ps-section-title">Estado y procedencia de los equipos en obra</h2>
+    <section class="ps-card" id="ma-estado">
+      <div class="ps-bar">
+        <h2>Operativos y no operativos por tipo de equipo</h2>
+        <div class="ps-toggle" role="group" aria-label="Medir por">
+          <button type="button" id="ma-por-cant" aria-pressed="true">Cantidad</button>
+          <button type="button" id="ma-por-valor" aria-pressed="false">Valor estimado</button>
+        </div>
+      </div>
+      <p class="ps-note" id="ma-estado-nota">Tipos ordenados por cantidad de equipos.</p>
+      <ul class="ps-legend" data-source="ma_por_tipo">
+        <li><span class="ps-sw" id="ma-sw-op"></span>Operativo</li>
+        <li><span class="ps-sw" style="background: var(--cds-chart-status-critical)"></span>No operativo</li>
+      </ul>
+      <div class="ps-hbar dash-skeleton" id="ma-chart-estado" data-source="ma_por_tipo"></div>
+    </section>
+
+    <section class="ps-card" id="ma-procedencia">
+      <h2>Procedencia de los equipos</h2>
+      <p class="ps-note">Cruce de la OC que anota bodega en el control con el InformeEntrada de ConstruIT y las facturas.</p>
+      <div class="ma-pie-wide">
+        <div class="ma-pie-box dash-skeleton" id="ma-chart-proc" data-source="ma_procedencia"></div>
+        <ul class="ma-pie-leg" id="ma-chart-proc-leg"></ul>
+      </div>
+    </section>
+
+    <section class="ps-card" id="ma-incongruencias">
+      <h2>Incongruencias en la procedencia</h2>
+      <p class="ps-note" id="ma-inc-nota">Equipos sin registro de procedencia o cuya OC en el control corresponde a otro equipo.</p>
+      <div class="ps-chips" role="group" aria-label="Filtrar incongruencias" id="ma-chips"></div>
+      <div class="ps-table-wrap tall">
+        <table class="ps-table" data-source="mar_azul" data-row-key="n">
+          <thead><tr>
+            <th class="num" data-field="n">N°</th>
+            <th data-field="equipo">Equipo (según control)</th>
+            <th data-field="estado">Estado</th>
+            <th data-field="situacion">Situación</th>
+            <th data-field="oc_control">OC en el control</th>
+            <th data-field="informe_oc">Qué dice ConstruIT de esa OC</th>
+            <th data-field="observacion">Observación</th>
+          </tr></thead>
+          <tbody id="ma-tb-inc"></tbody>
+        </table>
+      </div>
+    </section>
+    </div>
+
+  <div id="mc-oficina" role="tabpanel" aria-labelledby="mc-subtab-oficina" hidden>
+    <p class="ps-takeaway dash-skeleton" id="mc-of-resumen" data-source="mc_of_totales">—</p>
+    <section class="ps-tiles" aria-label="Equipos de oficina" data-source="mc_of_totales">
+      <div class="ps-tile"><span class="ps-label">Equipos en el control</span><span class="ps-big dash-skeleton" id="mc-of-v-equipos">—</span><span class="ps-sub">Pestaña EQUIPOS OF, 19-10-2026</span></div>
+      <div class="ps-tile"><span class="ps-label" id="mc-of-lbl-total">Valor, sin IVA</span><span class="ps-big dash-skeleton" id="mc-of-v-total">—</span><span class="ps-sub">Según factura</span></div>
+      <div class="ps-tile"><span class="ps-label">Factura coincide con el InformeEntrada</span><span class="ps-big dash-skeleton" id="mc-of-v-ver">—</span></div>
+      <div class="ps-tile"><span class="ps-label">Comprados que no figuran en el control</span><span class="ps-big dash-skeleton" id="mc-of-v-cuarto">—</span></div>
+    </section>
+    <section class="ps-card">
+      <h2>Verificación y valor</h2>
+      <div class="ma-pies">
+        <div class="ma-pie"><h3>Verificación con factura</h3><div class="ma-pie-box dash-skeleton" id="mc-of-pie-ver" data-source="mc_of_equipos"></div><ul class="ma-pie-leg" id="mc-of-pie-ver-leg"></ul></div>
+        <div class="ma-pie"><h3 id="mc-of-pie-tipo-tit">Valor por tipo de equipo, sin IVA</h3><div class="ma-pie-box dash-skeleton" id="mc-of-pie-tipo" data-source="mc_of_equipos"></div><ul class="ma-pie-leg" id="mc-of-pie-tipo-leg"></ul></div>
+      </div>
+    </section>
+    <section class="ps-card" id="mc-of-detalle">
+      <p class="ps-note" id="mc-of-filtro"></p>
+      <div class="ps-bar">
+        <h2>Equipos de oficina</h2>
+        <div class="ps-toggle" role="group" aria-label="Ordenar equipos de oficina">
+          <button type="button" id="mc-of-ord-precio" aria-pressed="true">Por precio</button>
+          <button type="button" id="mc-of-ord-fecha" aria-pressed="false">Por fecha de compra</button>
+        </div>
+      </div>
+      <p class="ps-note" id="mc-of-hbar-nota"></p>
+      <div class="ps-hbar dash-skeleton" id="mc-of-hbar" data-source="mc_of_equipos"></div>
+      <h3>Detalle por equipo</h3>
+      <p class="ps-note">Cruce del control de bodega con el InformeEntrada de ConstruIT y las facturas de FACTURAS - MAR AZUL.</p>
+      <div class="ps-table-wrap"><table class="ps-table" data-source="mc_of_equipos" data-row-key="n"><thead><tr><th class="num" data-field="n">N°</th><th data-field="tipo">Tipo</th><th data-field="equipo">Equipo</th><th class="num" data-field="cantidad">Cant.</th><th data-field="a_cargo">A cargo</th><th data-field="estado">Estado</th><th data-field="oc">OC</th><th data-field="proveedor">Proveedor</th><th data-field="documento">Documento</th><th data-field="fecha">Fecha</th><th class="num" id="mc-of-th-unit" data-field="precio_unitario">Precio unitario sin IVA</th><th class="num" id="mc-of-th-total" data-field="precio_neto">Total sin IVA</th><th data-field="verificacion">Verificación</th><th data-field="observacion">Observación</th></tr></thead><tbody id="mc-of-tb"></tbody></table></div>
+    </section>
+  </div>
+
+  <div id="mc-contenedores" role="tabpanel" aria-labelledby="mc-subtab-contenedores" hidden>
+    <p class="ps-takeaway dash-skeleton" id="mc-co-resumen" data-source="mc_co_mov">—</p>
+    <section class="ps-tiles" aria-label="Contenedores" data-source="mc_co_mov">
+      <div class="ps-tile"><span class="ps-label">Contenedores en obra</span><span class="ps-big dash-skeleton" id="mc-co-v-1">—</span><span class="ps-sub">Pestaña CONTENEDORES, 19-10-2026</span></div>
+      <div class="ps-tile"><span class="ps-label">Operativos</span><span class="ps-big dash-skeleton" id="mc-co-v-2">—</span></div>
+      <div class="ps-tile"><span class="ps-label">Con OC o factura en ConstruIT</span><span class="ps-big dash-skeleton" id="mc-co-v-3">—</span></div>
+      <div class="ps-tile"><span class="ps-label" id="mc-co-lbl-costos">Costos asociados, sin IVA</span><span class="ps-big dash-skeleton" id="mc-co-v-costos">—</span><span class="ps-sub">InformeEntrada y factura</span></div>
+    </section>
+    <section class="ps-card">
+      <h2>Resumen de los contenedores en obra</h2>
+      <div class="ma-pies">
+        <div class="ma-pie"><h3>Uso</h3><div class="ma-pie-box dash-skeleton" id="mc-co-pie-uso" data-source="ma_contenedores"></div><ul class="ma-pie-leg" id="mc-co-pie-uso-leg"></ul></div>
+        <div class="ma-pie"><h3>Largo</h3><div class="ma-pie-box dash-skeleton" id="mc-co-pie-largo" data-source="ma_contenedores"></div><ul class="ma-pie-leg" id="mc-co-pie-largo-leg"></ul></div>
+        <div class="ma-pie"><h3>Comprados y arrendados</h3><div class="ma-pie-box dash-skeleton" id="mc-co-pie-prop" data-source="ma_contenedores"></div><ul class="ma-pie-leg" id="mc-co-pie-prop-leg"></ul></div>
+      </div>
+      <p class="ps-note">Haz clic en una parte de las tortas para ver solo esos contenedores en la tabla.</p>
+    </section>
+    <section class="ps-card" id="mc-co-detalle">
+      <h2>Contenedores según el control</h2>
+      <p class="ps-note" id="mc-co-filtro"></p>
+      <div class="ps-table-wrap"><table class="ps-table" data-source="ma_contenedores" data-row-key="n"><thead><tr><th class="num" data-field="n">N°</th><th data-field="uso">Uso</th><th data-field="largo">Largo</th><th data-field="propiedad">Compra o arriendo</th><th data-field="tipo">Tipo (control)</th><th data-field="estado">Estado</th><th data-field="registro">Registro en ConstruIT</th><th data-field="observacion">Observación</th></tr></thead><tbody id="mc-co-tb"></tbody></table></div>
+      <h3>Costos asociados en el InformeEntrada</h3>
+      <div class="ps-table-wrap"><table class="ps-table" data-source="mc_co_mov" data-row-key="id"><thead><tr><th data-field="fecha">Fecha entrada</th><th data-field="movimiento">Movimiento</th><th data-field="oc">OC</th><th data-field="detalle">Detalle</th><th data-field="proveedor">Proveedor</th><th class="num" id="mc-co-th-precio" data-field="precio_neto">Monto sin IVA</th><th data-field="documento">Factura</th></tr></thead><tbody id="mc-co-tb-costos"></tbody></table></div>
+    </section>
+  </div>
+
+  </div>
+</div>
+
+<script>
+// Cálculos de compras, iguales para cada obra (ids con prefijo por obra)
+const calcsCompras = (pre, equipos, arriendos, mantenciones, obra) => {
+  const id = (s) => pre ? `${pre}_${s}` : s;
+  dash.calc(id('compras'), {
+    inputs: [equipos], title: `${obra}: equipos comprados`,
+    description: 'Cada equipo comprado con su precio neto y con IVA (neto × 1,19).',
+    fn: (equipos) => equipos.map(e => ({ ...e, n: Number(e.n), oc: Number(e.oc), precio_neto: Number(e.precio_neto), precio_con_iva: Math.round(Number(e.precio_neto) * 1.19) }))
+  });
+  dash.calc(id('arr'), {
+    inputs: [arriendos], title: `${obra}: arriendos`,
+    description: 'Cada arriendo con su precio y total neto y con IVA (neto × 1,19).',
+    fn: (arriendos) => arriendos.map(a => ({ ...a, id: Number(a.id), oc: Number(a.oc), cantidad: Number(a.cantidad), precio_neto: Number(a.precio_neto), total_neto: Number(a.total_neto),
+      precio_con_iva: Math.round(Number(a.precio_neto) * 1.19), total_con_iva: Math.round(Number(a.total_neto) * 1.19) }))
+  });
+  dash.calc(id('mant'), {
+    inputs: [mantenciones], title: `${obra}: mantenciones`,
+    description: 'Cada mantención o reparación con su total neto y con IVA (neto × 1,19).',
+    fn: (mantenciones) => mantenciones.map(a => ({ ...a, id: Number(a.id), oc: Number(a.oc), total_neto: Number(a.total_neto), total_con_iva: Math.round(Number(a.total_neto) * 1.19) }))
+  });
+  dash.calc(id('mensual_familia'), {
+    inputs: [id('compras')], title: `${obra}: gasto mensual por características`,
+    description: 'Suma por mes y grupo de características del precio de cada equipo comprado.',
+    fn: (compras) => {
+      const out = new Map();
+      for (const e of compras) {
+        const k = `${String(e.fecha).slice(0, 7)}|${e.familia}`;
+        const r = out.get(k) || { mes: String(e.fecha).slice(0, 7), familia: e.familia, neto: 0, con_iva: 0, equipos: 0 };
+        r.neto += e.precio_neto; r.con_iva += e.precio_con_iva; r.equipos += 1;
+        out.set(k, r);
+      }
+      return [...out.values()].sort((a, b) => a.mes.localeCompare(b.mes) || a.familia.localeCompare(b.familia));
+    }
+  });
+  dash.calc(id('totales'), {
+    inputs: [id('compras')], title: `${obra}: totales de compras`,
+    description: 'Total comprado, cantidad de equipos, meses con compras y promedio por mes con compras.',
+    fn: (compras) => {
+      const porMes = d3.rollup(compras, v => d3.sum(v, e => e.precio_neto), e => String(e.fecha).slice(0, 7));
+      const neto = d3.sum(compras, e => e.precio_neto), con_iva = d3.sum(compras, e => e.precio_con_iva);
+      const mayor = d3.greatest(porMes, ([, v]) => v);
+      return [{ neto, con_iva, equipos: compras.length, meses: porMes.size,
+        promedio_neto: Math.round(neto / porMes.size), promedio_con_iva: Math.round(con_iva / porMes.size), mes_mayor: mayor ? mayor[0] : '' }];
+    }
+  });
+  dash.calc(id('por_tipo'), {
+    inputs: [id('compras'), id('arr'), id('mant')], title: `${obra}: resumen por tipo de equipo`,
+    description: 'Por tipo de equipo: compras, arriendos y mantenciones (cantidad y monto neto y con IVA).',
+    fn: (compras, arr, mant) => {
+      const tipos = new Set([...compras, ...arr, ...mant].map(r => r.tipo));
+      return [...tipos].sort().map(tipo => {
+        const c = compras.filter(r => r.tipo === tipo), a = arr.filter(r => r.tipo === tipo), m = mant.filter(r => r.tipo === tipo);
+        return { tipo, comprados: c.length, compra_neto: d3.sum(c, r => r.precio_neto), compra_con_iva: d3.sum(c, r => r.precio_con_iva),
+          arriendos: a.length, arriendo_neto: d3.sum(a, r => r.total_neto), arriendo_con_iva: d3.sum(a, r => r.total_con_iva),
+          mantenciones: m.length, mantencion_neto: d3.sum(m, r => r.total_neto), mantencion_con_iva: d3.sum(m, r => r.total_con_iva) };
+      });
+    }
+  });
+};
+calcsCompras('', 'equipos', 'arriendos', 'mantenciones', 'Plaza Sur');
+calcsCompras('mc', 'ma_equipos', 'ma_arriendos', 'ma_mantenciones', 'Mar Azul');
+calcsCompras('br', 'br_equipos', 'br_arriendos', 'br_mantenciones', 'Brisas');
+calcsCompras('lt', 'lt_equipos', 'lt_arriendos', 'lt_mantenciones', 'La Toma');
+dash.calc('mc_mensual_estado', {
+  inputs: ['mc_compras'], title: 'Mar Azul: gasto mensual por estado en obra',
+  description: 'Suma por mes de lo comprado según el estado del equipo en el control de bodega (19-10-2026). Cuando dos equipos de la misma OC comparten la anotación "N°10 OPERATIVO, N°53 NO OPERATIVO", el primero toma el primer estado y el segundo el otro. Sin N° en el control: "No figura en el control".',
+  fn: (compras) => {
+    const usados = new Map(), out = new Map();
+    for (const e of compras) {
+      const lbl = String(e.en_control || ''), est = [...lbl.matchAll(/N°\d+ (NO OPERATIVO|OPERATIVO)/g)].map(m => m[1]);
+      const i = usados.get(lbl) || 0; usados.set(lbl, i + 1);
+      const estado = !est.length ? 'No figura en el control' : est[Math.min(i, est.length - 1)] === 'OPERATIVO' ? 'Operativo' : 'No operativo';
+      const k = `${String(e.fecha).slice(0, 7)}|${estado}`;
+      const r = out.get(k) || { mes: String(e.fecha).slice(0, 7), estado, neto: 0, con_iva: 0, equipos: 0 };
+      r.neto += e.precio_neto; r.con_iva += e.precio_con_iva; r.equipos += 1;
+      out.set(k, r);
+    }
+    return [...out.values()].sort((a, b) => a.mes.localeCompare(b.mes) || a.estado.localeCompare(b.estado));
+  }
+});
+
+(() => {
+  // Orden fijo de familias: define su color (dash.colors en este orden), igual en ambas obras
+  const FAMILIAS = ['Demolición y perforación', 'Corte y desbaste', 'Hormigón y compactación', 'Agua y bombeo', 'Topografía', 'Energía y calefacción', 'Limpieza', 'Fijación y soldadura', 'Comunicaciones'];
+  const color = (f) => FAMILIAS.includes(f) ? dash.colors[FAMILIAS.indexOf(f)] || '#2fa4a0' : 'var(--cds-chart-muted)';
+  // Estado en obra (Mar Azul): mismos colores que la sección de estado
+  const ESTADOS = ['Operativo', 'No operativo', 'No figura en el control'];
+  const colorEstado = (e) => ({ 'Operativo': dash.colors[0], 'No operativo': 'var(--cds-chart-status-critical)' })[e] || 'var(--cds-chart-muted)';
+  const MESES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sept', 'oct', 'nov', 'dic'];
+  const MESES_LARGO = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+  const mesCorto = (k) => { const [y, m] = k.split('-'); return `${MESES[+m - 1]} ${y.slice(2)}`; };
+  const mesLargo = (k) => { const [y, m] = k.split('-'); return `${MESES_LARGO[+m - 1]} ${y}`; };
+  const fecha = (s) => { const [y, m, d] = String(s).slice(0, 10).split('-'); return `${d}-${m}-${y}`; };
+  const clp = new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 });
+  const corto = (v) => v >= 1e6 ? `$${(v / 1e6).toLocaleString('es-CL', { maximumFractionDigits: 1 })} M` : v >= 1e3 ? `$${Math.round(v / 1e3)} mil` : `$${v}`;
+  const cant = (n) => Number(n).toLocaleString('es-CL', { maximumFractionDigits: 2 });
+  const $ = (id) => document.getElementById(id);
+  const iva = () => $('btn-iva').getAttribute('aria-pressed') === 'true';
+  const sufijo = () => iva() ? 'con IVA' : 'sin IVA';
+  const div = (cls, txt) => { const d = document.createElement('div'); if (cls) d.className = cls; d.textContent = txt; return d; };
+  const failBox = (el) => { el.classList.remove('dash-skeleton'); el.replaceChildren(div('ps-fail', 'Failed to load')); };
+  const tooltip = (box) => { const t = div('ps-tip', ''); t.hidden = true; box.appendChild(t); return t; };
+  const placeTip = (tip, box, ev) => {
+    const [px, py] = d3.pointer(ev, box);
+    tip.style.left = `${Math.min(Math.max(0, px + 12), box.clientWidth - tip.offsetWidth)}px`;
+    tip.style.top = `${Math.max(0, py - tip.offsetHeight - 12)}px`;
+  };
+  const keyActivate = (sel, fn) => sel.attr('tabindex', 0).attr('role', 'button')
+    .on('keydown', (ev, d) => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); fn(d); } });
+  const celda = (tr, v, cls) => { const td = document.createElement('td'); td.textContent = v; if (cls) td.className = cls; tr.appendChild(td); };
+  const porFecha = (a, b) => String(a.fecha).localeCompare(String(b.fecha));
+
+  window.obraDraw = {};
+
+  // cfg: p (prefijo de ids), panel, ids de calcs, notaFecha, control (dataset del control de bodega, opcional)
+  function montarObra(cfg) {
+    const { p } = cfg;
+    const q = (s) => $(`${p}-${s}`);
+    let mesSel = null, tipoSel = null, orden = 'precio', modo = 'familia';
+    const SERIES = () => modo === 'estado' ? ESTADOS : FAMILIAS;
+    const col = (f) => modo === 'estado' ? colorEstado(f) : color(f);
+    if (cfg.estado) {
+      const setModo = (m) => { modo = m; q('modo-familia').setAttribute('aria-pressed', String(m === 'familia')); q('modo-estado').setAttribute('aria-pressed', String(m === 'estado')); draw(); };
+      q('modo-familia').addEventListener('click', () => setModo('familia'));
+      q('modo-estado').addEventListener('click', () => setModo('estado'));
+    }
+    const setOrden = (o) => { orden = o; q('ord-precio').setAttribute('aria-pressed', String(o === 'precio')); q('ord-fecha').setAttribute('aria-pressed', String(o === 'fecha')); draw(); };
+    q('ord-precio').addEventListener('click', () => setOrden('precio'));
+    q('ord-fecha').addEventListener('click', () => setOrden('fecha'));
+
+    function drawTotales(t) {
+      const total = q('v-total'), prom = q('v-prom'), eq = q('v-equipos'), res = q('resumen');
+      total.setAttribute('data-field', iva() ? 'con_iva' : 'neto');
+      prom.setAttribute('data-field', iva() ? 'promedio_con_iva' : 'promedio_neto');
+      q('lbl-total').textContent = `Gasto total en compras, ${sufijo()}`;
+      q('lbl-prom').textContent = `Promedio por mes con compras, ${sufijo()}`;
+      total.textContent = clp.format(iva() ? t.con_iva : t.neto);
+      prom.textContent = clp.format(iva() ? t.promedio_con_iva : t.promedio_neto);
+      eq.textContent = d3.format(',')(t.equipos);
+      res.textContent = `En ${t.meses} meses con compras, la obra compró ${t.equipos} equipos menores por ${clp.format(iva() ? t.con_iva : t.neto)} ${sufijo()}. El mes de mayor gasto fue ${mesLargo(t.mes_mayor)}.${cfg.notaFecha ? ' ' + cfg.notaFecha : ''}`;
+      for (const el of [total, prom, eq, res]) el.classList.remove('dash-skeleton');
+    }
+
+    function drawLeyenda(rows) {
+      const presentes = new Set(rows.map(r => r.familia));
+      q('leyenda').replaceChildren(...SERIES().filter(f => presentes.has(f)).map(f => {
+        const li = document.createElement('li');
+        const sw = document.createElement('span'); sw.className = 'ps-sw'; sw.style.background = col(f);
+        li.append(sw, document.createTextNode(f));
+        return li;
+      }));
+    }
+
+    function drawMensual(rows) {
+      const box = q('chart');
+      box.classList.remove('dash-skeleton');
+      box.replaceChildren();
+      const campo = iva() ? 'con_iva' : 'neto';
+      const meses = [...new Set(rows.map(r => r.mes))].sort();
+      const stack = meses.map(mes => {
+        let y0 = 0;
+        const segs = SERIES().map(f => rows.find(r => r.mes === mes && r.familia === f)).filter(Boolean)
+          .map(r => { const s = { ...r, y0, y1: y0 + r[campo] }; y0 = s.y1; return s; });
+        return { mes, total: y0, equipos: d3.sum(segs, s => s.equipos), segs };
+      });
+      const W = Math.max(280, box.clientWidth), H = 320;
+      const m = { top: 24, right: 8, bottom: 28, left: 8 };
+      const y = d3.scaleLinear([0, d3.max(stack, s => s.total) * 1.08], [H - m.bottom, m.top]).nice();
+      const svg = d3.select(box).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`)
+        .attr('role', 'img').attr('aria-label', `Gasto mensual en equipos ${sufijo()}, por ${modo === 'estado' ? 'estado en obra' : 'características'}`);
+      const ticks = y.ticks(5);
+      const probe = svg.append('g').style('font-size', 'var(--cds-font-size-caption)');
+      m.left = 10 + d3.max(ticks, t => probe.append('text').text(corto(t)).node().getComputedTextLength());
+      probe.remove();
+      const x = d3.scaleBand(meses, [m.left, W - m.right]).padding(0.28);
+      svg.append('g').selectAll('line').data(ticks.filter(t => t > 0)).join('line')
+        .attr('x1', m.left).attr('x2', W - m.right).attr('y1', d => y(d)).attr('y2', d => y(d))
+        .attr('stroke', 'var(--cds-chart-grid)').attr('stroke-width', 1);
+      svg.append('g').selectAll('text').data(ticks).join('text')
+        .attr('x', m.left - 6).attr('y', d => y(d)).attr('dy', '0.32em').attr('text-anchor', 'end')
+        .attr('fill', 'var(--color-fg-muted)').style('font-size', 'var(--cds-font-size-caption)').text(corto);
+      const paso = x.step() < 46 ? 2 : 1;
+      svg.append('g').selectAll('text').data(meses.filter((_, i) => i % paso === 0)).join('text')
+        .attr('x', d => x(d) + x.bandwidth() / 2).attr('y', H - 8).attr('text-anchor', 'middle')
+        .attr('fill', 'var(--color-fg-muted)').style('font-size', 'var(--cds-font-size-caption)').text(mesCorto);
+
+      const bw = Math.min(32, x.bandwidth()), off = (x.bandwidth() - bw) / 2;
+      const cols = svg.append('g').selectAll('g').data(stack).join('g')
+        .attr('opacity', s => mesSel && s.mes !== mesSel ? 0.4 : 1);
+      // segmentos apilados con 2px de separación; el de arriba con esquinas redondeadas
+      cols.selectAll('path').data(s => s.segs.map((g, i) => ({ ...g, top: i === s.segs.length - 1 }))).join('path')
+        .attr('fill', g => col(g.familia))
+        .attr('d', g => {
+          const x0 = x(g.mes) + off, x1 = x0 + bw, yb = y(g.y0) - (g.y0 > 0 ? 1 : 0), yt = y(g.y1) + (g.top ? 0 : 1);
+          const r = g.top ? Math.min(4, bw / 2, Math.max(0, yb - yt)) : 0;
+          return `M${x0},${yb}V${yt + r}Q${x0},${yt} ${x0 + r},${yt}H${x1 - r}Q${x1},${yt} ${x1},${yt + r}V${yb}Z`;
+        });
+      const may = d3.greatest(stack, s => s.total);
+      svg.append('text').attr('x', x(may.mes) + x.bandwidth() / 2).attr('y', y(may.total) - 8).attr('text-anchor', 'middle')
+        .attr('fill', 'var(--color-fg)').style('font-size', 'var(--cds-font-size-caption)').style('font-weight', 'var(--cds-font-weight-medium)')
+        .text(corto(may.total));
+      svg.append('line').attr('x1', m.left).attr('x2', W - m.right).attr('y1', y(0)).attr('y2', y(0))
+        .attr('stroke', 'var(--cds-chart-axis)').attr('stroke-width', 1);
+
+      const tip = tooltip(box);
+      const elegir = (s) => { mesSel = s.mes; tipoSel = null; draw(); q('mes').scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+      const hits = svg.append('g').selectAll('rect').data(stack).join('rect').attr('class', 'ps-hit')
+        .attr('x', s => x(s.mes) - x.step() * x.paddingInner() / 2).attr('width', x.step())
+        .attr('y', m.top).attr('height', H - m.top - m.bottom).attr('fill', 'transparent')
+        .attr('aria-label', s => `${mesLargo(s.mes)}: ${clp.format(s.total)} ${sufijo()}`)
+        .on('pointerenter pointermove', (ev, s) => {
+          const filas = [...s.segs].reverse().map(g => {
+            const r = div('t-row', ''); const sw = document.createElement('span'); sw.className = 'ps-sw'; sw.style.background = col(g.familia);
+            const n = document.createElement('span'); n.textContent = `${g.familia} (${g.equipos})`;
+            const v = document.createElement('span'); v.textContent = corto(g[campo]);
+            r.append(sw, n, v); return r;
+          });
+          tip.replaceChildren(div('t-sub', mesLargo(s.mes)), div('t-val', `${clp.format(s.total)} ${sufijo()} · ${s.equipos} ${s.equipos === 1 ? 'equipo' : 'equipos'}`), ...filas);
+          tip.hidden = false; placeTip(tip, box, ev);
+        })
+        .on('pointerleave', () => { tip.hidden = true; })
+        .on('click', (ev, s) => elegir(s));
+      keyActivate(hits, elegir);
+    }
+
+    function drawMes(compras) {
+      const box = q('hbar');
+      box.classList.remove('dash-skeleton');
+      box.replaceChildren();
+      const campo = iva() ? 'precio_con_iva' : 'precio_neto';
+      const porPrecio = (a, b) => b[campo] - a[campo] || a.n - b.n;
+      const items = compras.filter(e => String(e.fecha).slice(0, 7) === mesSel)
+        .sort(orden === 'fecha' ? (a, b) => porFecha(a, b) || porPrecio(a, b) : porPrecio);
+      q('mes-titulo').textContent = `Equipos comprados en ${mesLargo(mesSel)}`;
+      q('mes-nota').textContent = `${items.length} ${items.length === 1 ? 'equipo' : 'equipos'} por ${clp.format(d3.sum(items, e => e[campo]))} ${sufijo()}, ${orden === 'fecha' ? 'por fecha de compra, del primero al último' : 'del más caro al más barato'}. Haz clic en un equipo para ver su historial de compras, arriendos y mantenciones.`;
+      const W = Math.max(280, box.clientWidth), fila = 30, m = { top: 4, right: 8, bottom: 4 };
+      const H = m.top + m.bottom + items.length * fila;
+      const svg = d3.select(box).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`)
+        .attr('role', 'img').attr('aria-label', `Equipos comprados en ${mesLargo(mesSel)}, ${sufijo()}`);
+      const labW = Math.min(W * 0.42, 260);
+      const probe = svg.append('text').style('font-size', 'var(--cds-font-size-caption)');
+      const valor = (e) => orden === 'fecha' ? `${corto(e[campo])} · ${fecha(e.fecha).slice(0, 5)}` : corto(e[campo]);
+      const valW = 8 + d3.max(items, e => probe.text(valor(e)).node().getComputedTextLength());
+      const recorta = (t) => {
+        probe.text(t);
+        if (probe.node().getComputedTextLength() <= labW - 10) return t;
+        let s = t;
+        while (s.length > 4) { s = s.slice(0, -1); probe.text(`${s}…`); if (probe.node().getComputedTextLength() <= labW - 10) return `${s.trimEnd()}…`; }
+        return s;
+      };
+      const etiquetas = items.map(e => recorta(e.equipo));
+      probe.remove();
+      const x = d3.scaleLinear([0, d3.max(items, e => e[campo])], [labW, W - m.right - valW]);
+      const yb = d3.scaleBand(items.map(e => e.n), [m.top, H - m.bottom]).padding(0.25);
+      const bh = Math.min(20, yb.bandwidth());
+      const g = svg.append('g').selectAll('g').data(items).join('g')
+        .attr('transform', e => `translate(0,${yb(e.n) + (yb.bandwidth() - bh) / 2})`)
+        .attr('opacity', e => tipoSel && e.tipo !== tipoSel ? 0.45 : 1);
+      g.append('text').attr('x', labW - 10).attr('y', bh / 2).attr('dy', '0.32em').attr('text-anchor', 'end')
+        .attr('fill', 'var(--color-fg)').style('font-size', 'var(--cds-font-size-caption)').text((e, i) => etiquetas[i]);
+      g.append('path').attr('fill', e => color(e.familia)).attr('d', e => {
+        const x0 = labW, x1 = Math.max(x0 + 2, x(e[campo])), r = Math.min(4, bh / 2, x1 - x0);
+        return `M${x0},0H${x1 - r}Q${x1},0 ${x1},${r}V${bh - r}Q${x1},${bh} ${x1 - r},${bh}H${x0}Z`;
+      });
+      g.append('text').attr('x', e => Math.max(labW + 2, x(e[campo])) + 6).attr('y', bh / 2).attr('dy', '0.32em')
+        .attr('fill', 'var(--color-fg-muted)').style('font-size', 'var(--cds-font-size-caption)').text(valor);
+      svg.append('line').attr('x1', labW).attr('x2', labW).attr('y1', m.top).attr('y2', H - m.bottom)
+        .attr('stroke', 'var(--cds-chart-axis)').attr('stroke-width', 1);
+
+      const tip = tooltip(box);
+      const elegir = (e) => { tipoSel = e.tipo; draw(); q('historial').scrollIntoView({ behavior: 'smooth', block: 'start' }); dash.setLink(`${p}-historial`); };
+      const hits = svg.append('g').selectAll('rect').data(items).join('rect').attr('class', 'ps-hit')
+        .attr('x', 0).attr('width', W).attr('y', e => yb(e.n) - yb.step() * yb.paddingInner() / 2).attr('height', yb.step())
+        .attr('fill', 'transparent').attr('aria-label', e => `${e.equipo}: ${clp.format(e[campo])} ${sufijo()}. Ver historial de ${e.tipo}`)
+        .on('pointerenter pointermove', (ev, e) => {
+          tip.replaceChildren(div('t-sub', `${e.tipo} · ${e.familia}`), div('', e.equipo), div('t-val', `${clp.format(e[campo])} ${sufijo()}`),
+            div('t-sub', `${e.proveedor} · OC ${e.oc} · ${fecha(e.fecha)}`), ...(e.en_control ? [div('t-sub', `Control de bodega: ${e.en_control}`)] : []));
+          tip.hidden = false; placeTip(tip, box, ev);
+        })
+        .on('pointerleave', () => { tip.hidden = true; })
+        .on('click', (ev, e) => elegir(e));
+      keyActivate(hits, elegir);
+    }
+
+    function drawHistorial(compras, arr, mant, porTipo, control) {
+      const t = porTipo.find(r => r.tipo === tipoSel);
+      if (!t) return;
+      const fam = (compras.find(e => e.tipo === tipoSel) || {}).familia;
+      q('hist-titulo').textContent = `Historial: ${tipoSel}`;
+      q('hist-nota').textContent = `${fam ? fam + '. ' : ''}Todas las compras de este tipo de equipo en la obra y, si hay registros, sus arriendos y mantenciones. Montos ${sufijo()}.`;
+      const set = (id, campo, txt) => { const el = q(id); el.setAttribute('data-field', campo); el.setAttribute('data-where', `tipo=${encodeURIComponent(tipoSel)}`); el.textContent = txt; };
+      set('s-compra', iva() ? 'compra_con_iva' : 'compra_neto', clp.format(iva() ? t.compra_con_iva : t.compra_neto));
+      q('s-compra-lbl').textContent = `Compras (${t.comprados} ${t.comprados === 1 ? 'equipo' : 'equipos'})`;
+      q('s-arr-box').hidden = t.arriendos === 0;
+      q('s-man-box').hidden = t.mantenciones === 0;
+      q('bloque-arr').hidden = t.arriendos === 0;
+      q('bloque-man').hidden = t.mantenciones === 0;
+      if (t.arriendos) { set('s-arr', iva() ? 'arriendo_con_iva' : 'arriendo_neto', clp.format(iva() ? t.arriendo_con_iva : t.arriendo_neto)); q('s-arr-lbl').textContent = `Arriendos (${t.arriendos} ${t.arriendos === 1 ? 'registro' : 'registros'})`; }
+      if (t.mantenciones) { set('s-man', iva() ? 'mantencion_con_iva' : 'mantencion_neto', clp.format(iva() ? t.mantencion_con_iva : t.mantencion_neto)); q('s-man-lbl').textContent = `Mantención y reparación (${t.mantenciones})`; }
+
+      // Solo con control de bodega: cuántos hay en obra y en qué estado
+      if (control) {
+        const enObra = control.filter(e => e.tipo === tipoSel);
+        const noOp = enObra.filter(e => e.estado !== 'Operativo').length;
+        const tras = enObra.filter(e => String(e.procedencia).startsWith('Traslado')).length;
+        q('s-obra-box').hidden = enObra.length === 0;
+        q('s-obra').setAttribute('data-where', `tipo=${encodeURIComponent(tipoSel)}`);
+        q('s-obra').textContent = `${enObra.length} ${enObra.length === 1 ? 'equipo' : 'equipos'}`;
+        q('s-obra-det').textContent = `${enObra.length - noOp} operativos · ${noOp} no operativos · ${tras} por traslado`;
+      }
+
+      q('th-precio').setAttribute('data-field', iva() ? 'precio_con_iva' : 'precio_neto');
+      q('th-precio').textContent = `Precio ${sufijo()}`;
+      q('tb-compras').replaceChildren(...compras.filter(e => e.tipo === tipoSel).sort(porFecha).map(e => {
+        const tr = document.createElement('tr'); tr.setAttribute('data-key', e.n);
+        celda(tr, fecha(e.fecha)); celda(tr, e.equipo); celda(tr, e.proveedor); celda(tr, String(e.oc)); celda(tr, e.documento, 'mut');
+        celda(tr, clp.format(iva() ? e.precio_con_iva : e.precio_neto), 'num');
+        if (control) celda(tr, e.en_control || '—', 'mut');
+        return tr;
+      }));
+
+      q('th-arr-precio').setAttribute('data-field', iva() ? 'precio_con_iva' : 'precio_neto');
+      q('th-arr-precio').textContent = `Precio unitario ${sufijo()}`;
+      q('th-arr-total').setAttribute('data-field', iva() ? 'total_con_iva' : 'total_neto');
+      q('th-arr-total').textContent = `Total ${sufijo()}`;
+      q('tb-arr').replaceChildren(...arr.filter(a => a.tipo === tipoSel).sort(porFecha).map(a => {
+        const tr = document.createElement('tr'); tr.setAttribute('data-key', a.id);
+        celda(tr, fecha(a.fecha)); celda(tr, a.proveedor); celda(tr, String(a.oc)); celda(tr, `${cant(a.cantidad)} ${String(a.unidad).toLowerCase()}`, 'num');
+        celda(tr, clp.format(iva() ? a.precio_con_iva : a.precio_neto), 'num'); celda(tr, clp.format(iva() ? a.total_con_iva : a.total_neto), 'num');
+        celda(tr, a.detalle || a.recurso, 'mut');
+        return tr;
+      }));
+
+      q('th-man-total').setAttribute('data-field', iva() ? 'total_con_iva' : 'total_neto');
+      q('th-man-total').textContent = `Total ${sufijo()}`;
+      q('tb-man').replaceChildren(...mant.filter(a => a.tipo === tipoSel).sort(porFecha).map(a => {
+        const tr = document.createElement('tr'); tr.setAttribute('data-key', a.id);
+        celda(tr, fecha(a.fecha)); celda(tr, a.proveedor); celda(tr, String(a.oc));
+        celda(tr, clp.format(iva() ? a.total_con_iva : a.total_neto), 'num'); celda(tr, a.detalle || a.recurso, 'mut');
+        return tr;
+      }));
+    }
+
+    function notaEstado(rows) {
+      const campo = iva() ? 'con_iva' : 'neto', tot = (e) => rows.filter(r => r.estado === e);
+      const no = tot('No operativo'), sin = tot('No figura en el control');
+      const n = d3.sum(no, r => r.equipos), ns = d3.sum(sin, r => r.equipos);
+      return `Estado de cada equipo comprado según el control de bodega del 19-10-2026. ${n} ${n === 1 ? 'equipo comprado está no operativo' : 'equipos comprados están no operativos'} (${clp.format(d3.sum(no, r => r[campo]))} ${sufijo()}) y ${ns} no figuran en el control (${clp.format(d3.sum(sin, r => r[campo]))}). Pasa el cursor sobre un mes para ver cuántos equipos y cuánto dinero hay en cada estado.`;
+    }
+
+    function draw() {
+      if ($(cfg.panel).hidden || (cfg.sub && $(cfg.sub).hidden)) return;
+      const tot = dash.data(cfg.totales), mf = dash.data(cfg.mensual), co = dash.data(cfg.compras);
+      const ar = dash.data(cfg.arr), ma = dash.data(cfg.mant), pt = dash.data(cfg.por_tipo);
+      const ctrl = cfg.control ? dash.data(cfg.control) : null;
+      if (tot.status === 'ok' && tot.data.length) {
+        drawTotales(tot.data[0]);
+        if (!mesSel) mesSel = tot.data[0].mes_mayor;
+      } else if (tot.status === 'error') for (const s of ['v-total', 'v-equipos', 'v-prom', 'resumen']) q(s).classList.remove('dash-skeleton');
+
+      const me = modo === 'estado' ? dash.data(cfg.estado) : mf;
+      if (me.status === 'ok' && me.data.length) {
+        const rows = modo === 'estado' ? me.data.map(r => ({ ...r, familia: r.estado })) : me.data;
+        drawLeyenda(rows); drawMensual(rows);
+        q('graf-nota').textContent = modo === 'estado' ? notaEstado(rows) : 'Cada color agrupa equipos de características similares. Haz clic en un mes para ver qué se compró.';
+      } else if (me.status === 'error') failBox(q('chart'));
+
+      if (co.status === 'ok' && co.data.length && mesSel) {
+        if (!tipoSel) {
+          const campo = iva() ? 'precio_con_iva' : 'precio_neto';
+          const top = d3.greatest(co.data.filter(e => String(e.fecha).slice(0, 7) === mesSel), e => e[campo]);
+          tipoSel = top ? top.tipo : null;
+        }
+        drawMes(co.data);
+      } else if (co.status === 'error') failBox(q('hbar'));
+
+      const listos = [co, ar, ma, pt].every(d => d.status === 'ok') && (!ctrl || ctrl.status === 'ok');
+      if (listos && tipoSel) drawHistorial(co.data, ar.data, ma.data, pt.data, ctrl ? ctrl.data : null);
+    }
+    dash.onData(draw);
+    window.obraDraw[p] = draw;
+  }
+
+  // IVA: un solo botón para todas las obras
+  const setIva = (v) => {
+    $('btn-neto').setAttribute('aria-pressed', String(!v)); $('btn-iva').setAttribute('aria-pressed', String(v));
+    for (const f of Object.values(window.obraDraw)) f();
+  };
+  $('btn-neto').addEventListener('click', () => setIva(false));
+  $('btn-iva').addEventListener('click', () => setIva(true));
+
+  montarObra({ p: 'ps', panel: 'plaza-sur', sub: 'ps-sub-maquinaria', compras: 'compras', arr: 'arr', mant: 'mant', mensual: 'mensual_familia', totales: 'totales', por_tipo: 'por_tipo' });
+  montarObra({ p: 'br', panel: 'brisas', sub: 'br-sub-maquinaria', compras: 'br_compras', arr: 'br_arr', mant: 'br_mant', mensual: 'br_mensual_familia', totales: 'br_totales', por_tipo: 'br_por_tipo' });
+  montarObra({ p: 'lt', panel: 'la-toma', sub: 'lt-sub-maquinaria', compras: 'lt_compras', arr: 'lt_arr', mant: 'lt_mant', mensual: 'lt_mensual_familia', totales: 'lt_totales', por_tipo: 'lt_por_tipo' });
+  montarObra({ p: 'mc', panel: 'mar-azul', compras: 'mc_compras', arr: 'mc_arr', mant: 'mc_mant', mensual: 'mc_mensual_familia', totales: 'mc_totales', por_tipo: 'mc_por_tipo',
+    control: 'mar_azul', estado: 'mc_mensual_estado', sub: 'ma-sub-maquinaria', notaFecha: 'Se usa la fecha de la factura; 6 equipos sin factura descargada usan la fecha de entrada a bodega.' });
+})();
+</script>
+
+
+<script>
+dash.calc('ma_totales', {
+  inputs: ['mar_azul'], title: 'Mar Azul: totales',
+  description: 'Equipos en obra, operativos y no operativos, valor estimado (neto y con IVA = neto × 1,19) e incongruencias de procedencia.',
+  fn: (mar_azul) => {
+    const noOp = mar_azul.filter(e => e.estado === 'No operativo');
+    const valor = (rows) => d3.sum(rows, e => Number(e.precio_neto));
+    const total = valor(mar_azul), vNoOp = valor(noOp);
+    return [{
+      equipos: mar_azul.length, operativos: mar_azul.length - noOp.length, no_operativos: noOp.length,
+      pct_operativos: (mar_azul.length - noOp.length) / mar_azul.length, pct_no_operativos: noOp.length / mar_azul.length,
+      valor_total_neto: total, valor_total_con_iva: Math.round(total * 1.19),
+      valor_no_op_neto: vNoOp, valor_no_op_con_iva: Math.round(vNoOp * 1.19), pct_valor_no_op: vNoOp / total,
+      sin_registro: mar_azul.filter(e => e.situacion === 'Sin registro de procedencia').length,
+      no_corresponde: mar_azul.filter(e => e.situacion === 'OC del control no corresponde').length,
+      estimados_sin_factura: mar_azul.filter(e => e.base_precio !== 'Factura').length,
+      hortensias: mar_azul.filter(e => e.procedencia === 'Traslado desde Las Hortensias').length,
+      hortensias_no_op: mar_azul.filter(e => e.procedencia === 'Traslado desde Las Hortensias' && e.estado === 'No operativo').length
+    }];
+  }
+});
+dash.calc('ma_por_tipo', {
+  inputs: ['mar_azul'], title: 'Mar Azul: estado por tipo',
+  description: 'Por tipo de equipo: cantidad y valor estimado (neto y con IVA = neto × 1,19) de operativos y no operativos.',
+  fn: (mar_azul) => [...d3.group(mar_azul, e => e.tipo)].map(([tipo, rows]) => {
+    const op = rows.filter(e => e.estado === 'Operativo'), no = rows.filter(e => e.estado !== 'Operativo');
+    const v = (r) => d3.sum(r, e => Number(e.precio_neto));
+    return { tipo, familia: rows[0].familia, operativos: op.length, no_operativos: no.length, total: rows.length,
+      valor_op_neto: v(op), valor_no_op_neto: v(no), valor_op_con_iva: Math.round(v(op) * 1.19), valor_no_op_con_iva: Math.round(v(no) * 1.19) };
+  })
+});
+dash.calc('ma_procedencia', {
+  inputs: ['mar_azul'], title: 'Mar Azul: procedencia',
+  description: 'Equipos por situación de su procedencia (cruce del control de bodega con ConstruIT y facturas).',
+  fn: (mar_azul) => ['Compra con OC verificada', 'Traslado desde otra obra', 'Sin registro de procedencia', 'OC del control no corresponde'].map(situacion => {
+    const rows = mar_azul.filter(e => e.situacion === situacion);
+    return { situacion, equipos: rows.length, pct: rows.length / mar_azul.length, no_operativos: rows.filter(e => e.estado !== 'Operativo').length };
+  })
+});
+
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const clp = new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 });
+  const pct = (v) => `${(v * 100).toLocaleString('es-CL', { maximumFractionDigits: 1 })}%`;
+  const corto = (v) => v >= 1e6 ? `$${(v / 1e6).toLocaleString('es-CL', { maximumFractionDigits: 1 })} M` : v >= 1e3 ? `$${Math.round(v / 1e3)} mil` : `$${v}`;
+  const iva = () => $('btn-iva').getAttribute('aria-pressed') === 'true';
+  const suf = () => iva() ? 'con IVA' : 'sin IVA';
+  const INCONG = ['OC del control no corresponde', 'Sin registro de procedencia'];
+  const COLOR_PROC = { 'Compra con OC verificada': dash.colors[3], 'Traslado desde otra obra': 'var(--cds-chart-muted)',
+    'Sin registro de procedencia': dash.colors[1], 'OC del control no corresponde': 'var(--cds-chart-status-critical)' };
+  let medida = 'cant', filtro = 'todas';
+  const div = (cls, txt) => { const d = document.createElement('div'); if (cls) d.className = cls; d.textContent = txt; return d; };
+  const failBox = (el) => { el.classList.remove('dash-skeleton'); const d = div('ps-fail', 'Failed to load'); el.replaceChildren(d); };
+  const tooltip = (box) => { const t = div('ps-tip', ''); t.hidden = true; box.appendChild(t); return t; };
+  const placeTip = (tip, box, ev) => {
+    const [px, py] = d3.pointer(ev, box);
+    tip.style.left = `${Math.min(Math.max(0, px + 12), box.clientWidth - tip.offsetWidth)}px`;
+    tip.style.top = `${Math.max(0, py - tip.offsetHeight - 12)}px`;
+  };
+  $('ma-sw-op').style.background = dash.colors[0];
+
+  const setMedida = (m) => { medida = m; $('ma-por-cant').setAttribute('aria-pressed', String(m === 'cant')); $('ma-por-valor').setAttribute('aria-pressed', String(m === 'valor')); draw(); };
+  $('ma-por-cant').addEventListener('click', () => setMedida('cant'));
+  $('ma-por-valor').addEventListener('click', () => setMedida('valor'));
+  for (const id of ['btn-neto', 'btn-iva']) $(id).addEventListener('click', () => draw());
+
+  function drawTotales(t) {
+    const set = (id, txt) => { $(id).textContent = txt; $(id).classList.remove('dash-skeleton'); };
+    set('ma-v-total', d3.format(',')(t.equipos));
+    set('ma-v-op', d3.format(',')(t.operativos));
+    set('ma-v-op-pct', `${pct(t.pct_operativos)} del total · ${clp.format(iva() ? t.valor_total_con_iva - t.valor_no_op_con_iva : t.valor_total_neto - t.valor_no_op_neto)}`);
+    set('ma-v-noop', d3.format(',')(t.no_operativos));
+    set('ma-v-noop-pct', `${pct(t.pct_no_operativos)} del total · ${clp.format(iva() ? t.valor_no_op_con_iva : t.valor_no_op_neto)}`);
+    $('ma-v-valor').setAttribute('data-field', iva() ? 'valor_no_op_con_iva' : 'valor_no_op_neto');
+    $('ma-lbl-valor').textContent = `Valor estimado detenido, ${suf()}`;
+    set('ma-v-valor', clp.format(iva() ? t.valor_no_op_con_iva : t.valor_no_op_neto));
+    set('ma-v-valor-pct', `${pct(t.pct_valor_no_op)} del valor de todos los equipos`);
+    set('ma-resumen', `De ${t.equipos} equipos en obra, ${t.no_operativos} no están operativos. ` +
+      `${t.sin_registro + t.no_corresponde} equipos tienen una procedencia poco clara: ${t.sin_registro} sin registro y ${t.no_corresponde} con una OC en el control que corresponde a otro equipo. ` +
+      `Los valores son estimados: ${t.estimados_sin_factura} equipos no tienen factura en Mar Azul y usan un precio de referencia.`);
+  }
+
+  function drawEstado(rows) {
+    const box = $('ma-chart-estado');
+    box.classList.remove('dash-skeleton');
+    box.replaceChildren();
+    const kOp = medida === 'cant' ? 'operativos' : iva() ? 'valor_op_con_iva' : 'valor_op_neto';
+    const kNo = medida === 'cant' ? 'no_operativos' : iva() ? 'valor_no_op_con_iva' : 'valor_no_op_neto';
+    const fmt = medida === 'cant' ? (v) => d3.format(',')(v) : corto;
+    $('ma-estado-nota').textContent = medida === 'cant' ? 'Tipos ordenados por cantidad de equipos.' : `Tipos ordenados por valor estimado ${suf()}.`;
+    const items = [...rows].sort((a, b) => (b[kOp] + b[kNo]) - (a[kOp] + a[kNo]) || a.tipo.localeCompare(b.tipo));
+    const W = Math.max(280, box.clientWidth), fila = 26, m = { top: 4, right: 8, bottom: 4 };
+    const H = m.top + m.bottom + items.length * fila;
+    const svg = d3.select(box).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`)
+      .attr('role', 'img').attr('aria-label', 'Equipos operativos y no operativos por tipo');
+    const probe = svg.append('text').style('font-size', 'var(--cds-font-size-caption)');
+    const labW = Math.min(W * 0.4, 12 + d3.max(items, r => probe.text(r.tipo).node().getComputedTextLength()));
+    const etiqueta = (r) => r[kNo] ? `${fmt(r[kOp] + r[kNo])} · ${fmt(r[kNo])} no op.` : fmt(r[kOp] + r[kNo]);
+    const valW = 8 + d3.max(items, r => probe.text(etiqueta(r)).node().getComputedTextLength());
+    const recorta = (t) => { probe.text(t); if (probe.node().getComputedTextLength() <= labW - 10) return t;
+      let s = t; while (s.length > 4) { s = s.slice(0, -1); probe.text(`${s}…`); if (probe.node().getComputedTextLength() <= labW - 10) return `${s.trimEnd()}…`; } return s; };
+    const nombres = items.map(r => recorta(r.tipo));
+    probe.remove();
+    const x = d3.scaleLinear([0, d3.max(items, r => r[kOp] + r[kNo])], [labW, W - m.right - valW]);
+    const yb = d3.scaleBand(items.map(r => r.tipo), [m.top, H - m.bottom]).padding(0.25);
+    const bh = Math.min(18, yb.bandwidth());
+    const g = svg.append('g').selectAll('g').data(items).join('g').attr('transform', r => `translate(0,${yb(r.tipo) + (yb.bandwidth() - bh) / 2})`);
+    g.append('text').attr('x', labW - 10).attr('y', bh / 2).attr('dy', '0.32em').attr('text-anchor', 'end')
+      .attr('fill', 'var(--color-fg)').style('font-size', 'var(--cds-font-size-caption)').text((r, i) => nombres[i]);
+    const barra = (x0, x1, redondo) => {
+      const r = redondo ? Math.min(4, bh / 2, Math.max(0, x1 - x0)) : 0;
+      return `M${x0},0H${x1 - r}Q${x1},0 ${x1},${r}V${bh - r}Q${x1},${bh} ${x1 - r},${bh}H${x0}Z`;
+    };
+    g.filter(r => r[kOp] > 0).append('path').attr('fill', dash.colors[0])
+      .attr('d', r => barra(labW, x(r[kOp]) - (r[kNo] ? 1 : 0), !r[kNo]));
+    g.filter(r => r[kNo] > 0).append('path').attr('fill', 'var(--cds-chart-status-critical)')
+      .attr('d', r => barra(x(r[kOp]) + (r[kOp] ? 1 : 0), x(r[kOp] + r[kNo]), true));
+    g.append('text').attr('x', r => x(r[kOp] + r[kNo]) + 6).attr('y', bh / 2).attr('dy', '0.32em')
+      .attr('fill', 'var(--color-fg-muted)').style('font-size', 'var(--cds-font-size-caption)').text(etiqueta);
+    svg.append('line').attr('x1', labW).attr('x2', labW).attr('y1', m.top).attr('y2', H - m.bottom)
+      .attr('stroke', 'var(--cds-chart-axis)').attr('stroke-width', 1);
+    const tip = tooltip(box);
+    svg.append('g').selectAll('rect').data(items).join('rect').attr('x', 0).attr('width', W)
+      .attr('y', r => yb(r.tipo) - yb.step() * yb.paddingInner() / 2).attr('height', yb.step()).attr('fill', 'transparent')
+      .on('pointerenter pointermove', (ev, r) => {
+        const v = (k) => clp.format(r[k]);
+        tip.replaceChildren(div('t-sub', `${r.tipo} · ${r.familia}`),
+          div('t-val', `${r.operativos} operativos · ${r.no_operativos} no operativos`),
+          div('', `Valor estimado ${suf()}: ${iva() ? v('valor_op_con_iva') : v('valor_op_neto')} operativo, ${iva() ? v('valor_no_op_con_iva') : v('valor_no_op_neto')} no operativo`));
+        tip.hidden = false; placeTip(tip, box, ev);
+      })
+      .on('pointerleave', () => { tip.hidden = true; });
+  }
+
+  // Torta (dona) con leyenda: items [{label, value, color, texto, info, click}]
+  function torta(id, items, total, centro) {
+    const box = $(id);
+    box.classList.remove('dash-skeleton');
+    box.replaceChildren();
+    const S = 200, R = S / 2, r0 = R * 0.58;
+    const datos = items.filter(d => d.value > 0);
+    const arcs = d3.pie().value(d => d.value).sort(null).padAngle(datos.length > 1 ? 0.012 : 0)(datos);
+    const svg = d3.select(box).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${S} ${S}`).attr('role', 'img')
+      .attr('aria-label', items.map(d => `${d.label}: ${d.texto}`).join('; '));
+    const g = svg.append('g').attr('transform', `translate(${R},${R})`);
+    const arco = d3.arc().innerRadius(r0).outerRadius(R - 2).cornerRadius(2);
+    const tip = tooltip(box);
+    const sl = g.selectAll('path').data(arcs).join('path').attr('d', arco).attr('fill', a => a.data.color)
+      .attr('stroke', 'var(--color-bg, #fff)').attr('stroke-width', 1)
+      .attr('class', a => a.data.click ? 'ps-hit' : null).style('cursor', a => a.data.click ? 'pointer' : null)
+      .on('pointerenter pointermove', (ev, a) => {
+        tip.replaceChildren(div('t-sub', a.data.label), div('t-val', a.data.texto), ...(a.data.info ? [div('', a.data.info)] : []),
+          ...(a.data.click ? [div('t-sub', 'Clic para ver el detalle')] : []));
+        tip.hidden = false; placeTip(tip, box, ev);
+      })
+      .on('pointerleave', () => { tip.hidden = true; })
+      .on('click', (ev, a) => a.data.click && a.data.click());
+    sl.filter(a => a.data.click).attr('tabindex', 0).attr('role', 'button').attr('aria-label', a => `Ver ${a.data.label}`)
+      .on('keydown', (ev, a) => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); a.data.click(); } });
+    g.append('text').attr('text-anchor', 'middle').attr('dy', '-0.1em').attr('fill', 'var(--color-fg)')
+      .style('font-size', '20px').style('font-weight', 'var(--cds-font-weight-medium)').text(centro[0]);
+    g.append('text').attr('text-anchor', 'middle').attr('dy', '1.3em').attr('fill', 'var(--color-fg-muted)')
+      .style('font-size', '11px').text(centro[1]);
+    $(`${id}-leg`).replaceChildren(...items.map(d => {
+      const li = document.createElement('li');
+      const sw = document.createElement('span'); sw.className = 'ps-sw'; sw.style.background = d.color;
+      const v = document.createElement('span'); v.className = 'v'; v.textContent = d.texto;
+      li.append(sw, document.createTextNode(d.label), v);
+      if (d.click) { li.tabIndex = 0; li.setAttribute('role', 'button'); li.addEventListener('click', d.click);
+        li.addEventListener('keydown', (ev) => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); d.click(); } }); }
+      return li;
+    }));
+  }
+
+  window.maTorta = torta;
+
+  function drawTortas(t) {
+    const vNo = iva() ? t.valor_no_op_con_iva : t.valor_no_op_neto, vTot = iva() ? t.valor_total_con_iva : t.valor_total_neto;
+    $('ma-pie-valor-tit').textContent = `Valor de los equipos, ${suf()}`;
+    torta('ma-pie-valor', [
+      { label: 'Operativos', value: vTot - vNo, color: dash.colors[0], texto: `${clp.format(vTot - vNo)} · ${pct(1 - t.pct_valor_no_op)}`, info: `${t.operativos} equipos` },
+      { label: 'No operativos', value: vNo, color: 'var(--cds-chart-status-critical)', texto: `${clp.format(vNo)} · ${pct(t.pct_valor_no_op)}`, info: `${t.no_operativos} equipos` },
+    ], vTot, [corto(vNo), 'no operativo']);
+    const poco = t.sin_registro + t.no_corresponde, ver = () => { filtro = 'todas'; draw(); $('ma-incongruencias').scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+    torta('ma-pie-reg', [
+      { label: 'Procedencia clara', value: t.equipos - poco, color: 'var(--cds-chart-muted)', texto: `${t.equipos - poco} · ${pct((t.equipos - poco) / t.equipos)}`, info: 'Compra con OC verificada o traslado registrado' },
+      { label: 'Sin registro claro', value: poco, color: dash.colors[1], texto: `${poco} · ${pct(poco / t.equipos)}`, info: `${t.sin_registro} sin registro y ${t.no_corresponde} con una OC que corresponde a otro equipo`, click: ver },
+    ], t.equipos, [pct(poco / t.equipos), 'sin registro claro']);
+    torta('ma-pie-hort', [
+      { label: 'Desde Las Hortensias: revisar', value: t.hortensias, color: dash.colors[5], texto: `${t.hortensias} · ${pct(t.hortensias / t.equipos)}`, info: `${t.hortensias_no_op} de ellos ya están no operativos` },
+      { label: 'Resto de los equipos', value: t.equipos - t.hortensias, color: 'var(--cds-chart-muted)', texto: `${t.equipos - t.hortensias} · ${pct(1 - t.hortensias / t.equipos)}` },
+    ], t.equipos, [pct(t.hortensias / t.equipos), 'a revisar']);
+  }
+
+  function drawProcedencia(rows) {
+    const ir = (r) => () => { filtro = r.situacion; draw(); $('ma-incongruencias').scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+    const total = d3.sum(rows, r => r.equipos);
+    torta('ma-chart-proc', rows.map(r => ({ label: r.situacion, value: r.equipos, color: COLOR_PROC[r.situacion],
+      texto: `${r.equipos} · ${pct(r.pct)}`, info: `${r.no_operativos} de ellos no operativos`, click: INCONG.includes(r.situacion) ? ir(r) : null })),
+      total, [String(total), 'equipos']);
+  }
+
+  function drawIncongruencias(rows) {
+    const inc = rows.filter(e => INCONG.includes(e.situacion));
+    const chips = [['todas', `Todas (${inc.length})`], ...INCONG.map(s => [s, `${s} (${inc.filter(e => e.situacion === s).length})`])];
+    $('ma-chips').replaceChildren(...chips.map(([k, txt]) => {
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'ps-chip'; b.setAttribute('aria-pressed', String(filtro === k));
+      if (k !== 'todas') { const sw = document.createElement('span'); sw.className = 'ps-sw'; sw.style.background = COLOR_PROC[k]; b.appendChild(sw); }
+      b.appendChild(document.createTextNode(txt));
+      b.addEventListener('click', () => { filtro = k; draw(); });
+      return b;
+    }));
+    const vis = inc.filter(e => filtro === 'todas' || e.situacion === filtro)
+      .sort((a, b) => INCONG.indexOf(a.situacion) - INCONG.indexOf(b.situacion) || Number(a.n) - Number(b.n));
+    $('ma-tb-inc').replaceChildren(...vis.map(e => {
+      const tr = document.createElement('tr'); tr.setAttribute('data-key', e.n);
+      const td = (v, cls) => { const c = document.createElement('td'); c.textContent = v; if (cls) c.className = cls; tr.appendChild(c); };
+      td(e.n, 'num'); td(e.marca ? `${e.equipo} (${e.marca})` : e.equipo); td(e.estado); td(e.situacion);
+      td(e.oc_control || '—'); td(e.informe_oc || '—', 'mut'); td(e.observacion || '—', 'mut');
+      return tr;
+    }));
+  }
+
+  function draw() {
+    if ($('mar-azul').hidden || $('ma-sub-maquinaria').hidden) return;
+    const ma = dash.data('mar_azul'), t = dash.data('ma_totales'), pt = dash.data('ma_por_tipo'), pr = dash.data('ma_procedencia');
+    if (t.status === 'ok' && t.data.length) { drawTotales(t.data[0]); drawTortas(t.data[0]); }
+    else if (t.status === 'error') for (const id of ['ma-pie-valor', 'ma-pie-reg', 'ma-pie-hort']) failBox($(id));
+    if (pt.status === 'ok' && pt.data.length) drawEstado(pt.data); else if (pt.status === 'error') failBox($('ma-chart-estado'));
+    if (pr.status === 'ok' && pr.data.length) drawProcedencia(pr.data); else if (pr.status === 'error') failBox($('ma-chart-proc'));
+    if (ma.status === 'ok' && ma.data.length) drawIncongruencias(ma.data);
+  }
+  dash.onData(draw);
+  window.maEstadoDraw = draw;
+
+  // Pestañas por obra
+  const TABS = { 'plaza-sur': $('tab-plaza-sur'), 'mar-azul': $('tab-mar-azul'), 'brisas': $('tab-brisas'), 'la-toma': $('tab-la-toma') };
+  const PREF = { 'plaza-sur': 'ps', 'mar-azul': 'mc', 'brisas': 'br', 'la-toma': 'lt' };
+  const MONTOS = { 'plaza-sur': 'Montos según la factura o guía de despacho de cada equipo',
+    'mar-azul': 'Compras según factura; el valor de los equipos en obra es estimado (factura cuando existe; si no, referencia de mercado)',
+    'brisas': 'Montos según la factura de cada equipo; los equipos de GMW sin OC, según el P.P.P. del kardex de bodega',
+    'la-toma': 'Montos según la factura de cada equipo', };
+  const mostrar = (id, enlace) => {
+    for (const [k, b] of Object.entries(TABS)) {
+      const on = k === id;
+      b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1; $(k).hidden = !on;
+    }
+    $('lbl-montos').textContent = MONTOS[id];
+    if (enlace) dash.setLink(id);
+    if (id === 'mar-azul') draw();
+    window.obraDraw?.[PREF[id]]?.();
+  };
+  for (const [k, b] of Object.entries(TABS)) {
+    b.addEventListener('click', () => mostrar(k, true));
+    b.addEventListener('keydown', (ev) => {
+      if (ev.key !== 'ArrowRight' && ev.key !== 'ArrowLeft') return;
+      const ks = Object.keys(TABS), i = ks.indexOf(k); const otro = ks[(i + (ev.key === 'ArrowRight' ? 1 : ks.length - 1)) % ks.length];
+      mostrar(otro, true); TABS[otro].focus();
+    });
+  }
+  const destino = document.getElementById(location.hash.slice(1));
+  if (destino) {
+    const panel = destino.closest('[role="tabpanel"]');
+    if (panel) mostrar(panel.id, false);
+    requestAnimationFrame(() => destino.scrollIntoView());
+  }
+})();
+</script>
+
+<script>
+// Equipos de oficina y contenedores por obra. Con control de bodega (Mar Azul) o solo desde el InformeEntrada (Plaza Sur...)
+const calcsOficina = (p, oficina, movs, obra) => {
+  dash.calc(`${p}_of_equipos`, {
+    inputs: [oficina], title: `${obra}: equipos de oficina`,
+    description: 'Equipos de oficina (y radios) con su precio neto según factura (o InformeEntrada si no hay factura) y con IVA (neto × 1,19). Cantidad 1 cuando no viene.',
+    fn: (rows) => rows.map(e => ({ ...e, n: Number(e.n), oc: Number(e.oc), cantidad: Number(e.cantidad || 1), precio_neto: Number(e.precio_neto),
+      precio_unitario: Number(e.precio_unitario || e.precio_neto), precio_con_iva: Math.round(Number(e.precio_neto) * 1.19),
+      unitario_con_iva: Math.round(Number(e.precio_unitario || e.precio_neto) * 1.19) }))
+  });
+  dash.calc(`${p}_of_totales`, {
+    inputs: [`${p}_of_equipos`], title: `${obra}: totales de equipos de oficina`,
+    description: 'Unidades, valor y estado de verificación con factura; "en control" cuenta solo lo que figura en el control de bodega (si existe).',
+    fn: (rows) => {
+      const u = (r) => d3.sum(r, e => e.cantidad);
+      const ctl = rows.filter(e => e.en_control !== 'No'), fuera = rows.filter(e => e.en_control === 'No');
+      const neto = d3.sum(ctl, e => e.precio_neto);
+      return [{ equipos: u(ctl), lineas: ctl.length, neto, con_iva: Math.round(neto * 1.19),
+        verificados: u(ctl.filter(e => e.verificacion === 'Verificada')),
+        precio_distinto: u(ctl.filter(e => e.verificacion === 'Verificada, precio distinto')),
+        diferencias: u(ctl.filter(e => e.verificacion === 'Verificada, con diferencias')),
+        sin_factura: u(ctl.filter(e => !e.verificacion.startsWith('Verificada') && e.verificacion !== 'Sin OC (equipo de GMW)')),
+        gmw: u(ctl.filter(e => e.verificacion === 'Sin OC (equipo de GMW)')),
+        operativos: u(ctl.filter(e => /^operativo/i.test(e.estado))),
+        fuera: u(fuera), con_control: rows.some(e => e.en_control === 'Sí') }];
+    }
+  });
+  dash.calc(`${p}_co_mov`, {
+    inputs: [movs], title: `${obra}: compras, arriendos y costos de contenedores`,
+    description: 'Líneas del InformeEntrada asociadas a contenedores, con su factura y el monto con IVA (neto × 1,19).',
+    fn: (rows) => rows.map(c => ({ ...c, id: Number(c.id), oc: Number(c.oc), movimiento: c.movimiento || 'Costo asociado', cantidad: Number(c.cantidad || 1),
+      precio_neto: Number(c.precio_neto), precio_con_iva: Math.round(Number(c.precio_neto) * 1.19) }))
+  });
+};
+calcsOficina('mc', 'ma_oficina', 'ma_contenedores_costos', 'Mar Azul');
+calcsOficina('ps', 'ps_oficina', 'ps_contenedores_mov', 'Plaza Sur');
+calcsOficina('br', 'br_oficina', 'br_contenedores_mov', 'Brisas');
+calcsOficina('lt', 'lt_oficina', 'lt_contenedores_mov', 'La Toma');
+// Control de bodega de cada obra con control (La Toma, Brisas): líneas con factura y cruce con el InformeEntrada
+const noOperativo = (estado) => /^no\b|en reparaci|en mantenci|malo|dañad|defectuos/i.test(estado || '');
+const calcsControl = (p, obra, fecha) => {
+  dash.calc(`${p}_cr`, {
+    inputs: [`${p}_cruce`], title: `${obra}: control de bodega vs InformeEntrada`,
+    description: `Cada equipo del control de bodega (${fecha}) y cada línea de equipos del InformeEntrada completo de ConstruIT, con su situación: en ambos, solo en uno o en otro, y si coincide la OC.`,
+    fn: (rows) => rows.map((e, k) => ({ ...e, k, cant_control: Number(e.cant_control), cant_informe: Number(e.cant_informe), precio_informe: Number(e.precio_informe) }))
+  });
+  dash.calc(`${p}_ctl`, {
+    inputs: [`${p}_control`], title: `${obra}: control de bodega con factura`,
+    description: `Cada línea del control de bodega (${fecha}, con radios y sin herramientas manuales) con su precio, neto y con IVA (neto × 1,19), y su estado agrupado en operativo / no operativo. ` +
+      'Precio de la factura; los equipos de GMW sin OC llevan un valor de referencia cuando existe (si no, 0).',
+    fn: (rows) => rows.map(e => ({ ...e, n: Number(e.n), cantidad: Number(e.cantidad), precio_unitario: Number(e.precio_unitario), precio_neto: Number(e.precio_neto),
+      unitario_con_iva: Math.round(Number(e.precio_unitario) * 1.19), precio_con_iva: Math.round(Number(e.precio_neto) * 1.19),
+      grupo: noOperativo(e.estado) ? 'No operativo' : 'Operativo' }))
+  });
+};
+calcsControl('lt', 'La Toma', '26-10-2026');
+calcsControl('br', 'Brisas', '27-10-2026');
+calcsControl('ps', 'Plaza Sur', '27-10-2026');
+// Resumen general: dispositivos en obra (maquinaria menor del control y equipos de oficina del control) por obra, operativos y no operativos
+dash.calc('resumen_general', {
+  inputs: ['ps_ctl', 'mar_azul', 'br_ctl', 'lt_ctl', 'ps_of_equipos', 'mc_of_equipos', 'br_of_equipos', 'lt_of_equipos'], title: 'Resumen general por obra',
+  description: 'Por obra y ámbito: unidades y valor neto de los dispositivos operativos y no operativos según el control de bodega. Maquinaria menor: valor de factura (Mar Azul: valor estimado), ' +
+    'sin arriendos; equipos de oficina: solo los que están en obra según el control. Sin contenedores.',
+  fn: (ps, ma, br, lt, psO, maO, brO, ltO) => {
+    const fila = (obra, ambito, rows, u, op, v) => {
+      const o = rows.filter(op), n = rows.filter(e => !op(e));
+      return { obra, ambito, op_u: d3.sum(o, u), no_u: d3.sum(n, u), op_v: d3.sum(o, v), no_v: d3.sum(n, v) };
+    };
+    const ctl = (obra, rows) => fila(obra, 'Maquinaria menor', rows, e => e.cantidad, e => e.grupo === 'Operativo', e => e.procedencia === 'Arriendo' ? 0 : e.precio_neto);
+    const ofi = (obra, rows) => fila(obra, 'Equipos de oficina', rows.filter(e => e.en_control === 'Sí' && !/fuera de obra/i.test(e.a_cargo || '')),
+      e => e.cantidad, e => !noOperativo(e.estado), e => e.precio_neto);
+    return [ctl('Plaza Sur', ps), fila('Mar Azul', 'Maquinaria menor', ma, () => 1, e => e.estado !== 'No operativo', e => Number(e.precio_neto)),
+      ctl('Brisas', br), ctl('La Toma', lt), ofi('Plaza Sur', psO), ofi('Mar Azul', maO), ofi('Brisas', brO), ofi('La Toma', ltO)];
+  }
+});
+
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const clp = new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 });
+  const iva = () => $('btn-iva').getAttribute('aria-pressed') === 'true';
+  const suf = () => iva() ? 'con IVA' : 'sin IVA';
+  const fecha = (s) => { if (!s) return '—'; const [y, m, d] = String(s).slice(0, 10).split('-'); return `${d}-${m}-${y}`; };
+  const td = (tr, v, cls) => { const c = document.createElement('td'); c.textContent = v; if (cls) c.className = cls; tr.appendChild(c); };
+  const listo = (el) => el.classList.remove('dash-skeleton');
+  const linea = (cls, txt) => { const d = document.createElement('div'); d.className = cls; d.textContent = txt; return d; };
+  const tip = (box) => { const t = document.createElement('div'); t.className = 'ps-tip'; t.hidden = true; box.appendChild(t); return t; };
+  const placeTip = (t, box, ev) => {
+    const [px, py] = d3.pointer(ev, box);
+    t.style.left = `${Math.min(Math.max(0, px + 12), box.clientWidth - t.offsetWidth)}px`;
+    t.style.top = `${Math.max(0, py - t.offsetHeight - 12)}px`;
+  };
+  const VER = [['Verificada', 'var(--cds-chart-status-good, #3f9c4a)'], ['Verificada, precio distinto', dash.colors[1]],
+    ['Factura no disponible', 'var(--cds-chart-muted)'], ['Verificada, con diferencias', dash.colors[3]], ['Sin OC (equipo de GMW)', 'var(--color-fg-muted)']];
+  const VER_BASE = 3;  // las demás categorías solo aparecen si hay equipos en ellas
+
+  // cfg: p (prefijo), obra (texto), panel (pestaña de la obra), sub (sub-panel de oficina)
+  function montarOficina(cfg) {
+    const { p } = cfg, q = (s) => $(`${p}-of-${s}`);
+    let filtro = null, orden = 'precio';
+    const setFiltro = (f) => { filtro = f; draw(); q('detalle').scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+    const setOrden = (o) => { orden = o; q('ord-precio').setAttribute('aria-pressed', String(o === 'precio')); q('ord-fecha').setAttribute('aria-pressed', String(o === 'fecha')); draw(); };
+    q('ord-precio').addEventListener('click', () => setOrden('precio'));
+    q('ord-fecha').addEventListener('click', () => setOrden('fecha'));
+
+    function drawBarras(rows, colorTipo, ctl) {
+      const box = q('hbar');
+      listo(box); box.replaceChildren();
+      const k = iva() ? 'precio_con_iva' : 'precio_neto';
+      const sinPrecio = rows.filter(e => !e[k]).length;
+      const items = rows.filter(e => e[k] > 0).sort(orden === 'precio' ? (a, b) => b[k] - a[k] || a.n - b.n : (a, b) => String(a.fecha).localeCompare(String(b.fecha)) || b[k] - a[k]);
+      q('hbar-nota').textContent = `${items.length} ${items.length === 1 ? 'compra' : 'compras'}${filtro ? ` (${filtro.valor})` : ''}, ` +
+        (orden === 'precio' ? `del monto mayor al menor, ${suf()}.` : `por fecha de compra (factura o, si no hay, entrada a bodega), ${suf()}.`) +
+        (items.some(e => e.cantidad > 1) ? ' Cuando una OC trae varias unidades, la barra muestra el total.' : '') +
+        (sinPrecio ? ` ${sinPrecio} equipos de GMW sin OC no tienen precio y no aparecen en las barras.` : '');
+      if (!items.length) return;
+      const nombre = (e) => `${e.tipo}${e.cantidad > 1 ? ` ×${e.cantidad}` : ''} · ${ctl ? (e.a_cargo || 'fuera del control') : `OC ${e.oc}`}`;
+      const etiqueta = (e) => orden === 'fecha' ? `${clp.format(e[k])} · ${fecha(e.fecha)}` : clp.format(e[k]);
+      const W = Math.max(280, box.clientWidth), fila = 28, m = { top: 4, right: 8, bottom: 4 };
+      const H = m.top + m.bottom + items.length * fila;
+      const svg = d3.select(box).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img')
+        .attr('aria-label', `Equipos de oficina de ${cfg.obra} ordenados por ${orden === 'precio' ? 'monto' : 'fecha de compra'}`);
+      const probe = svg.append('text').style('font-size', 'var(--cds-font-size-caption)');
+      const labW = Math.min(W * 0.42, 12 + d3.max(items, e => probe.text(nombre(e)).node().getComputedTextLength()));
+      const valW = 8 + d3.max(items, e => probe.text(etiqueta(e)).node().getComputedTextLength());
+      probe.remove();
+      const x = d3.scaleLinear([0, d3.max(items, e => e[k])], [labW, W - m.right - valW]);
+      const y = d3.scaleBand(items.map(e => e.n), [m.top, H - m.bottom]).padding(0.28);
+      const bh = Math.min(18, y.bandwidth());
+      const g = svg.append('g').selectAll('g').data(items).join('g').attr('transform', e => `translate(0,${y(e.n) + (y.bandwidth() - bh) / 2})`);
+      g.append('text').attr('x', labW - 10).attr('y', bh / 2).attr('dy', '0.32em').attr('text-anchor', 'end')
+        .attr('fill', 'var(--color-fg)').style('font-size', 'var(--cds-font-size-caption)').text(nombre);
+      g.append('path').attr('fill', e => colorTipo(e.tipo)).attr('d', e => {
+        const x0 = labW, x1 = Math.max(x0 + 2, x(e[k])), r = Math.min(4, bh / 2, x1 - x0);
+        return `M${x0},0H${x1 - r}Q${x1},0 ${x1},${r}V${bh - r}Q${x1},${bh} ${x1 - r},${bh}H${x0}Z`;
+      });
+      g.append('text').attr('x', e => Math.max(labW + 2, x(e[k])) + 6).attr('y', bh / 2).attr('dy', '0.32em')
+        .attr('fill', 'var(--color-fg-muted)').style('font-size', 'var(--cds-font-size-caption)').text(etiqueta);
+      svg.append('line').attr('x1', labW).attr('x2', labW).attr('y1', m.top).attr('y2', H - m.bottom).attr('stroke', 'var(--cds-chart-axis)').attr('stroke-width', 1);
+      const t = tip(box), ku = iva() ? 'unitario_con_iva' : 'precio_unitario';
+      svg.append('g').selectAll('rect').data(items).join('rect').attr('x', 0).attr('width', W)
+        .attr('y', e => y(e.n) - y.step() * y.paddingInner() / 2).attr('height', y.step()).attr('fill', 'transparent')
+        .on('pointerenter pointermove', (ev, e) => {
+          t.replaceChildren(linea('t-sub', `${e.tipo} · OC ${e.oc} · ${fecha(e.fecha)}`),
+            linea('t-val', `${clp.format(e[k])} ${suf()}${e.cantidad > 1 ? ` (${e.cantidad} × ${clp.format(e[ku])})` : ''}`),
+            linea('', e.equipo), linea('t-sub', `${e.proveedor} · ${e.documento || 'sin factura'}`), linea('t-sub', e.verificacion));
+          t.hidden = false; placeTip(t, box, ev);
+        })
+        .on('pointerleave', () => { t.hidden = true; });
+    }
+
+    function draw() {
+      if ($(cfg.panel).hidden || $(cfg.sub).hidden) return;
+      const eq = dash.data(`${p}_of_equipos`), t = dash.data(`${p}_of_totales`);
+      if (t.status === 'ok' && t.data.length) {
+        const x = t.data[0], ctl = x.con_control, v = clp.format(iva() ? x.con_iva : x.neto);
+        q('v-total').textContent = v;
+        q('lbl-total').textContent = `${ctl ? 'Valor de los equipos del control' : 'Valor de los equipos comprados'}, ${suf()}`;
+        q('v-equipos').textContent = x.equipos;
+        q('v-ver').textContent = `${x.verificados} de ${x.equipos}`;
+        q('v-cuarto').textContent = ctl ? (cfg.gmw ? x.gmw : x.fuera) : x.sin_factura;
+        const op = x.operativos === x.equipos ? 'todos operativos' : `${x.operativos} operativos`;
+        q('resumen').textContent = ctl && cfg.gmw
+          ? `El control de bodega registra ${x.equipos} equipos de oficina y comedor en ${cfg.obra}, ${op}. Los comprados por la obra suman ${v} ${suf()} según factura. ` +
+            `${x.verificados} coinciden con su factura; ${x.diferencias} coinciden en el equipo, pero el control anota otro documento u otra cantidad, ` +
+            `y en ${x.precio_distinto} la factura salió a otro precio que la OC. Los otros ${x.gmw} son equipos de GMW sin OC ni factura.` +
+            (x.fuera ? ` Además, ${x.fuera} equipos comprados por la obra no figuran en el control (en las barras, "fuera del control").` : '')
+          : ctl
+          ? `El control de bodega registra ${x.equipos} equipos de oficina en ${cfg.obra}, ${op}, por ${v} ${suf()} según factura. ` +
+            `${x.verificados} coinciden con el InformeEntrada; en ${x.precio_distinto} el precio de la factura es distinto y ${x.sin_factura} no tiene factura disponible. ` +
+            `Además, ${x.fuera} equipos de oficina comprados por la obra no figuran en el control.`
+          : `Según el InformeEntrada, ${cfg.obra} compró ${x.equipos} equipos de oficina y radios en ${x.lineas} compras, por ${v} ${suf()} según factura. ` +
+            `${x.verificados} unidades coinciden con su factura, ${x.precio_distinto} tienen un precio distinto y ${x.sin_factura} no tiene factura disponible. ` +
+            `Todavía no hay control de bodega de la obra: no se sabe quién tiene cada equipo ni su estado.`;
+        for (const s of ['v-total', 'v-equipos', 'v-ver', 'v-cuarto', 'resumen']) listo(q(s));
+      }
+      if (eq.status === 'ok' && eq.data.length) {
+        const rows = eq.data, k = iva() ? 'precio_con_iva' : 'precio_neto', ku = iva() ? 'unitario_con_iva' : 'precio_unitario';
+        const ctl = rows.some(e => e.en_control === 'Sí'), u = (r) => d3.sum(r, e => e.cantidad), totU = u(rows);
+        const tipos = d3.rollups(rows, v => d3.sum(v, e => e.precio_neto), e => e.tipo).sort((a, b) => b[1] - a[1]).map(d => d[0]);
+        const colorTipo = (tp) => dash.colors[tipos.indexOf(tp)] || 'var(--cds-chart-muted)';
+        const sel = (campo, valor) => () => setFiltro(filtro && filtro.campo === campo && filtro.valor === valor ? null : { campo, valor });
+        window.maTorta(`${p}-of-pie-ver`, VER.map(([v, c]) => {
+          const n = u(rows.filter(e => e.verificacion === v));
+          return { label: v, value: n, color: c, texto: `${n} · ${Math.round(n / totU * 100)}%`, click: n ? sel('verificacion', v) : null };
+        }).filter((d, i) => i < VER_BASE || d.value), totU, [String(totU), 'equipos']);
+        const porTipo = tipos.map(tp => [tp, d3.sum(rows.filter(e => e.tipo === tp), e => e[k])]);
+        const tot = d3.sum(porTipo, d => d[1]);
+        q('pie-tipo-tit').textContent = `Valor por tipo de equipo, ${suf()}`;
+        window.maTorta(`${p}-of-pie-tipo`, porTipo.map(([tp, v]) => ({ label: tp, value: v, color: colorTipo(tp),
+          texto: `${clp.format(v)} · ${Math.round(v / tot * 100)}%`, info: `${u(rows.filter(e => e.tipo === tp))} equipos`, click: sel('tipo', tp) })),
+          tot, [`$${(tot / 1e6).toLocaleString('es-CL', { maximumFractionDigits: 1 })} M`, suf()]);
+
+        const vis = filtro ? rows.filter(e => e[filtro.campo] === filtro.valor) : rows;
+        q('filtro').replaceChildren(...(filtro ? [
+          document.createTextNode(`Mostrando ${u(vis)} de ${totU} equipos: ${filtro.campo === 'tipo' ? 'tipo' : 'verificación'} "${filtro.valor}". `),
+          Object.assign(document.createElement('button'), { type: 'button', className: 'ps-chip', textContent: 'Ver todos', onclick: () => setFiltro(null) })
+        ] : [document.createTextNode('Haz clic en una parte de las tortas para ver solo esos equipos.')]));
+        drawBarras(vis, colorTipo, ctl);
+        q('th-unit').textContent = `Precio unitario ${suf()}`; q('th-total').textContent = `Total ${suf()}`;
+        q('tb').replaceChildren(...[...vis].sort((a, b) => a.n - b.n).map(e => {
+          const tr = document.createElement('tr'); tr.setAttribute('data-key', e.n);
+          td(tr, ctl && e.en_control !== 'Sí' ? '—' : e.n, 'num'); td(tr, e.tipo); td(tr, e.equipo); td(tr, String(e.cantidad), 'num');
+          if (ctl) { td(tr, e.a_cargo || '—'); td(tr, e.estado); }
+          td(tr, String(e.oc)); td(tr, e.proveedor || '—'); td(tr, e.documento || '—', 'mut'); td(tr, fecha(e.fecha));
+          td(tr, clp.format(e[ku]), 'num'); td(tr, clp.format(e[k]), 'num'); td(tr, e.verificacion); td(tr, e.observacion || '—', 'mut');
+          return tr;
+        }));
+      } else if (eq.status === 'error') for (const s of ['pie-ver', 'pie-tipo', 'hbar']) q(s).replaceChildren(document.createTextNode('Failed to load'));
+    }
+    dash.onData(draw);
+    return draw;
+  }
+
+  // Contenedores: uso, largo (20 pies = 6 m, 40 pies = 12 m) y si es comprado, arrendado o de GMW, según el tipo y el registro en ConstruIT
+  const USO = [['Fosa séptica', /fosa/i], ['Oficina', /oficina|reuni/i], ['Baño', /baño/i], ['Vestidor', /vestidor|camarin|casillero/i], ['Bodega', /bodega|pañol/i]];  // oficina primero: hay oficinas con baño
+  const PROP = { 'Comprado': dash.colors[0], 'Arrendado': dash.colors[3], 'Propio de GMW': 'var(--cds-chart-muted)', 'GMW o arriendo (sin confirmar)': dash.colors[4] };
+  const clasificar = (c) => ({ ...c, uso: (USO.find(([, re]) => re.test(c.tipo)) || ['Otro'])[0],
+    largo: /fosa/i.test(c.tipo) ? 'No aplica' : /12|40/.test(c.modelo) ? '12 metros' : /\b(6|20)\b/.test(c.modelo) ? '6 metros' : 'Sin dato',
+    propiedad: /^arriendo/i.test(c.registro) ? 'Arrendado' : /^compra/i.test(c.registro) ? 'Comprado' : /o arrendado/i.test(c.observacion) ? 'GMW o arriendo (sin confirmar)' : 'Propio de GMW' });
+
+  // Contenedores: tabla del control (si existe) con tortas que la filtran, y compras, arriendos y costos asociados del InformeEntrada
+  function montarContenedores(cfg) {
+    const { p } = cfg, q = (s) => $(`${p}-co-${s}`);
+    let filtro = null;
+    const setFiltro = (f) => { filtro = f; draw(); q('detalle').scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+    const sel = (campo, valor) => () => setFiltro(filtro && filtro.campo === campo && filtro.valor === valor ? null : { campo, valor });
+    function draw() {
+      if ($(cfg.panel).hidden || $(cfg.sub).hidden) return;
+      const co = cfg.control ? dash.data(cfg.control) : null, mv = dash.data(`${p}_co_mov`);
+      if (co && co.status === 'ok' && co.data.length) {
+        const rows = co.data.map(clasificar), tot = rows.length;
+        const torta = (k, campo, grupos) => window.maTorta(`${p}-co-${k}`, grupos.map(([v, color]) => {
+          const n = rows.filter(c => c[campo] === v).length;
+          return { label: v, value: n, color, texto: `${n} · ${Math.round(n / tot * 100)}%`, click: n ? sel(campo, v) : null };
+        }).filter(d => d.value), tot, [String(tot), 'contenedores']);
+        torta('pie-uso', 'uso', [...USO.map(([u]) => u), 'Otro'].map((u, i) => [u, dash.colors[i]]));
+        torta('pie-largo', 'largo', [['6 metros', dash.colors[0]], ['12 metros', dash.colors[1]], ['No aplica', dash.colors[2]], ['Sin dato', 'var(--cds-chart-muted)']]);
+        torta('pie-prop', 'propiedad', Object.entries(PROP));
+        const vis = filtro ? rows.filter(c => c[filtro.campo] === filtro.valor) : rows;
+        q('filtro').replaceChildren(...(filtro ? [
+          document.createTextNode(`Mostrando ${vis.length} de ${tot} contenedores: "${filtro.valor}". `),
+          Object.assign(document.createElement('button'), { type: 'button', className: 'ps-chip', textContent: 'Ver todos', onclick: () => setFiltro(null) })
+        ] : [document.createTextNode('Haz clic en una parte de las tortas para ver solo esos contenedores.')]));
+        q('tb').replaceChildren(...vis.map(c => {
+          const tr = document.createElement('tr'); tr.setAttribute('data-key', c.n);
+          td(tr, c.n, 'num'); td(tr, c.uso); td(tr, c.largo); td(tr, c.propiedad); td(tr, c.tipo); td(tr, c.estado); td(tr, c.registro); td(tr, c.observacion, 'mut');
+          return tr;
+        }));
+      }
+      if (mv.status !== 'ok' || (co && co.status !== 'ok')) return;
+      const k = iva() ? 'precio_con_iva' : 'precio_neto', rows = mv.data;
+      const suma = (mov) => d3.sum(rows.filter(r => r.movimiento === mov), r => r[k]);
+      // las fosas sépticas van en esta sección, pero no se cuentan como contenedores
+      const esFosa = (c) => /fosa/i.test(c.tipo), cc = co ? co.data.filter(c => !esFosa(c)) : [], fosas = co ? co.data.filter(esFosa) : [];
+      const txtFosas = fosas.length ? ` Además, ${fosas.length === 1 ? 'hay una fosa séptica' : `hay ${fosas.length} fosas sépticas`} (${fosas.map(f => f.modelo).join(' y ')}): ` +
+        `no son contenedores, pero se registran en esta sección. ${fosas.map(f => f.observacion).join('. ')}.` : '';
+      q('v-1').textContent = co ? cc.length : clp.format(suma('Compra'));
+      q('v-2').textContent = co ? cc.filter(c => c.estado === 'Operativo').length : clp.format(suma('Arriendo'));
+      q('v-3').textContent = co ? cc.filter(c => !String(c.registro).startsWith('Sin')).length : rows.filter(r => r.movimiento === 'Costo asociado').length;
+      q('v-costos').textContent = clp.format(d3.sum(rows, r => r[k]));
+      q('lbl-costos').textContent = `${co ? 'Costos asociados' : 'Total en contenedores'}, ${suf()}`;
+      if (!co) { q('lbl-1').textContent = `Compras de contenedores, ${suf()}`; q('lbl-2').textContent = `Arriendos de contenedores, ${suf()}`; }
+      for (const s of ['v-1', 'v-2', 'v-3', 'v-costos', 'resumen']) listo(q(s));
+      q('th-precio').textContent = `Monto ${suf()}`;
+      q('tb-costos').replaceChildren(...rows.map(c => {
+        const tr = document.createElement('tr'); tr.setAttribute('data-key', c.id);
+        td(tr, fecha(c.fecha)); td(tr, c.movimiento); td(tr, String(c.oc)); td(tr, c.detalle); td(tr, c.proveedor); td(tr, clp.format(c[k]), 'num'); td(tr, c.documento || '—', 'mut');
+        return tr;
+      }));
+      const tot = clp.format(d3.sum(rows, r => r[k])), hayCompra = rows.some(r => r.movimiento !== 'Costo asociado');
+      q('resumen').textContent = co && cfg.resumen ? cfg.resumen(cc, tot) + txtFosas
+        : co
+        ? `El control registra ${co.data.length} contenedores en ${cfg.obra} (baño y camarines, de 12 metros), ambos operativos. ` +
+          `Ninguno tiene OC, guía ni factura en el control, y el InformeEntrada de la obra no muestra compra ni arriendo de contenedores: ` +
+          `lo más probable es que vengan de otra obra o sean propios de GMW. Los únicos costos asociados son ${tot} ${suf()} en instalación eléctrica y un gancho.`
+        : hayCompra
+          ? `Según el InformeEntrada, ${cfg.obra} gastó ${tot} ${suf()} en contenedores (compras, arriendos y costos asociados). Todavía no hay control de bodega de la obra.`
+          : `El InformeEntrada de ${cfg.obra} no tiene compras ni arriendos de contenedores: los contenedores de la obra vienen de otra obra o son propios de GMW. ` +
+            `Solo hay costos asociados por ${tot} ${suf()}: ${rows.map(r => r.detalle.toLowerCase()).join(', ')}. Todavía no hay control de bodega de la obra.`;
+    }
+    dash.onData(draw);
+    return draw;
+  }
+
+  // Sub-pestañas por obra: maquinaria menor, equipos de oficina y contenedores
+  function montarSubs(cfg) {
+    const { p, obra, panel } = cfg;
+    const subs = { maquinaria: cfg.subMaq, oficina: `${p}-oficina`, contenedores: `${p}-contenedores` };
+    const MONTOS = { maquinaria: cfg.montosMaq, oficina: 'Montos según la factura de cada equipo; si no hay factura, según el InformeEntrada',
+      contenedores: 'Montos según el InformeEntrada y su factura' };
+    const drawOf = montarOficina({ p, obra, panel, sub: subs.oficina, gmw: cfg.gmw });
+    const drawCo = montarContenedores({ p, obra, panel, sub: subs.contenedores, control: cfg.controlCont, resumen: cfg.resumenCont });
+    const drawMaq = window.obraDraw[p];
+    let sub = 'maquinaria';
+    const dibujar = () => { if (sub === 'maquinaria') { drawMaq(); cfg.extraMaq?.(); } else if (sub === 'oficina') drawOf(); else drawCo(); cfg.extra?.[sub]?.(); };
+    const ver = (k) => {
+      sub = k;
+      for (const [s, id] of Object.entries(subs)) {
+        const b = $(`${p}-subtab-${s}`), on = s === k;
+        b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1; $(id).hidden = !on;
+      }
+      $('lbl-montos').textContent = MONTOS[k];
+      dibujar();
+    };
+    const ks = Object.keys(subs);
+    for (const k of ks) {
+      $(`${p}-subtab-${k}`).addEventListener('click', () => ver(k));
+      $(`${p}-subtab-${k}`).addEventListener('keydown', (ev) => {
+        if (ev.key !== 'ArrowRight' && ev.key !== 'ArrowLeft') return;
+        const o = ks[(ks.indexOf(k) + (ev.key === 'ArrowRight' ? 1 : ks.length - 1)) % ks.length];
+        ver(o); $(`${p}-subtab-${o}`).focus();
+      });
+    }
+    // al volver a la pestaña de la obra se redibuja la sub-pestaña activa
+    window.obraDraw[p] = () => { dibujar(); if (!$(panel).hidden) $('lbl-montos').textContent = MONTOS[sub]; };
+  }
+
+  montarSubs({ p: 'mc', obra: 'Mar Azul', panel: 'mar-azul', subMaq: 'ma-sub-maquinaria', controlCont: 'ma_contenedores', extraMaq: () => window.maEstadoDraw?.(),
+    montosMaq: 'Compras según factura; el valor de los equipos en obra es estimado (factura cuando existe; si no, referencia de mercado)' });
+  // Control de bodega de la maquinaria menor y herramientas (La Toma): tortas que filtran la tabla
+  function montarControl(cfg) {
+    const { p } = cfg, q = (s) => $(`${p}-ctl-${s}`);
+    const PROC = { 'Compra de la obra': dash.colors[0], 'Arriendo': dash.colors[3], 'Equipo de GMW (sin OC)': 'var(--cds-chart-muted)' };
+    const VERC = { 'Verificada': 'var(--cds-chart-status-good, #3f9c4a)', 'Verificada, con diferencias': dash.colors[3],
+      'La OC no es la compra': 'var(--cds-chart-status-critical)', 'Arriendo sin OC en ConstruIT': dash.colors[4], 'Factura no disponible': dash.colors[1], 'Sin factura (equipo de GMW)': 'var(--cds-chart-muted)' };
+    let filtro = null;
+    const setFiltro = (f) => { filtro = f; draw(); q('detalle').scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+    const sel = (campo, valor) => () => setFiltro(filtro && filtro.campo === campo && filtro.valor === valor ? null : { campo, valor });
+    function draw() {
+      if ($(cfg.panel).hidden || $(cfg.sub).hidden) return;
+      const d = dash.data(`${p}_ctl`);
+      if (d.status !== 'ok' || !d.data.length) return;
+      const rows = d.data, k = iva() ? 'precio_con_iva' : 'precio_neto', u = (r) => d3.sum(r, e => e.cantidad), totU = u(rows);
+      const compras = rows.filter(e => e.procedencia === 'Compra de la obra'), arr = rows.filter(e => e.procedencia === 'Arriendo');
+      const gmw = rows.filter(e => e.procedencia === 'Equipo de GMW (sin OC)');
+      const valor = d3.sum(compras, e => e[k]), dif = rows.filter(e => e.verificacion !== 'Verificada' && e.procedencia === 'Compra de la obra' || e.verificacion === 'La OC no es la compra');
+      // valor de los equipos en obra: factura o referencia; los arriendos no suman (su monto es el arriendo mensual)
+      const enObra = rows.filter(e => e.procedencia !== 'Arriendo'), vObra = d3.sum(enObra, e => e[k]);
+      const op = rows.filter(e => e.grupo === 'Operativo'), no = rows.filter(e => e.grupo === 'No operativo');
+      const vOp = d3.sum(op.filter(e => e.procedencia !== 'Arriendo'), e => e[k]), vNo = d3.sum(no.filter(e => e.procedencia !== 'Arriendo'), e => e[k]);
+      const pc = (n, t) => `${t ? Math.round(n / t * 100) : 0}%`;
+      q('v-total').textContent = totU;
+      q('v-op').textContent = u(op); q('v-op-sub').textContent = `${pc(u(op), totU)} del total · ${clp.format(vOp)}`;
+      q('v-noop').textContent = u(no); q('v-noop-sub').textContent = `${pc(u(no), totU)} del total · ${clp.format(vNo)}`;
+      q('v-valor').textContent = clp.format(vObra); q('lbl-valor').textContent = `Valor de los equipos en obra, ${suf()}`;
+      const sinValor = enObra.filter(e => !e[k]).length;
+      q('resumen').textContent = `El control de bodega del ${cfg.fecha} registra ${totU} equipos menores en ${cfg.obra} (${rows.length} líneas, sin herramientas manuales): ` +
+        `${u(op)} operativos y ${u(no)} no operativos${no.length ? `, que equivalen a ${clp.format(vNo)} ${suf()}` : ''}. ${cfg.nota || ''}` +
+        `Lo que compró la obra suma ${clp.format(valor)} ${suf()} según factura; ${u(gmw)} unidades son de GMW sin OC` +
+        `${arr.length ? ` y ${u(arr)} están en arriendo` : ''}. ` +
+        `${sinValor ? `${sinValor === 1 ? '1 línea no tiene' : `${sinValor} líneas no tienen`} precio de referencia y no ${sinValor === 1 ? 'suma' : 'suman'} al valor. ` : ''}` +
+        `${dif.length ? `${dif.length} ${dif.length === 1 ? 'línea no cuadra' : 'líneas no cuadran'} del todo con su factura: revísalas en la tabla.` : 'Todo lo comprado coincide con su factura.'}`;
+      for (const s of ['v-total', 'v-total-sub', 'v-op', 'v-op-sub', 'v-noop', 'v-noop-sub', 'v-valor', 'v-valor-sub', 'resumen']) listo(q(s));
+      q('pie-valor-tit').textContent = `Valor de los equipos, ${suf()}`;
+      window.maTorta(`${p}-ctl-pie-valor`, [
+        { label: 'Operativos', value: vOp, color: dash.colors[0], texto: `${clp.format(vOp)} · ${pc(vOp, vOp + vNo)}`, info: `${u(op)} equipos`, click: vOp ? sel('grupo', 'Operativo') : null },
+        { label: 'No operativos', value: vNo, color: 'var(--cds-chart-status-critical)', texto: `${clp.format(vNo)} · ${pc(vNo, vOp + vNo)}`, info: `${u(no)} equipos`,
+          click: vNo ? sel('grupo', 'No operativo') : null }
+      ], vOp + vNo, [`$${((vOp + vNo) / 1e6).toLocaleString('es-CL', { maximumFractionDigits: 1 })} M`, suf()]);
+      window.maTorta(`${p}-ctl-pie-proc`, Object.entries(PROC).map(([pr, c]) => {
+        const r = rows.filter(e => e.procedencia === pr), n = u(r);
+        return { label: pr, value: n, color: c, texto: `${n} · ${Math.round(n / totU * 100)}%`, info: `${r.length} líneas`, click: n ? sel('procedencia', pr) : null };
+      }), totU, [String(totU), 'unidades']);
+      window.maTorta(`${p}-ctl-pie-ver`, Object.entries(VERC).map(([v, c]) => {
+        const n = rows.filter(e => e.verificacion === v).length;
+        return { label: v, value: n, color: c, texto: `${n} · ${Math.round(n / rows.length * 100)}%`, click: n ? sel('verificacion', v) : null };
+      }).filter(x => x.value), rows.length, [String(rows.length), 'líneas']);
+      const vis = filtro ? rows.filter(e => e[filtro.campo] === filtro.valor) : rows;
+      q('filtro').replaceChildren(...(filtro ? [
+        document.createTextNode(`Mostrando ${vis.length} de ${rows.length} líneas: "${filtro.valor}". `),
+        Object.assign(document.createElement('button'), { type: 'button', className: 'ps-chip', textContent: 'Ver todas', onclick: () => setFiltro(null) })
+      ] : [document.createTextNode('Haz clic en una parte de las tortas para ver solo esas líneas.')]));
+      q('th-unit').textContent = `Precio unitario ${suf()}`; q('th-total').textContent = `Total ${suf()}`;
+      const ku = iva() ? 'unitario_con_iva' : 'precio_unitario';
+      q('tb').replaceChildren(...vis.map(e => {
+        const tr = document.createElement('tr'); tr.setAttribute('data-key', e.n);
+        td(tr, e.n, 'num'); td(tr, e.categoria); td(tr, e.modelo ? `${e.tipo} (${e.modelo})` : e.tipo); td(tr, String(e.cantidad), 'num'); td(tr, e.estado);
+        td(tr, e.procedencia); td(tr, e.oc ? String(e.oc) : '—'); td(tr, e.documento || '—', 'mut'); td(tr, e.equipo || '—');
+        td(tr, e[ku] ? clp.format(e[ku]) : '—', 'num'); td(tr, e[k] ? clp.format(e[k]) : '—', 'num'); td(tr, e.verificacion); td(tr, e.observacion || '—', 'mut');
+        return tr;
+      }));
+    }
+    dash.onData(draw);
+    return draw;
+  }
+  // Control de bodega vs InformeEntrada completo, por ámbito (una tarjeta en cada sub-pestaña)
+  function montarCruce(cfg) {
+    const c = `${cfg.p}-cr-${cfg.k}`, q = (s) => $(`${c}-${s}`);
+    const SIT = [['En ambos, coinciden', 'var(--cds-chart-status-good, #3f9c4a)'], ['En ambos, cantidad distinta', dash.colors[3]],
+      ['En ambos, otro registro', dash.colors[3]], ['En ambos, OC distinta', 'var(--cds-chart-status-critical)'], ['Solo en el control', dash.colors[1]],
+      ['Solo en el InformeEntrada', dash.colors[4]], ['Traslado sin contenedor identificado', 'var(--color-fg-muted)']];
+    let filtro = null;
+    return function draw() {
+      if ($(cfg.panel).hidden || $(cfg.sub).hidden) return;
+      const d = dash.data(`${cfg.p}_cr`);
+      if (d.status !== 'ok' || !d.data.length) return;
+      const rows = d.data.filter(e => e.ambito === cfg.ambito);
+      const uni = (e) => Math.max(e.cant_control, e.cant_informe), u = (r) => d3.sum(r, uni), totU = u(rows);
+      const ambos = rows.filter(e => e.situacion.startsWith('En ambos')), ctl = rows.filter(e => e.situacion === 'Solo en el control');
+      const inf = rows.filter(e => e.situacion === 'Solo en el InformeEntrada'), tras = rows.filter(e => e.situacion.startsWith('Traslado'));
+      const conOc = rows.filter(e => e.oc_control), okOc = conOc.filter(e => e.oc_coincide === 'Sí');
+      const n = (r, f) => `${r.length} · ${d3.sum(r, f)}`;
+      q('v-ambos').textContent = n(ambos, e => e.cant_control); q('v-ctl').textContent = n(ctl, e => e.cant_control);
+      const nt = d3.sum(tras, e => e.cant_informe);
+      q('v-inf').textContent = !tras.length ? n(inf, e => e.cant_informe) : inf.length ? `${n(inf, e => e.cant_informe)} + ${nt} traslados` : `${nt} traslados de contenedores`;
+      q('v-oc').textContent = conOc.length ? `${okOc.length} de ${conOc.length}` : 'El control no trae OC';
+      const dif = ambos.filter(e => e.situacion !== 'En ambos, coinciden');
+      q('resumen').textContent = `El control registra ${d3.sum(rows, e => e.cant_control)} unidades y el InformeEntrada ${d3.sum(rows, e => e.cant_informe)} ` +
+        `(sin herramientas manuales). ${ambos.length} líneas están en ambos` +
+        (conOc.length ? `; ${okOc.length} de las ${conOc.length} OC que anota el control coinciden con el InformeEntrada` : ' (el control no trae OC: se cruzó por equipo)') +
+        `${dif.length ? `, aunque en ${dif.length} difiere la cantidad o lo que se registró` : ''}. ` +
+        `${d3.sum(ctl, e => e.cant_control)} unidades están solo en el control (equipos de GMW sin OC, o arriendos todavía sin OC) y ${d3.sum(inf, e => e.cant_informe)} solo en el InformeEntrada` +
+        `${tras.length ? `; además hay ${d3.sum(tras, e => e.cant_informe)} traslados de contenedores sin decir cuál` : ''}.`;
+      for (const s of ['v-ambos', 'v-ctl', 'v-inf', 'v-oc', 'resumen']) listo(q(s));
+      const sel = (v) => () => { filtro = filtro === v ? null : v; draw(); };
+      window.maTorta(`${c}-pie`, SIT.map(([v, col]) => {
+        const k = u(rows.filter(e => e.situacion === v));
+        return { label: v, value: k, color: col, texto: `${k} · ${Math.round(k / totU * 100)}%`, click: k ? sel(v) : null };
+      }).filter(x => x.value), totU, [String(totU), 'unidades']);
+      const vis = filtro ? rows.filter(e => e.situacion === filtro) : rows;
+      q('filtro').replaceChildren(...(filtro ? [document.createTextNode(`Mostrando ${vis.length} de ${rows.length} líneas: "${filtro}". `),
+        Object.assign(document.createElement('button'), { type: 'button', className: 'ps-chip', textContent: 'Ver todas', onclick: sel(filtro) })]
+        : [document.createTextNode('Haz clic en la torta para ver solo una situación.')]));
+      q('tb').replaceChildren(...vis.map(e => {
+        const tr = document.createElement('tr'); tr.setAttribute('data-key', e.k);
+        td(tr, e.n_control || '—', 'num'); td(tr, e.equipo); td(tr, e.cant_control ? String(e.cant_control) : '—', 'num');
+        td(tr, e.oc_control || '—'); td(tr, e.oc_informe || '—'); td(tr, e.cant_informe ? String(e.cant_informe) : '—', 'num');
+        td(tr, fecha(e.fecha_informe)); td(tr, e.situacion); td(tr, e.observacion || '—', 'mut');
+        return tr;
+      }));
+    };
+  }
+  const cruces = (p, panel) => Object.fromEntries([['maquinaria', 'maq', 'Maquinaria menor', `${p}-sub-maquinaria`], ['oficina', 'of', 'Equipos de oficina', `${p}-oficina`],
+    ['contenedores', 'co', 'Contenedores', `${p}-contenedores`]].map(([s, k, ambito, sub]) => [s, montarCruce({ p, k, ambito, panel, sub })]));
+  const crLt = cruces('lt', 'la-toma'), crBr = cruces('br', 'brisas'), crPs = cruces('ps', 'plaza-sur');
+  dash.onData(() => [crLt, crBr, crPs].flatMap(Object.values).forEach(f => f()));
+  const drawCtlLt = montarControl({ p: 'lt', obra: 'La Toma', panel: 'la-toma', sub: 'lt-sub-maquinaria', fecha: '26-10-2026' });
+  const drawCtlBr = montarControl({ p: 'br', obra: 'Brisas', panel: 'brisas', sub: 'br-sub-maquinaria', fecha: '27-10-2026',
+    nota: 'El kardex no indica el estado de los equipos: se consideran operativos. ' });
+  montarSubs({ p: 'br', obra: 'Brisas', panel: 'brisas', subMaq: 'br-sub-maquinaria', extraMaq: drawCtlBr, controlCont: 'br_contenedores', gmw: true, extra: crBr,
+    montosMaq: 'Montos según la factura de cada equipo; los equipos de GMW sin OC, según el P.P.P. del kardex de bodega',
+    resumenCont: (co, tot) => `El kardex registra ${co.length} contenedores en Brisas (${co.filter(c => c.modelo === '20 pies').length} de 20 pies y ` +
+      `${co.filter(c => c.modelo === '40 pies').length} de 40 pies), todos operativos. Solo el de vestidores tiene compra en ConstruIT (OC 3591, $3.400.000, sin factura). ` +
+      `El InformeEntrada tiene además el arriendo de 3 contenedores oficina a Ruicon (OC 2932, solo el primer mes) y el traslado del contenedor verde desde Plaza Sur; ` +
+      `el kardex no indica cuáles son arrendados. Con la habilitación de 2 contenedores y la fosa séptica, los costos suman ${tot} ${suf()}.` });
+  const drawCtlPs = montarControl({ p: 'ps', obra: 'Plaza Sur', panel: 'plaza-sur', sub: 'ps-sub-maquinaria', fecha: '27-10-2026',
+    nota: 'Las herramientas defectuosas y en reparación se cuentan como no operativas. ' });
+  montarSubs({ p: 'ps', obra: 'Plaza Sur', panel: 'plaza-sur', subMaq: 'ps-sub-maquinaria', extraMaq: drawCtlPs, controlCont: 'ps_contenedores', gmw: true, extra: crPs,
+    montosMaq: 'Montos según la factura o guía de despacho de cada equipo',
+    resumenCont: (co, tot) => `El control registra ${co.length} contenedores en Plaza Sur, todos de 6 metros y operativos. Todos son de GMW: ` +
+      `llegaron con guía de despacho de GMW desde otras obras (Tucapel, Carampangue, Laraquete, Primer Agua, Los Ángeles y Bretti), sin compra ni arriendo en ConstruIT. ` +
+      `El único costo en el InformeEntrada es un traslado con camión pluma (OC 1785) por ${tot} ${suf()}.` });
+  montarSubs({ p: 'lt', obra: 'La Toma', panel: 'la-toma', subMaq: 'lt-sub-maquinaria', montosMaq: 'Montos según la factura de cada equipo', extraMaq: drawCtlLt,
+    controlCont: 'lt_contenedores', gmw: true, extra: crLt,
+    resumenCont: (co, tot) => `El control registra ${co.length} contenedores en La Toma; ${co.filter(c => c.estado === 'Operativo').length} están operativos. ` +
+      `Solo el de baños y duchas es arrendado (Ruicon, OC 3559); los otros ${co.length - 1} son de GMW, sin OC ni factura en ConstruIT. ` +
+      `El que no está operativo es un contenedor frigorífico de 12 m que se iba a usar como baño. El InformeEntrada completo registra 4 traslados de contenedores (OC 2897, 2942 y 3120), ` +
+      `materiales para habilitarlos (OC 2369) y un camión pluma; con el arriendo de Ruicon y las fosas sépticas suman ${tot} ${suf()}.` });
+
+  // Resumen general (antes de las pestañas): dona de operativos / no operativos y valor por obra
+  (function montarResumen() {
+    const OBRAS = [['Plaza Sur', 'plaza-sur'], ['Mar Azul', 'mar-azul'], ['Brisas', 'brisas'], ['La Toma', 'la-toma']];
+    const C_OP = dash.colors[0], C_NO = 'var(--cds-chart-status-critical)';
+    const pc = (n, t) => `${t ? Math.round(n / t * 100) : 0}%`;
+    function draw() {
+      const d = dash.data('resumen_general');
+      if (d.status !== 'ok' || !d.data.length) return;
+      const f = iva() ? 1.19 : 1, rows = d.data;
+      const sum = (k, r = rows) => d3.sum(r, e => e[k]);
+      const op = sum('op_u'), no = sum('no_u'), tot = op + no, vOp = sum('op_v') * f, vNo = sum('no_v') * f;
+      $('rg-v-total').textContent = tot;
+      $('rg-v-total-sub').textContent = `Maquinaria menor (${sum('op_u', rows.filter(r => r.ambito === 'Maquinaria menor')) + sum('no_u', rows.filter(r => r.ambito === 'Maquinaria menor'))}) y equipos de oficina (${sum('op_u', rows.filter(r => r.ambito !== 'Maquinaria menor')) + sum('no_u', rows.filter(r => r.ambito !== 'Maquinaria menor'))})`;
+      $('rg-v-op').textContent = op; $('rg-v-op-sub').textContent = `${pc(op, tot)} del total · ${clp.format(vOp)}`;
+      $('rg-v-noop').textContent = no; $('rg-v-noop-sub').textContent = `${pc(no, tot)} del total · ${clp.format(vNo)}`;
+      $('rg-v-valor').textContent = clp.format(vOp + vNo); $('rg-lbl-valor').textContent = `Valor de los dispositivos, ${suf()}`;
+      $('rg-v-valor-sub').textContent = 'Según factura (Mar Azul: estimado); sin arriendos';
+      $('rg-resumen').textContent = `Según los controles de bodega, las 4 obras tienen ${tot} dispositivos (maquinaria menor y equipos de oficina): ` +
+        `${op} operativos (${pc(op, tot)}) y ${no} no operativos (${pc(no, tot)}). Valen ${clp.format(vOp + vNo)} ${suf()}, de los cuales ${clp.format(vNo)} corresponden a equipos no operativos. ` +
+        'Los contenedores no se incluyen; los equipos de GMW sin factura no suman valor.';
+      for (const id of ['rg-v-total', 'rg-v-total-sub', 'rg-v-op', 'rg-v-op-sub', 'rg-v-noop', 'rg-v-noop-sub', 'rg-v-valor', 'rg-v-valor-sub', 'rg-resumen']) listo($(id));
+      window.maTorta('rg-pie', [{ label: 'Operativos', value: op, color: C_OP, texto: `${op} · ${pc(op, tot)}`, info: clp.format(vOp) },
+        { label: 'No operativos', value: no, color: C_NO, texto: `${no} · ${pc(no, tot)}`, info: clp.format(vNo) }], tot, [String(tot), 'dispositivos']);
+      // barras apiladas por obra: valor operativo y no operativo, con las unidades al lado
+      const box = $('rg-bar'); listo(box); box.replaceChildren();
+      $('rg-bar-tit').textContent = `Valor por obra, ${suf()}`;
+      $('rg-bar-nota').textContent = 'Azul: operativos; rojo: no operativos. Haz clic en una obra para ver su detalle.';
+      const items = OBRAS.map(([obra, panel]) => { const r = rows.filter(e => e.obra === obra);
+        return { obra, panel, op_u: sum('op_u', r), no_u: sum('no_u', r), op_v: sum('op_v', r) * f, no_v: sum('no_v', r) * f }; });
+      const W = Math.max(300, box.clientWidth), fila = 58, labW = 84, H = items.length * fila;
+      const x = d3.scaleLinear([0, d3.max(items, e => e.op_v + e.no_v) || 1], [labW, W - 8]);
+      const svg = d3.select(box).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img')
+        .attr('aria-label', 'Valor de los dispositivos operativos y no operativos por obra');
+      const g = svg.selectAll('g').data(items).join('g').attr('class', 'rg-obra').attr('transform', (e, i) => `translate(0,${i * fila})`)
+        .on('click', (ev, e) => { $(`tab-${e.panel}`).click(); $(`tab-${e.panel}`).scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+      g.append('text').attr('x', 0).attr('y', 14).attr('dy', '0.32em').attr('fill', 'var(--color-fg)').style('font-size', 'var(--cds-font-size-caption)').text(e => e.obra);
+      g.append('rect').attr('x', labW).attr('y', 4).attr('height', 20).attr('rx', 3).attr('fill', C_OP).attr('width', e => Math.max(0, x(e.op_v) - labW));
+      g.append('rect').attr('x', e => x(e.op_v)).attr('y', 4).attr('height', 20).attr('rx', 3).attr('fill', C_NO).attr('width', e => Math.max(0, x(e.op_v + e.no_v) - x(e.op_v)));
+      g.append('text').attr('x', labW).attr('y', 40).attr('fill', 'var(--color-fg-muted)').style('font-size', 'var(--cds-font-size-caption)')
+        .text(e => `${clp.format(e.op_v + e.no_v)} · ${e.op_u} operativos (${clp.format(e.op_v)}) · ${e.no_u} no operativos (${clp.format(e.no_v)})`);
+    }
+    dash.onData(draw);
+    window.obraDraw.resumen = draw;  // el botón de IVA redibuja todo lo que está en obraDraw
+    window.addEventListener('resize', draw);
+  })();
+})();
+</script>
+
+
+<p class="sitio-pie">Datos: InformeEntrada de ConstruIT, controles de bodega de cada obra (octubre 2026) y facturas de cada OC. Montos en pesos chilenos. Nombres de personas anonimizados.</p>
+</body>
+</html>

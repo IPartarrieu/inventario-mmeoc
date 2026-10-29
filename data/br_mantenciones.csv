@@ -1,0 +1,3 @@
+id,familia,tipo,oc,fecha,recurso,detalle,cantidad,unidad,precio_neto,total_neto,proveedor
+1,Energía y calefacción,Generador,3141,2026-09-22,REPARACION GENERADOR,Segun cotización adjunta,1,Unidad,81300,81300,Proveedor persona natural 5
+2,Energía y calefacción,Generador,3554,2026-10-19,REPARACION DE EQUIPO,REPARACION GENERADOR,1,UNIDAD,130000,130000,Proveedor persona natural 5

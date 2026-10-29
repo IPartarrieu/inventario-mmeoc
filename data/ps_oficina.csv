@@ -1,0 +1,20 @@
+n,tipo,equipo,cantidad,a_cargo,estado,en_control,oc,proveedor,documento,fecha,precio_unitario,precio_neto,verificacion,observacion
+1,Notebook,"Notebook gamer Lenovo LOQ Gen 9 i5-12450HX RTX 3050 15,6"" 16 GB / 512 GB",1,Trabajador 17,Operativo,Sí,884,PERSONAL COMPUTER FACTORY S.A,Guía de despacho PC Factory N° 2.259.330 (factura 5.485.941),2025-11-17,588238,588238,Verificada,
+2,Monitor,"Monitor Samsung 27"" FHD 120 Hz Essential S3 LS27F320GALXZS",1,Trabajador 17,Operativo,Sí,884,PERSONAL COMPUTER FACTORY S.A,Guía de despacho PC Factory N° 2.259.330 (factura 5.485.941),2025-11-17,105952,105952,Verificada,
+3,Tablet,"Tablet Lenovo Tab Plus 11,5"" 8 GB / 256 GB",1,Trabajador 17,Operativo,Sí,1133,PERSONAL COMPUTER FACTORY S.A,Factura PC Factory N° 5.500.048,2025-12-23,203773,203773,Verificada,Sin uso
+4,Notebook,"Asus Vivobook Go 14""",1,Trabajador 18,Operativo,Sí,,GMW,,,0,0,Sin OC (equipo de GMW),"RRHH, equipo traido de otra obra."
+5,Notebook,"Asus Vivobook Go 14""",1,Trabajador 19,Operativo,Sí,,GMW,,,0,0,Sin OC (equipo de GMW),"Prevencionista , equipo traido de otra obra"
+6,Monitor,"AOC, E20705wHn",1,Trabajador 19,No funciona,Sí,,GMW,,,0,0,Sin OC (equipo de GMW),Traido de otra obra
+7,Impresora,Multifuncional láser Brother DCP-L2540DW,1,Trabajador 20,No operativo: se quemó con bajas de corriente,Sí,884,PERSONAL COMPUTER FACTORY S.A,Guía de despacho PC Factory N° 2.259.330 (factura 5.485.941),2025-11-17,176457,176457,Verificada,
+8,Impresora,Multifuncional láser Brother DCP-L2540DW (precio $186.294 con descuento a $180.664 neto),1,Trabajador 18,Operativo,Sí,2541,PERSONAL COMPUTER FACTORY S.A,Factura PC Factory N° 5.607.585,2026-07-20,180664,180664,"Verificada, precio distinto",
+9,Impresora,Multifuncional Brother DCP-T730DW InkBenefit,1,Trabajador 19,Operativo,Sí,1511,PERSONAL COMPUTER FACTORY S.A,Guía de despacho PC Factory N° 2.280.689 (factura 5.532.835),2026-02-17,151588,151588,"Verificada, precio distinto",
+10,Impresora,Multifuncional láser Brother DCP-L2540DW,1,Trabajador 21,Operativo,Sí,854,PERSONAL COMPUTER FACTORY S.A,Factura PC Factory N° 5.486.757,2025-11-06,168059,168059,"Verificada, con diferencias",El control anota la factura 5485757; la factura es PC Factory N° 5.486.757
+11,Notebook,Asus Gmer i5,1,Trabajador 22,Operativo,Sí,,GMW,,,0,0,Sin OC (equipo de GMW),"El control indica que pertenecería a la OC 383, que no es de Plaza Sur; No se encontro registro de la oc se indico pertenecer a la oc383"
+12,Monitor,Asus,1,Trabajador 22,Operativo,Sí,,GMW,,,0,0,Sin OC (equipo de GMW),No se encontro registro de origen
+13,Monitor,Gear,1,Trabajador 23,Operativo,Sí,,GMW,,,0,0,Sin OC (equipo de GMW),No se encontro registro de origen
+14,Impresora,Multifuncional Epson EcoTank L3250 (precio $168.059 con descuento a $163.017 neto),1,Trabajador 24,Operativo,Sí,1019,PERSONAL COMPUTER FACTORY S.A,Factura PC Factory N° 5.499.717,2025-12-02,163017,163017,"Verificada, precio distinto",
+15,Televisor,Televisor,1,Trabajador 25,Operativo,Sí,,GMW,,,0,0,Sin OC (equipo de GMW),Origen obra Tucapel
+16,Notebook,Notebook Acer AL14-31P-3591,1,Trabajador 26,Operativo,Sí,2642,NET NOW TECNOLOGIA Y COMPUTACION SA,Factura Net Now N° 141633,2026-07-21,294109,294109,Verificada,Bodega
+17,Impresora,Multifuncional HP Smart Tank 720,1,Trabajador 2,Operativo,Sí,1547,PERSONAL COMPUTER FACTORY S.A,Guía de despacho PC Factory N° 2.280.689 (factura 5.532.888),2026-02-19,129908,129908,"Verificada, precio distinto","El control anota el documento 2280689, que es la guía de la OC 1511"
+19,Notebook,"Notebook gamer Lenovo LOQ Gen 9 i5-12450HX RTX 3050 15,6"" 16 GB / 512 GB",1,Trabajador 27,Operativo,Sí,1116,PERSONAL COMPUTER FACTORY S.A,Factura PC Factory N° 5.500.050,2025-12-23,571420,571420,Verificada,Fuera de obra según el control; Obra Chiguayante
+20,Notebook,Notebook Asus Vivobook Go 14 E1404 i3-N305 8 GB / 256 GB,1,Trabajador 28,Operativo,Sí,1116,PERSONAL COMPUTER FACTORY S.A,Factura PC Factory N° 5.500.049,2025-12-23,285286,285286,Verificada,Fuera de obra según el control

@@ -1,0 +1,39 @@
+ambito,n_control,equipo,cant_control,oc_control,oc_informe,cant_informe,fecha_informe,recurso_informe,precio_informe,situacion,oc_coincide,observacion
+Maquinaria menor,1,Radio transmisor (PHILCO MD-216),6,2806,2806,6,2026-08-20,RADIO TRANSMISOR,11749,"En ambos, coinciden",Sí,
+Maquinaria menor,2,Radio transmisor (PHILCO MD-216),4,2921,2921,4,2026-08-25,RADIO TRANSMISOR,11749,"En ambos, coinciden",Sí,
+Maquinaria menor,12,Nivel topografico con mira y tripode (GEOTECH SERIE 24124794),1,2841,2841,1,2026-08-20,NIVEL TOPOGRAFICO CON MIRA Y TRIPODE,225000,"En ambos, coinciden",Sí,
+Maquinaria menor,25,Arriendo estacion total con accesorios (LEICA TCA 1201),1,3080,3080,1,2026-10-15,ARRIENDO ESTACION TOTAL CON ACCESORIOS,300000,"En ambos, coinciden",Sí,30 días a $10.000
+Maquinaria menor,27,Radio transmisor (PHILCO MD-216),8,3170,3170,8,2026-09-16,RADIO TRANSMISOR,11749,"En ambos, coinciden",Sí,
+Maquinaria menor,28,Esmeril angular 7 (KOTHAN GK-7),2,3560,3560,2,2026-10-21,ESMERIL ANGULAR 7,102050,"En ambos, coinciden",Sí,
+Maquinaria menor,29,Esmeril 4 1/2 (KOTHAN GK-115H),2,3561,3561,2,2026-10-21,Esmeril 4 1/2,48200,"En ambos, coinciden",Sí,
+Maquinaria menor,31,Betonera  400 lts (KOTHMAN),1,2941,2941,1,2026-08-31,MANTENCION Y REPARACION BETONERA,558500,"En ambos, otro registro",Sí,"La OC coincide, pero es una reparación: el control la anota como compra"
+Maquinaria menor,32,Ahoyador barreno 63 c.c (EVEREST),1,,,0,,,0,Solo en el control,—,Sin OC: equipo de GMW o traído de otra obra
+Maquinaria menor,,Rodillo doble tambor (arriendo 2 días a $30.000),0,,3359,1,2026-10-07,RODILLO DOBLE TAMBOR (arriendo 2 días a $30.000),60000,Solo en el InformeEntrada,—,Arriendo de 2 días ya terminado: es normal que no esté en el control
+Maquinaria menor,,Focos led 300 w,0,,2923,20,2026-09-02,FOCOS LED 300 W,29240,Solo en el InformeEntrada,—,"Cargados a MATERIALES ($584.800); si son reflectores de faena y no luminarias instaladas, deberían estar en el control"
+Equipos de oficina,1,"Notebook (Notebook Acer Aspire AL AMD Ryzen 3 15,6"" 12 GB / 256 GB)",1,2794,2794,1,2026-08-13,NOTEBOOK,386557,"En ambos, coinciden",Sí,
+Equipos de oficina,2,Notebook (Notebook Lenovo IdeaPad 82X0),1,3163,3163,1,2026-09-16,NOTEBOOK,352933,"En ambos, coinciden",Sí,
+Equipos de oficina,3,"Notebook (Notebook Acer Aspire Lite AMD Ryzen 3 15,6"" 12 GB / 256 GB)",1,3364,3364,1,2026-10-01,NOTEBOOK,319319,"En ambos, coinciden",Sí,
+Equipos de oficina,4,Notebook (Notebook Asus Vivobook Go 15 AMD Ryzen 5 8 GB / 512 GB),1,3509,3509,1,2026-10-14,NOTEBOOK,369739,"En ambos, coinciden",Sí,
+Equipos de oficina,5,Notebook (ASUS  FX506HF),1,,,0,,,0,Solo en el control,—,Sin OC: equipo de GMW o traído de otra obra
+Equipos de oficina,6,Impresora multifuncional (Multifuncional Epson EcoTank L4360),1,2794,2794,1,2026-08-13,IMPRESORA MULTIFUNCIONAL,210067,"En ambos, coinciden",Sí,
+Equipos de oficina,7,Impresora multifuncional (Multifuncional láser Brother DCP-L2540DW),1,3004,3004,1,2026-09-02,IMPRESORA MULTIFUNCIONAL,184866,"En ambos, coinciden",Sí,
+Equipos de oficina,8,Impresora (HP  LASER JET PRO MFP M428),1,,,0,,,0,Solo en el control,—,Sin OC: equipo de GMW o traído de otra obra
+Equipos de oficina,9,Impresora (HP 615 SMART TANK),1,,,0,,,0,Solo en el control,—,Sin OC: equipo de GMW o traído de otra obra
+Equipos de oficina,10,Impresora (BROTHER BTD100),1,,,0,,,0,Solo en el control,—,Sin OC: equipo de GMW o traído de otra obra
+Equipos de oficina,11,Pantalla (ASUS TEK MODEL VA24E),1,,,0,,,0,Solo en el control,—,Sin OC: equipo de GMW o traído de otra obra
+Equipos de oficina,12,Televisor (SAMSUNG 50),1,,,0,,,0,Solo en el control,—,Sin OC: equipo de GMW o traído de otra obra
+Equipos de oficina,,Termolaminadora,0,,3007,1,2026-09-02,TERMOLAMINADORA,30783,Solo en el InformeEntrada,—,
+Contenedores,1,"Contenedor baños, ducha (6 metros)",1,3559,3559,1,2026-10-21,ARRIENDO CONTENEDOR BAÑOS,230000,"En ambos, coinciden",Sí,Más 2 fletes de $250.000
+Contenedores,2,Contenedor oficina (6 metros),1,,,0,,,0,Solo en el control,—,Sin OC: equipo de GMW o traído de otra obra
+Contenedores,3,Contenedor oficina (6 metros),1,,,0,,,0,Solo en el control,—,Sin OC: equipo de GMW o traído de otra obra
+Contenedores,4,Contenedor oficina (6 metros),1,,,0,,,0,Solo en el control,—,Sin OC: equipo de GMW o traído de otra obra
+Contenedores,5,Contenedor oficina (6 metros),1,,,0,,,0,Solo en el control,—,Sin OC: equipo de GMW o traído de otra obra
+Contenedores,6,Contenedor oficina (6 metros),1,,,0,,,0,Solo en el control,—,Sin OC: equipo de GMW o traído de otra obra
+Contenedores,7,Contenedor oficina (6 metros),1,,,0,,,0,Solo en el control,—,Sin OC: equipo de GMW o traído de otra obra
+Contenedores,8,Contenedor oficina (12 metros),1,,,0,,,0,Solo en el control,—,Sin OC: equipo de GMW o traído de otra obra
+Contenedores,9,Contenedor  baño (12 metros),1,,,0,,,0,Solo en el control,—,Sin OC: equipo de GMW o traído de otra obra
+Contenedores,,Traslado contenedor (desde bretti a la obra),0,,2897,1,2026-08-21,TRASLADO CONTENEDOR (desde Bretti a la obra),680000,Traslado sin contenedor identificado,—,Traslado de un contenedor de GMW; no dice cuál
+Contenedores,,Traslado contenedor,0,,2942,2,2026-08-26,TRASLADO CONTENEDOR,350000,Traslado sin contenedor identificado,—,2 traslados; no dice de qué contenedores
+Contenedores,,Traslado contenedor 40 pies (desde bretti),0,,3120,1,2026-09-08,TRASLADO CONTENEDOR 40 PIES (desde Bretti),680000,Traslado sin contenedor identificado,—,40 pies = 12 m: corresponde a uno de los 2 contenedores de 12 m del control (N° 8 o 9)
+Contenedores,,Fosa 6500 lt,0,,3355,1,2026-10-09,FOSA 6500 LT,1026540,Solo en el InformeEntrada,—,Fosa séptica (con kit de instalación de $231.925): no figura en el control de bodega
+Contenedores,,Fosa septica 2000 l,0,,3355,1,2026-10-14,FOSA SEPTICA 2000 L,258065,Solo en el InformeEntrada,—,Fosa séptica (con kit de instalación de $231.925): no figura en el control de bodega
